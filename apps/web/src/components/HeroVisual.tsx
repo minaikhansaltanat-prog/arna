@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import * as m from "motion/react-m";
 import { useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
+import { withBase } from "@/lib/site";
 
 export type Chip = { code: string; text: string; dir: "ltr" | "rtl"; htmlLang: string };
 
@@ -69,7 +70,7 @@ export function HeroVisual({ chips, alt }: { chips: Chip[]; alt: string }) {
         className="absolute inset-[19%]"
       >
         <img
-          src="/brand/emblem-512.png"
+          src={withBase("/brand/emblem-512.png")}
           width={512}
           height={512}
           alt={alt}

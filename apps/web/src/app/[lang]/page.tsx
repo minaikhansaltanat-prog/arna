@@ -11,7 +11,7 @@ import { MotionProvider } from "@/components/MotionProvider";
 import { Pilot } from "@/components/Pilot";
 import { Pricing } from "@/components/Pricing";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
-import { PHONE_TEL, SITE_URL } from "@/lib/site";
+import { PHONE_TEL, absUrl } from "@/lib/site";
 
 export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -23,8 +23,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "ARNA",
-    url: `${SITE_URL}/${lang}/`,
-    logo: `${SITE_URL}/brand/emblem-512.png`,
+    url: absUrl(`/${lang}/`),
+    logo: absUrl("/brand/emblem-512.png"),
     telephone: PHONE_TEL,
     description: dict.meta.description,
   };

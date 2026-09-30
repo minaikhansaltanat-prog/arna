@@ -14,6 +14,7 @@ import {
 } from "@phosphor-icons/react";
 import type { Dictionary, LocaleListItem } from "@arna/i18n";
 import { WaveCanvas } from "./WaveCanvas";
+import { withBase } from "@/lib/site";
 
 /**
  * Scripted browser demo (TZ 5.2). No speech recognition, no translation, no backend:
@@ -127,7 +128,7 @@ export function PhoneDemo({ dict, locales, scripts, source }: Props) {
 
           <div className="phone-head">
             <span className="flex items-center gap-2">
-              <img src="/brand/emblem-96.png" width={24} height={24} alt="" className="size-6" />
+              <img src={withBase("/brand/emblem-96.png")} width={24} height={24} alt="" className="size-6" />
               <span className="font-display text-[0.95rem] font-[var(--w-display)] tracking-[0.06em]">ARNA</span>
             </span>
             {step !== "lang" && (

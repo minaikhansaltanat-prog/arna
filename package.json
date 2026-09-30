@@ -20,7 +20,8 @@
     "fonts": "node scripts/build-fonts.mjs",
     "qa": "node scripts/qa-layout.mjs",
     "qa:demo": "node scripts/qa-demo.mjs",
-    "qa:a11y": "node scripts/qa-a11y.mjs"
+    "qa:a11y": "node scripts/qa-a11y.mjs",
+    "check:case": "node scripts/check-case.mjs"
   },
   "devDependencies": {
     "axe-core": "^4.13.0",

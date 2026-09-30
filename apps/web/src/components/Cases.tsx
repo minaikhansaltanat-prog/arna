@@ -1,6 +1,6 @@
 import { Briefcase, ChalkboardTeacher, Confetti, GraduationCap, Presentation } from "@phosphor-icons/react/dist/ssr";
 import type { Dictionary } from "@arna/i18n";
-import { SECTIONS } from "@/lib/site";
+import { SECTIONS, withBase } from "@/lib/site";
 import { Reveal } from "./Reveal";
 
 /** Order matches dictionary `cases.items`: universities, forums, weddings, companies, trainers. */
@@ -27,7 +27,7 @@ export function Cases({ dict }: { dict: Dictionary["cases"] }) {
             return (
               <Reveal as="li" key={item.title} delay={i * 70} className={`case-card dark-scope ${i % 2 ? "lg:translate-y-12" : ""} ${i === 4 ? "sm:col-span-2 lg:col-span-1" : ""}`}>
                 <img
-                  src={`/images/${v.img}.webp`}
+                  src={withBase(`/images/${v.img}.webp`)}
                   width={1200}
                   height={800}
                   alt=""

@@ -1,6 +1,6 @@
 import { Archive, ListChecks, LockSimple, Microphone, ShareNetwork, Translate } from "@phosphor-icons/react/dist/ssr";
 import type { Dictionary, LocaleListItem } from "@arna/i18n";
-import { SECTIONS } from "@/lib/site";
+import { SECTIONS, withBase } from "@/lib/site";
 import { Reveal } from "./Reveal";
 import { WaveCanvas } from "./WaveCanvas";
 
@@ -59,7 +59,7 @@ export function Features({ dict, locales }: { dict: Dictionary["features"]; loca
 
           {/* 4. event content: photo */}
           <Reveal className="bento bento--photo dark-scope md:col-span-6 lg:col-span-7">
-            <img src="/images/stage.webp" width={1800} height={1353} alt="" loading="lazy" decoding="async" className="photo-fill" />
+            <img src={withBase("/images/stage.webp")} width={1800} height={1353} alt="" loading="lazy" decoding="async" className="photo-fill" />
             <div aria-hidden className="photo-tint" />
             <div aria-hidden className="photo-fade" />
             <div className="relative mt-auto pt-28">

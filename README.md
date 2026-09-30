@@ -68,6 +68,20 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.kz
   "Жіберу" батырмасын басады. Бұл жағдайда сайт "жіберілді" демейді, "дайын" дейді (шындыққа сай).
 - Соңғы өтінім браузердің `localStorage` ішінде де сақталады (`arna-last-lead`), дерекқор құрылмайды.
 
+## GitHub Pages (https://minaikhansaltanat-prog.github.io/arna/)
+
+Репозиторийде `.github/workflows/pages.yml` бар: әр `main` push-тан кейін сайтты жинап, Pages-ке жариялайды.
+
+**Бір реттік баптау (GitHub-та):** репозиторий **Settings > Pages > Build and deployment > Source: GitHub Actions**.
+Әдепкіде "Deploy from a branch" тұрса, GitHub сайтты емес, `README.md` файлын көрсетеді.
+Баптаудан кейін **Actions** бетінде "Deploy to GitHub Pages" жұмысын **Re-run** басыңыз (немесе кез келген push жасаңыз).
+
+Pages сайты `/arna/` ішкі жолында тұрады, сондықтан жинау кезінде `NEXT_PUBLIC_BASE_PATH=/arna` беріледі (workflow өздігінен береді).
+Форма коннекторын қосу үшін: **Settings > Secrets and variables > Actions > Variables** ішінде `NEXT_PUBLIC_LEAD_ENDPOINT`.
+
+Жергілікті тексеру (Pages-пен бірдей): PowerShell-де
+`$env:NEXT_PUBLIC_BASE_PATH='/arna'; npm run build; $env:BASE_PATH='/arna'; node ../serve.mjs` және `http://localhost:3000/arna/`.
+
 ## Vercel-ге деплой
 
 1. Репозиторийді GitHub-қа салыңыз (бұл репозиторий).
@@ -87,6 +101,7 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.kz
 | `npm run fonts` | тілге қарай қаріп файлдарын қайта құрады |
 | `npm run qa` | Puppeteer: 10 тіл x 9 экран өлшемі: көлденең скролл, header, ☰/✕, RTL, қателер |
 | `npm run qa:demo` | демо ағыны (D-01...D-07), форма, WhatsApp түймесі, тақырып, тіл анықтау |
+| `npm run check:case` | импорттардың әріп регистрін тексереді (Linux CI үшін) |
 | `npm run qa:a11y` | axe-core: WCAG 2 A/AA (контраст, ARIA), екі тақырып, десктоп және мобиль |
 | `python scripts/process-logo.py <Logo> <out>` | логотиптің "шахматты" фонын тазалап, мөлдір PNG/WebP жасайды |
 

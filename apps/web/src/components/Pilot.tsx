@@ -1,6 +1,6 @@
 import { PhoneCall, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import type { Dictionary } from "@arna/i18n";
-import { PHONE_DISPLAY, PHONE_TEL, SECTIONS, waLink } from "@/lib/site";
+import { PHONE_DISPLAY, PHONE_TEL, SECTIONS, waLink, withBase } from "@/lib/site";
 import { PilotForm } from "./PilotForm";
 import { Reveal } from "./Reveal";
 
@@ -14,7 +14,7 @@ export function Pilot({ dict, lang, langName, waMessage }: { dict: Dictionary["p
           <p className="mt-5 max-w-[30rem] text-[1.0625rem] text-muted sm:text-lg">{dict.text}</p>
 
           <div className="photo-card dark-scope mt-9 hidden md:block">
-            <img src="/images/panel.webp" width={1200} height={800} alt="" loading="lazy" decoding="async" className="photo-fill" style={{ objectPosition: "50% 60%" }} />
+            <img src={withBase("/images/panel.webp")} width={1200} height={800} alt="" loading="lazy" decoding="async" className="photo-fill" style={{ objectPosition: "50% 60%" }} />
             <div aria-hidden className="photo-tint" />
             <div aria-hidden className="photo-fade" />
           </div>

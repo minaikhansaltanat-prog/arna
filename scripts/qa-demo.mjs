@@ -9,6 +9,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const base = (process.argv.find((a) => a.startsWith("http")) || "http://localhost:3000").replace(/\/$/, "");
 const dict = (l) => JSON.parse(readFileSync(join(root, "packages", "i18n", `${l}.json`), "utf8"));
 const script = JSON.parse(readFileSync(join(root, "content", "demo-script.json"), "utf8")).scripts;
+const bp = new URL(base).pathname.replace(/\/$/, "");
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const failures = [];
 const ok = (cond, msg) => {
@@ -203,7 +204,7 @@ console.log("Theme and language detection");
 for (const [langs, expect, label] of [[["ko-KR", "en"], "/ko/", "browser language ko-KR"], [["ar-SA"], "/ar/", "browser language ar-SA"], [["de-DE"], "/ru/", "unsupported browser language falls back to Russian"], [["kk"], "/kk/", "browser language kk"]]) {
   const { page } = await newPhone(null, { languages: langs });
   await sleep(800);
-  ok(new URL(page.url()).pathname === expect, `I-02 ${label} -> ${expect}`);
+  ok(new URL(page.url()).pathname === `${bp}${expect}`, `I-02 ${label} -> ${bp}${expect}`);
   await page.close();
 }
 {
@@ -211,7 +212,7 @@ for (const [langs, expect, label] of [[["ko-KR", "en"], "/ko/", "browser languag
   await page.evaluate(() => localStorage.setItem("arna-lang", "uz"));
   await page.goto(`${base}/`, { waitUntil: "networkidle0" });
   await sleep(600);
-  ok(new URL(page.url()).pathname === "/uz/", "I-02 a saved manual choice beats the browser language");
+  ok(new URL(page.url()).pathname === `${bp}/uz/`, "I-02 a saved manual choice beats the browser language");
   await page.close();
 }
 

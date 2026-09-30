@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, PhoneCall, WhatsappLogo } from "@phosphor-icons/react";
 import type { Dictionary, LocaleListItem } from "@arna/i18n";
-import { PHONE_DISPLAY, PHONE_TEL, SECTIONS, waLink } from "@/lib/site";
+import { PHONE_DISPLAY, PHONE_TEL, SECTIONS, waLink, withBase } from "@/lib/site";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -75,8 +75,8 @@ export function Header({ lang, locales, nav, a11y, call, whatsapp, waMessage }: 
       <div ref={sentinelRef} aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-2" />
       <header className="site-header" data-scrolled={scrolled} data-menu-open={open}>
         <div className="wrap flex h-full items-center justify-between gap-3">
-          <a href={`/${lang}/`} className="brand-link" aria-label={a11y.home} onClick={close}>
-            <img src="/brand/emblem-96.png" width={38} height={38} alt="" className="size-[38px] shrink-0" />
+          <a href={withBase(`/${lang}/`)} className="brand-link" aria-label={a11y.home} onClick={close}>
+            <img src={withBase("/brand/emblem-96.png")} width={38} height={38} alt="" className="size-[38px] shrink-0" />
             <span className="brand-word">ARNA</span>
           </a>
 

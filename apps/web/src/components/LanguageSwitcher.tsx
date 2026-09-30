@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { CaretDown, Check, Globe } from "@phosphor-icons/react";
 import type { LocaleListItem } from "@arna/i18n";
-import { STORAGE } from "@/lib/site";
+import { STORAGE, withBase } from "@/lib/site";
 
 /**
  * Language switcher (L-07). Compact (globe + code) next to the burger on phones,
@@ -55,7 +55,7 @@ export function LanguageSwitcher({
     for (const s of document.querySelectorAll<HTMLElement>("main > section[id]")) {
       if (s.getBoundingClientRect().top <= 140) id = s.id;
     }
-    window.location.assign(`/${code}/${id && id !== "top" ? `#${id}` : ""}`);
+    window.location.assign(withBase(`/${code}/${id && id !== "top" ? `#${id}` : ""}`));
   };
 
   return (
@@ -85,7 +85,7 @@ export function LanguageSwitcher({
             return (
               <li key={l.code}>
                 <a
-                  href={`/${l.code}/`}
+                  href={withBase(`/${l.code}/`)}
                   hrefLang={l.htmlLang}
                   lang={l.htmlLang}
                   aria-current={active ? "true" : undefined}

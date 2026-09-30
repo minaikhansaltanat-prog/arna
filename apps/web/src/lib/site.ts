@@ -20,6 +20,16 @@ export const SITE_URL = (
   "http://localhost:3000"
 ).replace(/\/$/, "");
 
+/**
+ * Sub-path the site is served from. GitHub Pages project sites live under /<repo>; Vercel and custom domains use "".
+ * Set NEXT_PUBLIC_BASE_PATH=/arna for a GitHub Pages build (the workflow does this).
+ */
+export const BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/+$/, "");
+/** Root-relative URL for an own page or file, e.g. withBase("/ru/") */
+export const withBase = (path: string) => `${BASE_PATH}${path}`;
+/** Absolute URL for metadata, sitemap and structured data. */
+export const absUrl = (path: string) => `${SITE_URL}${BASE_PATH}${path}`;
+
 /** localStorage keys */
 export const STORAGE = { lang: "arna-lang", theme: "arna-theme", lead: "arna-last-lead" } as const;
 

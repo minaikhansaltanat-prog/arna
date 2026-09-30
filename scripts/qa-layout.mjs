@@ -14,6 +14,7 @@ import puppeteer from "puppeteer";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const base = (process.argv.find((a) => a.startsWith("http")) || "http://localhost:3000").replace(/\/$/, "");
 const quick = process.argv.includes("--quick");
+const bp = new URL(base).pathname.replace(/\/$/, ""); // "" at the domain root, "/arna" for a GitHub Pages build
 const arg = (n) => process.argv.find((a) => a.startsWith(`--${n}=`))?.split("=")[1];
 const SIZE_ARG = arg("sizes");
 const LOCALES = (arg("locales") || "ru,kk,en,zh,uz,ky,ko,ja,hi,ar").split(",");
@@ -216,7 +217,7 @@ for (const lang of LOCALES) {
   await sleep(600);
   const r = await page.evaluate(() => ({ dir: document.documentElement.dir, lang: document.documentElement.lang, path: location.pathname, h1: document.querySelector("h1")?.textContent }));
   checks++;
-  if (r.dir !== "rtl" || r.lang !== "ar" || r.path !== "/ar/") fail("switch ru>ar", JSON.stringify(r));
+  if (r.dir !== "rtl" || r.lang !== "ar" || r.path !== `${bp}/ar/`) fail("switch ru>ar", JSON.stringify(r));
   if (!r.h1?.includes(dict("ar").hero.title[0].slice(0, 6))) fail("switch ru>ar", `h1 not Arabic: ${r.h1}`);
   await page.click(".lang-btn");
   await sleep(500);

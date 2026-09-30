@@ -8,7 +8,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "npx serve out -l 3000",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "postbuild": "node ../../scripts/postbuild-basepath.mjs"
   },
   "dependencies": {
     "@arna/i18n": "*",

@@ -1,6 +1,6 @@
 import { PhoneCall, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import type { Dictionary, LocaleListItem } from "@arna/i18n";
-import { PHONE_DISPLAY, PHONE_TEL, SECTIONS, waLink } from "@/lib/site";
+import { PHONE_DISPLAY, PHONE_TEL, SECTIONS, waLink, withBase } from "@/lib/site";
 
 const LINKS = ["how", "demo", "features", "cases", "pricing"] as const;
 
@@ -21,7 +21,7 @@ export function Footer({
       <div className="wrap pb-32 pt-16 lg:pb-28 lg:pt-20">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-[minmax(0,3.4fr)_minmax(0,2.8fr)_minmax(0,3.6fr)_minmax(0,3.6fr)] lg:gap-10">
           <div>
-            <img src="/brand/wordmark.webp" width={1200} height={295} alt="ARNA" loading="lazy" decoding="async" className="h-auto w-[min(260px,70%)]" />
+            <img src={withBase("/brand/wordmark.webp")} width={1200} height={295} alt="ARNA" loading="lazy" decoding="async" className="h-auto w-[min(260px,70%)]" />
             <p className="mt-5 max-w-[22rem] text-[1.05rem] text-muted">{f.tagline}</p>
           </div>
 
@@ -70,7 +70,7 @@ export function Footer({
             <ul className="mt-4 grid list-none grid-cols-[repeat(2,minmax(0,1fr))] gap-x-4 gap-y-2.5 p-0">
               {locales.map((l) => (
                 <li key={l.code}>
-                  <a href={`/${l.code}/`} hrefLang={l.htmlLang} lang={l.htmlLang} dir={l.dir} aria-current={l.code === lang ? "true" : undefined} className="footer-link" data-names={l.code}>
+                  <a href={withBase(`/${l.code}/`)} hrefLang={l.htmlLang} lang={l.htmlLang} dir={l.dir} aria-current={l.code === lang ? "true" : undefined} className="footer-link" data-names={l.code}>
                     {l.nativeName}
                   </a>
                 </li>

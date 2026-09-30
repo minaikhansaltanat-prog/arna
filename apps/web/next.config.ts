@@ -1,7 +1,11 @@
 import path from "node:path";
 import type { NextConfig } from "next";
 
+// GitHub Pages serves a project site under /<repo>; Vercel and custom domains use no prefix.
+const basePath = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/+$/, "");
+
 const nextConfig: NextConfig = {
+  basePath: basePath || undefined,
   // Static export: Vercel (or any static host) serves /out. No server, no database.
   output: "export",
   trailingSlash: true,

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import ReactDOM from "react-dom";
 import { getDictionary, getMeta, isLocale, locales } from "@arna/i18n";
 import { preloadFontsFor } from "@/lib/fonts";
-import { SITE_URL, STORAGE } from "@/lib/site";
+import { SITE_URL, STORAGE, absUrl, withBase } from "@/lib/site";
 import "../globals.css";
 
 export const dynamicParams = false;
@@ -26,31 +26,24 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const { lang } = await params;
   if (!isLocale(lang)) return {};
   const d = getDictionary(lang);
-  const languages = Object.fromEntries(locales.map((l) => [getMeta(l).htmlLang, `/${l}/`]));
+  const languages = Object.fromEntries(locales.map((l) => [getMeta(l).htmlLang, absUrl(`/${l}/`)]));
   return {
     metadataBase: new URL(SITE_URL),
     title: d.meta.title,
     description: d.meta.description,
     applicationName: "ARNA",
-    alternates: { canonical: `/${lang}/`, languages: { ...languages, "x-default": "/ru/" } },
+    alternates: { canonical: absUrl(`/${lang}/`), languages: { ...languages, "x-default": absUrl("/ru/") } },
     openGraph: {
       type: "website",
       siteName: "ARNA",
       title: d.meta.title,
       description: d.meta.description,
-      url: `/${lang}/`,
+      url: absUrl(`/${lang}/`),
       locale: getMeta(lang).ogLocale,
       alternateLocale: locales.filter((l) => l !== lang).map((l) => getMeta(l).ogLocale),
-      images: [{ url: "/og.png", width: 1200, height: 630, alt: "ARNA" }],
+      images: [{ url: absUrl("/og.png"), width: 1200, height: 630, alt: "ARNA" }],
     },
-    twitter: { card: "summary_large_image", title: d.meta.title, description: d.meta.description, images: ["/og.png"] },
-    icons: {
-      icon: [
-        { url: "/brand/emblem-96.png", sizes: "96x96", type: "image/png" },
-        { url: "/brand/emblem-192.png", sizes: "192x192", type: "image/png" },
-      ],
-      apple: [{ url: "/brand/apple-touch-icon.png", sizes: "180x180" }],
-    },
+    twitter: { card: "summary_large_image", title: d.meta.title, description: d.meta.description, images: [absUrl("/og.png")] },
     formatDetection: { telephone: false },
   };
 }
@@ -71,13 +64,17 @@ export default async function LangLayout({
 
   // Only the fonts this language needs are fetched early (TZ 3.1 / I-04).
   for (const href of preloadFontsFor(lang)) {
-    ReactDOM.preload(href, { as: "font", type: "font/woff2", crossOrigin: "anonymous" });
+    ReactDOM.preload(withBase(href), { as: "font", type: "font/woff2", crossOrigin: "anonymous" });
   }
 
   return (
     <html lang={meta.htmlLang} dir={meta.dir} data-font={meta.font} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {/* own-origin icons (metadata would turn them into absolute production URLs) */}
+        <link rel="icon" type="image/png" sizes="96x96" href={withBase("/brand/emblem-96.png")} />
+        <link rel="icon" type="image/png" sizes="192x192" href={withBase("/brand/emblem-192.png")} />
+        <link rel="apple-touch-icon" sizes="180x180" href={withBase("/brand/apple-touch-icon.png")} />
       </head>
       <body>{children}</body>
     </html>
