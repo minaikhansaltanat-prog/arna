@@ -1,0 +1,53 @@
+{
+  "preload": {
+    "ar": [
+      "/fonts/noto-sans-arabic-ar.b9908797.woff2",
+      "/fonts/noto-kufi-arabic-ar.97643322.woff2",
+      "/fonts/onest-latin.44aca66b.woff2"
+    ],
+    "en": [
+      "/fonts/onest-latin.44aca66b.woff2",
+      "/fonts/commissioner-latin.14a5bda1.woff2"
+    ],
+    "hi": [
+      "/fonts/noto-sans-devanagari-hi.c7008f2c.woff2",
+      "/fonts/onest-latin.44aca66b.woff2"
+    ],
+    "ja": [
+      "/fonts/noto-sans-jp-ja.a47992be.woff2"
+    ],
+    "kk": [
+      "/fonts/onest-cyrillic-ext.2a65099d.woff2",
+      "/fonts/onest-cyrillic.0b4bfaa1.woff2",
+      "/fonts/onest-latin.44aca66b.woff2",
+      "/fonts/commissioner-cyrillic-ext.76c6b191.woff2",
+      "/fonts/commissioner-cyrillic.ba50d362.woff2",
+      "/fonts/commissioner-latin.14a5bda1.woff2"
+    ],
+    "ko": [
+      "/fonts/noto-sans-kr-ko.cbeaef44.woff2"
+    ],
+    "ky": [
+      "/fonts/onest-cyrillic-ext.2a65099d.woff2",
+      "/fonts/onest-cyrillic.0b4bfaa1.woff2",
+      "/fonts/onest-latin.44aca66b.woff2",
+      "/fonts/commissioner-cyrillic-ext.76c6b191.woff2",
+      "/fonts/commissioner-cyrillic.ba50d362.woff2",
+      "/fonts/commissioner-latin.14a5bda1.woff2"
+    ],
+    "ru": [
+      "/fonts/onest-cyrillic.0b4bfaa1.woff2",
+      "/fonts/onest-latin.44aca66b.woff2",
+      "/fonts/commissioner-cyrillic.ba50d362.woff2",
+      "/fonts/commissioner-latin.14a5bda1.woff2"
+    ],
+    "uz": [
+      "/fonts/onest-latin.44aca66b.woff2",
+      "/fonts/commissioner-latin.14a5bda1.woff2"
+    ],
+    "zh": [
+      "/fonts/noto-sans-sc-zh.41c0247f.woff2"
+    ]
+  },
+  "stacks": {}
+}

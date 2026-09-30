@@ -1,0 +1,186 @@
+{
+  "_meta": {
+    "code": "zh",
+    "name": "Chinese",
+    "nativeName": "中文",
+    "dir": "ltr",
+    "htmlLang": "zh-Hans",
+    "ogLocale": "zh_CN",
+    "welcome": "欢迎光临",
+    "font": "cjk-sc"
+  },
+  "meta": {
+    "title": "ARNA：活动现场语音实时翻译",
+    "description": "ARNA 将现场演讲者的发言实时翻译成十种语言。听众在自己的手机上选择语言，通过音频或字幕即可跟上。欢迎加入试点。"
+  },
+  "a11y": {
+    "skip": "跳到内容",
+    "menuOpen": "打开菜单",
+    "menuClose": "关闭菜单",
+    "langSwitch": "切换语言",
+    "themeToDark": "切换到深色主题",
+    "themeToLight": "切换到浅色主题",
+    "mainNav": "主导航",
+    "home": "ARNA，首页",
+    "close": "关闭"
+  },
+  "nav": {
+    "how": "工作原理",
+    "demo": "演示",
+    "features": "功能",
+    "cases": "应用场景",
+    "pricing": "价格",
+    "pilot": "加入试点"
+  },
+  "hero": {
+    "eyebrow": "面向活动的实时语音翻译",
+    "title": ["只需说一次。", "人人都听得懂。"],
+    "subtitle": "ARNA 将现场演讲者的发言翻译成十种语言。听众在自己的手机上通过音频或字幕即可跟上。",
+    "ctaDemo": "体验演示",
+    "ctaPilot": "加入试点",
+    "stats": [
+      { "value": "10", "unit": "", "label": "种语言" },
+      { "value": "< 3", "unit": "秒", "label": "目标延迟" },
+      { "value": "5", "unit": "", "label": "种活动类型" }
+    ]
+  },
+  "how": {
+    "title": "从舞台到手机，只需四步",
+    "steps": [
+      { "title": "加入活动", "text": "扫描主办方的二维码，或打开链接。" },
+      { "title": "选择语言", "text": "从十种语言中任选一种，随时可以切换。" },
+      { "title": "确认声音", "text": "ARNA 会识别演讲者的声音，让翻译始终对应正确的人。" },
+      { "title": "收听与阅读", "text": "收听翻译、阅读字幕，并在结束时获得简短的自动纪要。" }
+    ]
+  },
+  "demo": {
+    "title": "在浏览器中直接体验",
+    "text": "走一遍听众的使用流程：选择语言、确认声音、跟随翻译。",
+    "badge": "脚本演示",
+    "notice": "这是基于预先准备文本的脚本演示。真正的 AI 翻译将在下一阶段上线。",
+    "steps": ["语言", "声音", "直播", "纪要"],
+    "lang": { "title": "选择你的语言", "hint": "演讲者的发言将被翻译成这种语言。" },
+    "voice": {
+      "title": "这是演讲者的声音吗？",
+      "hint": "ARNA 正在聆听舞台。",
+      "scanning": "正在分析声音…",
+      "found": "声音已识别",
+      "speaker": "主讲人",
+      "confirm": "是的，就是这个声音",
+      "replay": "再听一次"
+    },
+    "live": {
+      "session": "全体会议，阿斯塔纳",
+      "liveLabel": "直播",
+      "original": "原文",
+      "translation": "翻译",
+      "audio": "音频",
+      "subtitles": "字幕",
+      "background": "后台模式",
+      "sourceLang": "哈萨克语",
+      "sameLang": "演讲者使用的正是您的语言，无需翻译。",
+      "bothOff": "请开启音频或字幕，以跟随演讲者。"
+    },
+    "background": { "title": "音频继续播放", "hint": "轻触屏幕即可恢复。" },
+    "summary": { "title": "会议纪要", "badge": "自动纪要", "restart": "重新开始演示", "ended": "会议已结束" }
+  },
+  "features": {
+    "title": "多语言活动所需的一切",
+    "items": [
+      { "title": "声音识别", "text": "ARNA 能识别当前发言的人，并让翻译对应正确的声音，即使在小组讨论和问答环节也不例外。" },
+      { "title": "多语言翻译", "text": "首发即支持十种语言。演讲者只需说一次，每位听众都能用自己的语言跟上。" },
+      { "title": "自动纪要", "text": "会议结束后，每位听众都会用自己的语言收到一份包含要点的简短纪要。" },
+      { "title": "活动内容", "text": "文字记录和纪要在活动结束后依然可以查看。" },
+      { "title": "推荐计划", "text": "把您的专属链接分享给其他主办方，他们完成首场活动后您即可获得奖励。" },
+      { "title": "后台模式", "text": "锁屏或切换到其他应用，翻译音频也会持续播放，不会中断。" }
+    ]
+  },
+  "cases": {
+    "title": "适用于各类聚会",
+    "items": [
+      { "title": "高校", "text": "学生与客座教授使用不同语言的讲座和会议。" },
+      { "title": "论坛", "text": "国际论坛与大会：同一个舞台，每位代表都用自己的语言。" },
+      { "title": "婚礼", "text": "有来自多个国家宾客的哈萨克传统婚礼（toi）：祝酒词与祝福，人人都能听懂。" },
+      { "title": "企业", "text": "与国际团队和合作伙伴召开的会议。" },
+      { "title": "培训师", "text": "面向没有共同语言的学员群体的培训和课程。" }
+    ]
+  },
+  "pricing": {
+    "title": "试点期套餐",
+    "note": "以下为示例套餐，仅供参考。最终价格会在活动前与您商定。",
+    "fullPricing": "查看完整价格",
+    "recommended": "推荐",
+    "plans": [
+      {
+        "name": "单场活动",
+        "price": "49 000 ₸",
+        "period": "每场",
+        "desc": "一场活动，一批听众。",
+        "features": ["最多 100 名听众", "支持全部 10 种语言", "会后自动纪要"],
+        "cta": "选择套餐"
+      },
+      {
+        "name": "主办方",
+        "price": "190 000 ₸",
+        "period": "每月",
+        "desc": "适合定期举办活动的团队。",
+        "features": ["每月最多 5 场活动", "每场最多 500 名听众", "活动内容与推荐奖励"],
+        "cta": "选择套餐"
+      },
+      {
+        "name": "企业版",
+        "price": "面议",
+        "period": "",
+        "desc": "适合大型活动和企业项目。",
+        "features": ["活动场次不限", "专属支持经理", "定制集成"],
+        "cta": "选择套餐"
+      }
+    ]
+  },
+  "pilot": {
+    "title": "加入试点",
+    "text": "请告诉我们您的活动情况。我们会与您联系，并为您的听众准备试点。",
+    "contactTitle": "更想直接沟通？",
+    "call": "拨打电话",
+    "whatsapp": "WhatsApp",
+    "fields": {
+      "name": { "label": "姓名", "error": "请输入姓名" },
+      "contact": { "label": "联系方式", "hint": "电话、WhatsApp 或电子邮箱", "error": "请填写联系方式" },
+      "type": {
+        "label": "活动类型",
+        "choose": "请选择活动类型",
+        "error": "请选择活动类型",
+        "options": {
+          "university": "高校活动",
+          "forum": "论坛或会议",
+          "wedding": "婚礼（toi）",
+          "company": "企业活动",
+          "training": "培训或研讨会",
+          "other": "其他"
+        }
+      }
+    },
+    "submit": "提交申请",
+    "sending": "准备中…",
+    "success": {
+      "title": "申请已准备好",
+      "sent": "谢谢！我们已收到您的申请，会尽快与您联系。",
+      "draft": "消息已在 WhatsApp 中准备好。请在那里点击“发送”完成提交。",
+      "open": "再次打开 WhatsApp"
+    },
+    "message": "您好！我想加入 ARNA 试点。\n姓名：{name}\n联系方式：{contact}\n活动类型：{type}\n网站语言：{lang}",
+    "privacy": "您的信息仅用于回复您的申请。"
+  },
+  "footer": {
+    "tagline": "语言之间的频道",
+    "navTitle": "导航",
+    "contactTitle": "联系方式",
+    "phone": "电话",
+    "langsTitle": "语言",
+    "rights": "© 2026 ARNA。保留所有权利。"
+  },
+  "whatsapp": {
+    "label": "通过 WhatsApp 联系",
+    "message": "您好！我想进一步了解 ARNA。"
+  }
+}

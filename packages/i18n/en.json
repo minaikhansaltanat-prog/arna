@@ -1,0 +1,186 @@
+{
+  "_meta": {
+    "code": "en",
+    "name": "English",
+    "nativeName": "English",
+    "dir": "ltr",
+    "htmlLang": "en",
+    "ogLocale": "en_US",
+    "welcome": "Welcome",
+    "font": "latin"
+  },
+  "meta": {
+    "title": "ARNA: live voice translation for events",
+    "description": "ARNA translates a live speaker into ten languages. Listeners pick their language and follow by audio or subtitles on their phone. Join the pilot."
+  },
+  "a11y": {
+    "skip": "Skip to content",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu",
+    "langSwitch": "Change language",
+    "themeToDark": "Switch to dark theme",
+    "themeToLight": "Switch to light theme",
+    "mainNav": "Main navigation",
+    "home": "ARNA, home",
+    "close": "Close"
+  },
+  "nav": {
+    "how": "How it works",
+    "demo": "Demo",
+    "features": "Features",
+    "cases": "Use cases",
+    "pricing": "Pricing",
+    "pilot": "Join the pilot"
+  },
+  "hero": {
+    "eyebrow": "Live voice translation for events",
+    "title": ["Speak once.", "Everyone understands."],
+    "subtitle": "ARNA translates a live speaker into ten languages. Listeners follow by audio or subtitles on their own phone.",
+    "ctaDemo": "Try the demo",
+    "ctaPilot": "Join the pilot",
+    "stats": [
+      { "value": "10", "unit": "", "label": "languages" },
+      { "value": "< 3", "unit": "s", "label": "target delay" },
+      { "value": "5", "unit": "", "label": "event formats" }
+    ]
+  },
+  "how": {
+    "title": "Four steps from the stage to your phone",
+    "steps": [
+      { "title": "Join the event", "text": "Scan the organizer's QR code or open the link." },
+      { "title": "Choose a language", "text": "Pick one of ten languages. You can switch at any moment." },
+      { "title": "Confirm the voice", "text": "ARNA recognizes the speaker's voice, so the translation always follows the right person." },
+      { "title": "Listen and read", "text": "Hear the translation, read the subtitles and get a short summary at the end." }
+    ]
+  },
+  "demo": {
+    "title": "Try it right in your browser",
+    "text": "Walk through the listener's screen: choose a language, confirm the voice and follow the translation.",
+    "badge": "Scripted demo",
+    "notice": "This is a scripted demonstration with prepared text. Real AI translation comes in the next phase.",
+    "steps": ["Language", "Voice", "Live", "Summary"],
+    "lang": { "title": "Choose your language", "hint": "The speaker will be translated into this language." },
+    "voice": {
+      "title": "Is this the speaker's voice?",
+      "hint": "ARNA is listening to the stage.",
+      "scanning": "Analyzing the voice…",
+      "found": "Voice recognized",
+      "speaker": "Main speaker",
+      "confirm": "Yes, this voice",
+      "replay": "Listen again"
+    },
+    "live": {
+      "session": "Plenary session, Astana",
+      "liveLabel": "Live",
+      "original": "Original",
+      "translation": "Translation",
+      "audio": "Audio",
+      "subtitles": "Subtitles",
+      "background": "Background mode",
+      "sourceLang": "Kazakh",
+      "sameLang": "The speaker is talking in your language, so no translation is needed.",
+      "bothOff": "Turn on audio or subtitles to follow the speaker."
+    },
+    "background": { "title": "Audio continues", "hint": "Tap the screen to restore." },
+    "summary": { "title": "Session summary", "badge": "Auto-summary", "restart": "Restart demo", "ended": "Session ended" }
+  },
+  "features": {
+    "title": "Everything a multilingual event needs",
+    "items": [
+      { "title": "Voice recognition", "text": "ARNA recognizes who is speaking and keeps the translation attached to the right voice, even in panels and Q&A." },
+      { "title": "Multilingual translation", "text": "Ten languages from day one. The speaker speaks once, and every listener follows in their own language." },
+      { "title": "Auto-summary", "text": "When the session ends, each listener gets a short summary with the key points in their language." },
+      { "title": "Event content", "text": "Transcripts and summaries stay available after the event." },
+      { "title": "Referral program", "text": "Share your personal link with other organizers and receive a bonus for their first event." },
+      { "title": "Background mode", "text": "Lock the screen or switch apps, and the translated audio keeps playing without interruption." }
+    ]
+  },
+  "cases": {
+    "title": "Made for every kind of gathering",
+    "items": [
+      { "title": "Universities", "text": "Lectures and conferences where students and guest professors speak different languages." },
+      { "title": "Forums", "text": "International forums and congresses: one stage, every delegate in their own language." },
+      { "title": "Weddings", "text": "A toi with guests from several countries: toasts and blessings understood by everyone." },
+      { "title": "Companies", "text": "Town halls and meetings with international teams and partners." },
+      { "title": "Trainers", "text": "Workshops and courses for groups that do not share one language." }
+    ]
+  },
+  "pricing": {
+    "title": "Plans for the pilot",
+    "note": "Sample plans for illustration. The final price is agreed with you before the event.",
+    "fullPricing": "See full pricing",
+    "recommended": "Recommended",
+    "plans": [
+      {
+        "name": "Event",
+        "price": "49 000 ₸",
+        "period": "per event",
+        "desc": "One event, one audience.",
+        "features": ["Up to 100 listeners", "All 10 languages", "Auto-summary after the session"],
+        "cta": "Choose plan"
+      },
+      {
+        "name": "Organizer",
+        "price": "190 000 ₸",
+        "period": "per month",
+        "desc": "For teams that host events regularly.",
+        "features": ["Up to 5 events per month", "Up to 500 listeners per event", "Event content and referral bonus"],
+        "cta": "Choose plan"
+      },
+      {
+        "name": "Enterprise",
+        "price": "Custom",
+        "period": "",
+        "desc": "For large events and company programs.",
+        "features": ["Unlimited events", "Dedicated support manager", "Custom integrations"],
+        "cta": "Choose plan"
+      }
+    ]
+  },
+  "pilot": {
+    "title": "Join the pilot",
+    "text": "Tell us about your event. We will contact you and prepare a pilot for your audience.",
+    "contactTitle": "Prefer to talk?",
+    "call": "Call",
+    "whatsapp": "WhatsApp",
+    "fields": {
+      "name": { "label": "Name", "error": "Enter your name" },
+      "contact": { "label": "Contact", "hint": "Phone, WhatsApp or e-mail", "error": "Enter a way to reach you" },
+      "type": {
+        "label": "Event type",
+        "choose": "Choose an event type",
+        "error": "Choose an event type",
+        "options": {
+          "university": "University event",
+          "forum": "Forum or conference",
+          "wedding": "Wedding (toi)",
+          "company": "Company event",
+          "training": "Training or workshop",
+          "other": "Other"
+        }
+      }
+    },
+    "submit": "Send request",
+    "sending": "Preparing…",
+    "success": {
+      "title": "Request is ready",
+      "sent": "Thank you! We received your request and will contact you soon.",
+      "draft": "Your message is prepared in WhatsApp. Press Send there to finish.",
+      "open": "Open WhatsApp again"
+    },
+    "message": "Hello! I want to join the ARNA pilot.\nName: {name}\nContact: {contact}\nEvent type: {type}\nSite language: {lang}",
+    "privacy": "Your details are used only to reply to your request."
+  },
+  "footer": {
+    "tagline": "The channel between languages",
+    "navTitle": "Navigation",
+    "contactTitle": "Contacts",
+    "phone": "Phone",
+    "langsTitle": "Languages",
+    "rights": "© 2026 ARNA. All rights reserved."
+  },
+  "whatsapp": {
+    "label": "Write on WhatsApp",
+    "message": "Hello! I would like to learn more about ARNA."
+  }
+}

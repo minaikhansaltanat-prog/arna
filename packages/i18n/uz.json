@@ -1,0 +1,186 @@
+{
+  "_meta": {
+    "code": "uz",
+    "name": "Uzbek",
+    "nativeName": "Oʻzbekcha",
+    "dir": "ltr",
+    "htmlLang": "uz",
+    "ogLocale": "uz_UZ",
+    "welcome": "Xush kelibsiz",
+    "font": "latin"
+  },
+  "meta": {
+    "title": "ARNA: tadbirlar uchun jonli ovozli tarjima",
+    "description": "ARNA jonli nutqni oʻn tilga tarjima qiladi. Tinglovchilar oʻz telefonida tilni tanlab, audio yoki subtitr orqali kuzatadi. Pilotda qatnashing."
+  },
+  "a11y": {
+    "skip": "Asosiy mazmunga oʻtish",
+    "menuOpen": "Menyuni ochish",
+    "menuClose": "Menyuni yopish",
+    "langSwitch": "Tilni almashtirish",
+    "themeToDark": "Qorongʻi mavzuga oʻtish",
+    "themeToLight": "Yorugʻ mavzuga oʻtish",
+    "mainNav": "Asosiy navigatsiya",
+    "home": "ARNA, bosh sahifa",
+    "close": "Yopish"
+  },
+  "nav": {
+    "how": "Qanday ishlaydi",
+    "demo": "Demo",
+    "features": "Imkoniyatlar",
+    "cases": "Qoʻllanilishi",
+    "pricing": "Tariflar",
+    "pilot": "Pilotda qatnashish"
+  },
+  "hero": {
+    "eyebrow": "Tadbirlar uchun real vaqtdagi ovozli tarjima",
+    "title": ["Bir marta gapiring.", "Hamma tushunadi."],
+    "subtitle": "ARNA jonli nutqni oʻn tilga tarjima qiladi. Tinglovchilar oʻz telefonida audio yoki subtitr orqali kuzatadi.",
+    "ctaDemo": "Demoni sinab koʻrish",
+    "ctaPilot": "Pilotda qatnashish",
+    "stats": [
+      { "value": "10", "unit": "", "label": "til" },
+      { "value": "< 3", "unit": "soniya", "label": "maqsadli kechikish" },
+      { "value": "5", "unit": "", "label": "tadbir turi" }
+    ]
+  },
+  "how": {
+    "title": "Sahnadan telefongacha toʻrt qadam",
+    "steps": [
+      { "title": "Tadbirga qoʻshiling", "text": "Tashkilotchining QR-kodini skanerlang yoki havolani oching." },
+      { "title": "Tilni tanlang", "text": "Oʻn tildan birini tanlang. Uni istalgan vaqtda almashtirish mumkin." },
+      { "title": "Ovozni tasdiqlang", "text": "ARNA spikerning ovozini taniydi, shuning uchun tarjima har doim kerakli odamga bogʻlanadi." },
+      { "title": "Tinglang va oʻqing", "text": "Tarjimani tinglang, subtitrni oʻqing va oxirida qisqa avtokonspekt oling." }
+    ]
+  },
+  "demo": {
+    "title": "Brauzerning oʻzida sinab koʻring",
+    "text": "Tinglovchi yoʻlidan oʻting: tilni tanlang, ovozni tasdiqlang va tarjimani kuzating.",
+    "badge": "Ssenariy boʻyicha demo",
+    "notice": "Bu oldindan tayyorlangan matn asosidagi ssenariyli namoyish. Haqiqiy SI tarjimasi keyingi bosqichda qoʻshiladi.",
+    "steps": ["Til", "Ovoz", "Efir", "Xulosa"],
+    "lang": { "title": "Tilingizni tanlang", "hint": "Spiker shu tilga tarjima qilinadi." },
+    "voice": {
+      "title": "Bu spikerning ovozimi?",
+      "hint": "ARNA sahnani tinglayapti.",
+      "scanning": "Ovoz tahlil qilinmoqda…",
+      "found": "Ovoz aniqlandi",
+      "speaker": "Asosiy spiker",
+      "confirm": "Ha, shu ovoz",
+      "replay": "Qayta tinglash"
+    },
+    "live": {
+      "session": "Plenar majlis, Astana",
+      "liveLabel": "Efir",
+      "original": "Asl nusxa",
+      "translation": "Tarjima",
+      "audio": "Audio",
+      "subtitles": "Subtitr",
+      "background": "Fon rejimi",
+      "sourceLang": "Qozoqcha",
+      "sameLang": "Spiker sizning tilingizda gapiryapti, tarjima kerak emas.",
+      "bothOff": "Spikerni kuzatish uchun audio yoki subtitrni yoqing."
+    },
+    "background": { "title": "Audio davom etmoqda", "hint": "Qaytarish uchun ekranga tegining." },
+    "summary": { "title": "Sessiya xulosasi", "badge": "Avtokonspekt", "restart": "Demoni qaytadan boshlash", "ended": "Sessiya yakunlandi" }
+  },
+  "features": {
+    "title": "Koʻp tilli tadbir uchun kerak boʻlgan hamma narsa",
+    "items": [
+      { "title": "Ovozni aniqlash", "text": "ARNA kim gapirayotganini taniydi va tarjimani kerakli ovoz bilan bogʻlaydi, hatto panel muhokamalari va savol-javoblarda ham." },
+      { "title": "Koʻp tilli tarjima", "text": "Dastlabki kundan oʻn til. Spiker bir marta gapiradi, har bir tinglovchi esa oʻz tilida kuzatadi." },
+      { "title": "Avtokonspekt", "text": "Sessiya tugagach, har bir tinglovchi oʻz tilida asosiy fikrlar yozilgan qisqa konspekt oladi." },
+      { "title": "Tadbir kontenti", "text": "Transkriptlar va konspektlar tadbirdan keyin ham mavjud boʻlib qoladi." },
+      { "title": "Referal dasturi", "text": "Shaxsiy havolangizni boshqa tashkilotchilar bilan ulashing va ularning birinchi tadbiri uchun bonus oling." },
+      { "title": "Fon rejimi", "text": "Ekranni qulflasangiz yoki boshqa ilovaga oʻtsangiz ham, tarjima ovozi uzilmasdan davom etadi." }
+    ]
+  },
+  "cases": {
+    "title": "Har qanday yigʻin uchun",
+    "items": [
+      { "title": "Universitetlar", "text": "Talabalar va mehmon professorlar turli tillarda gapiradigan ma’ruzalar va konferensiyalar." },
+      { "title": "Forumlar", "text": "Xalqaro forumlar va kongresslar: bitta sahna, har bir delegat oʻz tilida." },
+      { "title": "Toʻylar", "text": "Bir necha mamlakatdan kelgan mehmonlar ishtirok etadigan toʻy: tost va duolarni hamma tushunadi." },
+      { "title": "Kompaniyalar", "text": "Xalqaro jamoalar va hamkorlar bilan oʻtkaziladigan yigʻilishlar." },
+      { "title": "Trenerlar", "text": "Umumiy tili yoʻq guruhlar uchun treninglar va kurslar." }
+    ]
+  },
+  "pricing": {
+    "title": "Pilot uchun tariflar",
+    "note": "Koʻrgazmalilik uchun namunaviy tariflar. Yakuniy narx tadbirdan oldin siz bilan kelishiladi.",
+    "fullPricing": "Barcha tariflarni koʻrish",
+    "recommended": "Tavsiya etiladi",
+    "plans": [
+      {
+        "name": "Tadbir",
+        "price": "49 000 ₸",
+        "period": "bitta tadbir uchun",
+        "desc": "Bitta tadbir, bitta auditoriya.",
+        "features": ["100 tagacha tinglovchi", "Barcha 10 ta til", "Sessiyadan keyin avtokonspekt"],
+        "cta": "Tarifni tanlash"
+      },
+      {
+        "name": "Tashkilotchi",
+        "price": "190 000 ₸",
+        "period": "oyiga",
+        "desc": "Tadbirlarni muntazam oʻtkazadigan jamoalar uchun.",
+        "features": ["Oyiga 5 tagacha tadbir", "Har bir tadbirda 500 tagacha tinglovchi", "Tadbir kontenti va referal bonusi"],
+        "cta": "Tarifni tanlash"
+      },
+      {
+        "name": "Korporativ",
+        "price": "Kelishuv asosida",
+        "period": "",
+        "desc": "Yirik tadbirlar va kompaniya dasturlari uchun.",
+        "features": ["Tadbirlar soni cheklanmagan", "Shaxsiy yordam menejeri", "Individual integratsiyalar"],
+        "cta": "Tarifni tanlash"
+      }
+    ]
+  },
+  "pilot": {
+    "title": "Pilotda qatnashish",
+    "text": "Tadbiringiz haqida gapirib bering. Biz siz bilan bogʻlanib, auditoriyangiz uchun pilot tayyorlaymiz.",
+    "contactTitle": "Suhbatlashish qulayroqmi?",
+    "call": "Qoʻngʻiroq qilish",
+    "whatsapp": "WhatsApp",
+    "fields": {
+      "name": { "label": "Ism", "error": "Ismingizni kiriting" },
+      "contact": { "label": "Aloqa", "hint": "Telefon, WhatsApp yoki e-mail", "error": "Siz bilan bogʻlanish usulini kiriting" },
+      "type": {
+        "label": "Tadbir turi",
+        "choose": "Tadbir turini tanlang",
+        "error": "Tadbir turini tanlang",
+        "options": {
+          "university": "Universitet tadbiri",
+          "forum": "Forum yoki konferensiya",
+          "wedding": "Toʻy",
+          "company": "Kompaniya tadbiri",
+          "training": "Trening yoki seminar",
+          "other": "Boshqa"
+        }
+      }
+    },
+    "submit": "Ariza yuborish",
+    "sending": "Tayyorlanmoqda…",
+    "success": {
+      "title": "Ariza tayyor",
+      "sent": "Rahmat! Arizangizni qabul qildik, tez orada siz bilan bogʻlanamiz.",
+      "draft": "Xabar WhatsApp’da tayyorlandi. Yakunlash uchun u yerda «Yuborish» tugmasini bosing.",
+      "open": "WhatsApp’ni qayta ochish"
+    },
+    "message": "Assalomu alaykum! ARNA pilotida qatnashmoqchiman.\nIsm: {name}\nAloqa: {contact}\nTadbir turi: {type}\nSayt tili: {lang}",
+    "privacy": "Ma’lumotlaringiz faqat arizaga javob berish uchun ishlatiladi."
+  },
+  "footer": {
+    "tagline": "Tillar orasidagi kanal",
+    "navTitle": "Navigatsiya",
+    "contactTitle": "Aloqa",
+    "phone": "Telefon",
+    "langsTitle": "Tillar",
+    "rights": "© 2026 ARNA. Barcha huquqlar himoyalangan."
+  },
+  "whatsapp": {
+    "label": "WhatsApp’da yozish",
+    "message": "Assalomu alaykum! ARNA haqida koʻproq bilmoqchiman."
+  }
+}

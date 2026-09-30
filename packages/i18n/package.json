@@ -1,0 +1,8 @@
+{
+  "name": "@arna/i18n",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ARNA dictionaries. One JSON file per language; add a file and run `npm run i18n:registry` to add a language.",
+  "main": "index.ts",
+  "types": "index.ts"
+}

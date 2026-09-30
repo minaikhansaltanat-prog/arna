@@ -1,0 +1,29 @@
+{
+  "name": "arna",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ARNA: landing page and scripted browser demo (phase 1). Real-time multilingual voice translation.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=20.9"
+  },
+  "scripts": {
+    "dev": "npm run dev -w @arna/web",
+    "build": "npm run build -w @arna/web",
+    "start": "npm run start -w @arna/web",
+    "lint": "npm run typecheck -w @arna/web",
+    "i18n:registry": "node scripts/gen-i18n-registry.mjs",
+    "i18n:check": "node scripts/check-i18n.mjs",
+    "fonts": "node scripts/build-fonts.mjs",
+    "qa": "node scripts/qa-layout.mjs",
+    "qa:demo": "node scripts/qa-demo.mjs",
+    "qa:a11y": "node scripts/qa-a11y.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "^4.13.0",
+    "puppeteer": "^25.12.0"
+  }
+}
