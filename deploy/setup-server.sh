@@ -30,7 +30,8 @@ if [ "$(awk '/MemTotal/{print int($2/1024)}' /proc/meminfo)" -lt 2500 ] && [ -z 
 fi
 
 # code
-if [ -d "$APP/.git" ]; then git -C "$APP" pull --ff-only; else git clone "$REPO" "$APP"; fi
+# the server copy is deploy-only: `npm install` rewrites package-lock.json, so reset instead of pull
+if [ -d "$APP/.git" ]; then git -C "$APP" fetch --quiet origin && git -C "$APP" reset --hard origin/HEAD; else git clone "$REPO" "$APP"; fi
 cd "$APP"
 SITE="${DOMAIN:+https://$DOMAIN}"
 SITE="${SITE:-http://$(hostname -I | awk '{print $1}')}"
