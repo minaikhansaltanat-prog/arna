@@ -82,6 +82,16 @@ Pages сайты `/arna/` ішкі жолында тұрады, сондықта
 Жергілікті тексеру (Pages-пен бірдей): PowerShell-де
 `$env:NEXT_PUBLIC_BASE_PATH='/arna'; npm run build; $env:BASE_PATH='/arna'; node ../serve.mjs` және `http://localhost:3000/arna/`.
 
+## Өз серверіне (Ubuntu 24.04 VPS, nginx)
+
+Серверде root ретінде бір команда (қайта іске қосса, соңғы кодты алып, қайта жинайды):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/minaikhansaltanat-prog/arna/main/deploy/setup-server.sh | DOMAIN=arna.kz EMAIL=you@mail.kz bash
+```
+
+`DOMAIN` пен `EMAIL` міндетті емес (екеуі бар болса HTTPS қосылады). Код `/opt/arna`, сайт `/var/www/arna` ішінде.
+
 ## Vercel-ге деплой
 
 1. Репозиторийді GitHub-қа салыңыз (бұл репозиторий).
