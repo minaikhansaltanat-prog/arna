@@ -5,6 +5,7 @@ import * as m from "motion/react-m";
 import { AnimatePresence } from "motion/react";
 import {
   ArrowClockwise,
+  ArrowRight,
   CheckCircle,
   ClosedCaptioning,
   Microphone,
@@ -28,10 +29,41 @@ type Props = {
   locales: LocaleListItem[];
   scripts: Record<string, Script>;
   source: string;
+  /** Standalone "app" page: choose a language, press start; after that the whole UI speaks the chosen language. */
+  appMode?: boolean;
+  /** demo strings of every language (app mode only) */
+  dicts?: Record<string, Dictionary["demo"]>;
 };
 
 const STEPS: Step[] = ["lang", "voice", "live", "summary"];
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
+
+const hasSpeech = () => typeof window !== "undefined" && "speechSynthesis" in window;
+const norm = (l: string) => l.toLowerCase().replace("_", "-");
+
+function speak(text: string, lang: string) {
+  if (!hasSpeech() || !text) return;
+  const want = norm(lang);
+  const voices = window.speechSynthesis.getVoices();
+  const voice =
+    voices.find((v) => norm(v.lang) === want) ?? voices.find((v) => norm(v.lang).split("-")[0] === want.split("-")[0]);
+  if (!voice) return; // no voice for this language on this device: the demo stays silent
+  const u = new SpeechSynthesisUtterance(text);
+  u.voice = voice;
+  u.lang = voice.lang;
+  u.rate = 0.97;
+  window.speechSynthesis.speak(u);
+}
+function cancelSpeech() {
+  if (hasSpeech()) window.speechSynthesis.cancel();
+}
+/** iOS only allows speech that starts inside a tap: warm it up on the confirm button. */
+function unlockSpeech() {
+  if (!hasSpeech()) return;
+  const u = new SpeechSynthesisUtterance(" ");
+  u.volume = 0;
+  window.speechSynthesis.speak(u);
+}
 
 function graphemes(text: string): string[] {
   if (typeof Intl !== "undefined" && "Segmenter" in Intl) {
@@ -79,7 +111,7 @@ function progressAt(e: number, tl: ReturnType<typeof buildTimeline>, pairs: Pair
   return { line, o, t, done: e >= tl.total };
 }
 
-export function PhoneDemo({ dict, locales, scripts, source }: Props) {
+export function PhoneDemo({ dict: pageDict, locales, scripts, source, appMode = false, dicts }: Props) {
   const [step, setStep] = useState<Step>("lang");
   const [target, setTarget] = useState<string | null>(null);
   const [dim, setDim] = useState(false);
@@ -90,6 +122,9 @@ export function PhoneDemo({ dict, locales, scripts, source }: Props) {
 
   const tMeta = locales.find((l) => l.code === target) ?? null;
   const sMeta = locales.find((l) => l.code === source) ?? locales[0];
+  // app mode: once the demo starts, every label switches to the language the visitor picked
+  const localized = appMode && !!tMeta && step !== "lang";
+  const dict = (localized && dicts?.[tMeta.code]) || pageDict;
 
   const reset = useCallback(() => {
     if (advance.current) clearTimeout(advance.current);
@@ -105,11 +140,13 @@ export function PhoneDemo({ dict, locales, scripts, source }: Props) {
 
   const pick = (code: string) => {
     setTarget(code);
+    if (appMode) return; // app mode waits for the start button
     if (advance.current) clearTimeout(advance.current);
     advance.current = setTimeout(() => setStep("voice"), 380); // D-01: moves on by itself
   };
 
   const goLive = () => {
+    unlockSpeech();
     setDim(false);
     setStep("live");
   };
@@ -121,7 +158,11 @@ export function PhoneDemo({ dict, locales, scripts, source }: Props) {
   const idx = STEPS.indexOf(step);
 
   return (
-    <div className="phone dark-scope" data-step={step}>
+    <div
+      className={`phone dark-scope${appMode ? " phone--app" : ""}`}
+      data-step={step}
+      {...(localized && tMeta ? { lang: tMeta.htmlLang, dir: tMeta.dir, "data-font": tMeta.font } : {})}
+    >
       <div className="phone__bezel">
         <div className="phone__screen">
           <span className="phone__island" aria-hidden />
@@ -163,7 +204,17 @@ export function PhoneDemo({ dict, locales, scripts, source }: Props) {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
               >
-                {step === "lang" && <LangStep dict={dict} locales={locales} picked={target} onPick={pick} />}
+                {step === "lang" && (
+                  <LangStep
+                    dict={dict}
+                    locales={locales}
+                    picked={target}
+                    onPick={pick}
+                    appMode={appMode}
+                    startLabel={(target && dicts?.[target]?.start) || pageDict.start}
+                    onStart={() => setStep("voice")}
+                  />
+                )}
                 {step === "voice" && <VoiceStep dict={dict} onConfirm={goLive} />}
                 {step === "live" && tMeta && (
                   <LiveStep
@@ -199,12 +250,19 @@ function LangStep({
   locales,
   picked,
   onPick,
+  appMode,
+  startLabel,
+  onStart,
 }: {
   dict: Dictionary["demo"];
   locales: LocaleListItem[];
   picked: string | null;
   onPick: (code: string) => void;
+  appMode: boolean;
+  startLabel: string;
+  onStart: () => void;
 }) {
+  const pickedMeta = locales.find((l) => l.code === picked) ?? null;
   return (
     <div className="flex h-full flex-col">
       <h3 className="phone-title">{dict.lang.title}</h3>
@@ -219,10 +277,27 @@ function LangStep({
               <span className="phone-lang__code" aria-hidden>
                 {l.code}
               </span>
+              <CheckCircle size={20} weight="fill" aria-hidden className="phone-lang__check" />
             </button>
           </li>
         ))}
       </ul>
+      {appMode && (
+        <>
+          {/* the chosen language greets the visitor in its own script */}
+          <div className="lang-greet" aria-live="polite">
+            {pickedMeta && (
+              <span key={pickedMeta.code} className="anim-pop" lang={pickedMeta.htmlLang} dir={pickedMeta.dir} data-font={pickedMeta.font}>
+                {pickedMeta.welcome}
+              </span>
+            )}
+          </div>
+          <button type="button" className="btn btn-primary mt-2 w-full shrink-0" disabled={!picked} onClick={onStart}>
+            {startLabel}
+            <ArrowRight size={20} weight="bold" aria-hidden className="shrink-0 rtl:-scale-x-100" />
+          </button>
+        </>
+      )}
     </div>
   );
 }
@@ -323,6 +398,20 @@ function LiveStep({
   const tl = useMemo(() => buildTimeline(pairs, same, tMeta.font.startsWith("cjk") ? 72 : 30), [pairs, same, tMeta.font]);
   const [prog, setProg] = useState<Progress>({ line: 0, o: 0, t: 0, done: false });
   const scroller = useRef<HTMLDivElement>(null);
+  const spoken = useRef(new Set<number>());
+  const audioRef = useRef(audioOn);
+  audioRef.current = audioOn;
+
+  useEffect(() => {
+    if (!audioOn) cancelSpeech();
+  }, [audioOn]);
+  useEffect(() => () => cancelSpeech(), []);
+  useEffect(() => {
+    if (prog.t > 0 && !spoken.current.has(prog.line)) {
+      spoken.current.add(prog.line);
+      if (audioRef.current) speak(tLines[prog.line] ?? "", tMeta.htmlLang);
+    }
+  }, [prog, tLines, tMeta.htmlLang]);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

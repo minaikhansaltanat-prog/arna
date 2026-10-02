@@ -58,6 +58,8 @@
     "text": "Walk through the listener's screen: choose a language, confirm the voice and follow the translation.",
     "badge": "Scripted demo",
     "notice": "This is a scripted demonstration with prepared text. Real AI translation comes in the next phase.",
+    "start": "Demo with a sample scenario",
+    "qr": { "title": "Open on your phone", "hint": "Scan the QR code with your phone camera." },
     "steps": ["Language", "Voice", "Live", "Summary"],
     "lang": { "title": "Choose your language", "hint": "The speaker will be translated into this language." },
     "voice": {

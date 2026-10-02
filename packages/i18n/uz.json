@@ -58,6 +58,8 @@
     "text": "Tinglovchi yoʻlidan oʻting: tilni tanlang, ovozni tasdiqlang va tarjimani kuzating.",
     "badge": "Ssenariy boʻyicha demo",
     "notice": "Bu oldindan tayyorlangan matn asosidagi ssenariyli namoyish. Haqiqiy SI tarjimasi keyingi bosqichda qoʻshiladi.",
+    "start": "Ssenariy namunasida namoyish",
+    "qr": { "title": "Telefoningizda oching", "hint": "Telefon kamerasini QR-kodga qarating." },
     "steps": ["Til", "Ovoz", "Efir", "Xulosa"],
     "lang": { "title": "Tilingizni tanlang", "hint": "Spiker shu tilga tarjima qilinadi." },
     "voice": {

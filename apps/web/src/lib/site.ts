@@ -30,6 +30,9 @@ export const withBase = (path: string) => `${BASE_PATH}${path}`;
 /** Absolute URL for metadata, sitemap and structured data. */
 export const absUrl = (path: string) => `${SITE_URL}${BASE_PATH}${path}`;
 
+/** What "/" opens: the landing page ("site") or the standalone demo app ("demo", used on the VPS). */
+export const ROOT_VIEW = process.env.NEXT_PUBLIC_ROOT_VIEW === "demo" ? "demo" : "site";
+
 /** localStorage keys */
 export const STORAGE = { lang: "arna-lang", theme: "arna-theme", lead: "arna-last-lead" } as const;
 
