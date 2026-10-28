@@ -55,6 +55,27 @@ docs/                     құжаттар
 қысқартылған (бет жылдам жүктелуі үшін). Мәтінді өзгертсеңіз: `npm run fonts` қайта іске қосыңыз.
 Латын және кирилл қаріптері (Onest, Commissioner) толық, оларға бұл қажет емес.
 
+## Демо дауысы (алдын ала жазылған аудио)
+
+Демо `speechSynthesis` емес, дайын MP3 ойнатады: `apps/web/public/audio/demo/<тіл>/<1-5>.mp3`. Файлдардың ұзақтығы мен көлемі
+`apps/web/src/lib/demo-audio.json` ішінде (аударма мәтіні сол ұзақтықта «теріледі», сондықтан дауыс пен мәтін бірге аяқталады).
+Файл жоқ немесе жүктелмесе, мәтін бәрібір көрсетіледі. Тіл таңдалғанда 5 файл алдын ала жүктеледі, фон режимі мен Media Session
+(құлыптаулы экран, құлаққап) жұмыс істейді, субтитр режимінде (аудио өшірулі) дауыс болмайды.
+
+Басқа жерде жасалған файлдарды (`<тіл>-<n>.mp3`) `content/audio-source/` ішіне салып, `npm run demo:audio -- import` іске қосыңыз
+(ffmpeg керек, кілт керек емес): файлдар 96 kbps моно етіп қайта кодталып, `<тіл>/<n>.mp3` қалпына түседі, manifest жаңарады.
+`content/audio-source/` git-ке түспейді.
+
+Қайта жазу үшін `.env.local` (git-ке түспейді) ішіне `ELEVENLABS_API_KEY=...` қойыңыз, кілтті кодқа, логқа немесе commit-ке жазбаңыз:
+
+```bash
+npm run demo:audio -- all --dry-run --model eleven_v4 --voice <voice_id>   # неше таңба / несие кететінін көрсетеді
+npm run demo:audio -- sample --model eleven_v4 --voices <id1>,<id2>,<id3>  # қазақша бірінші сөйлем, тыңдап таңдау үшін
+npm run demo:audio -- all --model eleven_v4 --voice <voice_id>             # барлық 10 тіл, 96 kbps моно, жалпы көлем 3 МБ-тан аз
+```
+
+Қазақ, қырғыз, өзбек тілдерін `eleven_v4` және `eleven_v3` қолдайды (`multilingual_v2` және `flash/turbo v2.5` қолдамайды).
+
 ## Форма: лид жинау
 
 `apps/web/.env.local` (немесе Vercel Environment Variables):
@@ -120,6 +141,7 @@ curl -fsSL https://raw.githubusercontent.com/minaikhansaltanat-prog/arna/main/de
 | `npm run fonts` | тілге қарай қаріп файлдарын қайта құрады |
 | `npm run qa` | Puppeteer: 10 тіл x 11 экран өлшемі (320 px-тен 2560 px-ке дейін): көлденең скролл, бірінші экран (hero толық экран, толқын шеттен шетке, негізгі батырма), кең экран (түсті блоктар толық ені, мазмұн ені 1400-1600 px, жол ұзындығы ≤ 75 таңба), header, ☰/✕, RTL, қателер |
 | `npm run qa:demo` | демо ағыны (D-01...D-07), форма, WhatsApp түймесі, тақырып, тіл анықтау |
+| `npm run demo:audio -- <команда>` | демо дауысын ElevenLabs арқылы бір рет жазады (`models`, `voices`, `sample`, `all`) немесе дайын файлдарды қосады (`import`), төменде «Демо дауысы» |
 | `npm run check:case` | импорттардың әріп регистрін тексереді (Linux CI үшін) |
 | `npm run qa:a11y` | axe-core: WCAG 2 A/AA (контраст, ARIA), екі тақырып, десктоп және мобиль |
 | `python scripts/process-logo.py <Logo> <out>` | логотиптің "шахматты" фонын тазалап, мөлдір PNG/WebP жасайды |

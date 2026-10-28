@@ -1,6 +1,6 @@
 // Functional QA of the scripted demo, the pilot form, the WhatsApp button, theme and language detection.
 // Usage: node scripts/qa-demo.mjs [baseUrl=http://localhost:3000]
-import { mkdirSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import puppeteer from "puppeteer";
@@ -21,11 +21,49 @@ const ok = (cond, msg) => {
 
 const browser = await puppeteer.launch({ headless: true, args: ["--no-sandbox"] });
 
+// fake audio engine: records which voice files start playing and every pause (nothing is really played in the test)
+const fakeAudio = () => {
+  window.__sizes = new Map();
+  const create = URL.createObjectURL.bind(URL);
+  URL.createObjectURL = (blob) => {
+    const u = create(blob);
+    window.__sizes.set(u, blob.size);
+    return u;
+  };
+  window.__plays = [];
+  window.__pauses = 0;
+  HTMLMediaElement.prototype.play = function () {
+    window.__plays.push({ size: window.__sizes.get(this.src) ?? 0 });
+    return Promise.resolve();
+  };
+  HTMLMediaElement.prototype.pause = function () {
+    window.__pauses++;
+  };
+};
+// generated voice files are served as they are; while some are still missing a small stub stands in for them
+const audioDir = join(root, "apps", "web", "public", "audio", "demo");
+const stubAudio = (page, fetched, mode) => {
+  page.on("request", (r) => {
+    const m = /\/audio\/demo\/([a-z]{2})\/(\d)\.mp3/.exec(r.url());
+    if (!m) return r.continue();
+    fetched.push(`${m[1]}/${m[2]}`);
+    if (mode === "fail") return r.respond({ status: 404, body: "not found" });
+    if (existsSync(join(audioDir, m[1], `${m[2]}.mp3`))) return r.continue();
+    return r.respond({ status: 200, contentType: "audio/mpeg", body: Buffer.alloc(4096, 1) });
+  });
+};
+const manifest = JSON.parse(readFileSync(join(root, "apps", "web", "src", "lib", "demo-audio.json"), "utf8"));
+const haveVoice = Array.isArray(manifest.ja) && manifest.ja.length === 5;
+if (!haveVoice) console.log("  SKIP  voice tests: no generated audio for ja in demo-audio.json (run scripts/gen-demo-audio.mjs)");
+
 async function newPhone(lang, opts = {}) {
   const page = await browser.newPage();
   const errors = [];
   page.on("pageerror", (e) => errors.push(String(e)));
   page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
+  await page.setRequestInterception(true);
+  stubAudio(page, [], "ok");
+  await page.evaluateOnNewDocument(fakeAudio);
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 1, isMobile: true, hasTouch: true });
   if (opts.languages) await page.evaluateOnNewDocument((l) => Object.defineProperty(navigator, "languages", { get: () => l }), opts.languages);
   await page.goto(`${base}${lang ? `/${lang}/` : "/"}`, { waitUntil: "networkidle0" });
@@ -221,20 +259,11 @@ for (const [langs, expect, label] of [[["ko-KR", "en"], "/ko/", "browser languag
 /* ------------------------------------------------ 6. standalone demo app (/<lang>/demo/) */
 console.log("Standalone demo app");
 {
-  // fake speech engine: records what would be spoken, offers a Japanese voice only
-  const fakeSpeech = () => {
-    window.__spoken = [];
-    window.__cancels = 0;
-    const voices = [{ lang: "ja-JP", name: "Fake JP", default: true }];
-    window.SpeechSynthesisUtterance = function (t) {
-      this.text = t;
-    };
-    Object.defineProperty(window, "speechSynthesis", {
-      value: { getVoices: () => voices, speak: (u) => window.__spoken.push({ text: u.text, lang: u.lang }), cancel: () => window.__cancels++, addEventListener() {} },
-    });
-  };
   const page = await browser.newPage();
-  await page.evaluateOnNewDocument(fakeSpeech);
+  const fetched = [];
+  await page.setRequestInterception(true);
+  stubAudio(page, fetched, "ok");
+  await page.evaluateOnNewDocument(fakeAudio);
   await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
   await page.goto(`${base}/ru/demo/`, { waitUntil: "networkidle0" });
   await page.waitForSelector(".phone-lang");
@@ -256,6 +285,7 @@ console.log("Standalone demo app");
   ok((await page.$eval(".phone .btn-primary", (b) => b.textContent)) === "Демонстрация на примере сценария", "start button says «Демонстрация на примере сценария»");
   await page.click('.phone-lang[lang="ja"]');
   await sleep(500);
+  if (haveVoice) ok(["1", "2", "3", "4", "5"].every((n) => fetched.includes(`ja/${n}`)), "ja voice files are preloaded as soon as the language is chosen");
   ok((await step(page)) === "lang", "picking a language does not move on by itself in app mode");
   ok((await page.$eval(".phone .btn-primary", (b) => !b.disabled && b.textContent)) === "シナリオ例によるデモ", "start button is enabled and speaks the chosen language");
   await page.click(".phone .btn-primary");
@@ -267,17 +297,52 @@ console.log("Standalone demo app");
   await page.click(".phone .btn-primary");
   ok(await waitStep(page, "live", 4000), "confirming opens the live screen");
   await sleep(4000);
-  const sp1 = await page.evaluate(() => window.__spoken.filter((s) => s.text.trim()));
-  ok(sp1.length >= 1 && /[぀-ヿ一-龯]/.test(sp1[0].text), `the translated line is spoken with a Japanese voice (${sp1.length} so far)`);
-  const [audioBtn] = await page.$$(".ctl");
-  const cancelsBefore = await page.evaluate(() => window.__cancels);
-  await audioBtn.click();
-  await sleep(300);
-  ok((await page.evaluate(() => window.__cancels)) > cancelsBefore, "switching audio off stops the speech");
-  const countOff = await page.evaluate(() => window.__spoken.length);
-  await sleep(4500);
-  ok((await page.evaluate(() => window.__spoken.length)) === countOff, "no new speech while audio is off");
+  if (haveVoice) {
+    const lineStarts = () => page.evaluate(() => window.__plays.filter((p) => p.size > 1000).length);
+    ok((await lineStarts()) >= 1, "the first translated line starts playing as audio");
+    ok(await page.evaluate(() => !!navigator.mediaSession?.metadata?.title), "Media Session shows the running demo (lock screen and headset controls)");
+    const [audioBtn, , bgBtn] = await page.$$(".ctl");
+    const pausesA = await page.evaluate(() => window.__pauses);
+    await bgBtn.click();
+    await sleep(500);
+    ok(await page.$eval(".dim-overlay", (o) => o.dataset.open === "true"), "background mode dims the screen");
+    ok((await page.evaluate(() => window.__pauses)) === pausesA, "background mode keeps the audio playing (no pause)");
+    await page.click(".dim-overlay");
+    await sleep(400);
+    const pausesB = await page.evaluate(() => window.__pauses);
+    await audioBtn.click();
+    await sleep(300);
+    ok((await page.evaluate(() => window.__pauses)) > pausesB, "subtitles only: switching audio off stops the voice");
+    const startsOff = await lineStarts();
+    await sleep(4500);
+    ok((await lineStarts()) === startsOff, "no new voice line while audio is off");
+  }
   ok(await waitStep(page, "summary", 40000), "scenario ends with the summary");
+  await page.close();
+}
+if (haveVoice) {
+  // a voice file that fails to load never blocks the text: the line is still typed out
+  const page = await browser.newPage();
+  const fetched = [];
+  await page.setRequestInterception(true);
+  stubAudio(page, fetched, "fail");
+  await page.evaluateOnNewDocument(fakeAudio);
+  await page.setViewport({ width: 390, height: 844, isMobile: true, hasTouch: true });
+  await page.goto(`${base}/ru/demo/`, { waitUntil: "networkidle0" });
+  await page.waitForSelector(".phone-lang");
+  await sleep(800);
+  await page.click('.phone-lang[lang="ja"]');
+  await page.click(".phone .btn-primary");
+  await waitStep(page, "voice", 4000);
+  await sleep(2900);
+  await page.click(".phone .btn-primary");
+  await waitStep(page, "live", 4000);
+  // the text keeps the pace of the (missing) voice, so the first translated characters come after the source line plus part of the audio length
+  const typed = await page
+    .waitForFunction(() => [...document.querySelectorAll(".pair .trans")].reduce((a, e) => a + e.textContent.length, 0) > 20, { timeout: 15000 })
+    .then(() => true, () => false);
+  ok(typed, "voice files unavailable: the translated text is still shown");
+  ok((await page.evaluate(() => window.__plays.filter((p) => p.size > 1000).length)) === 0, "voice files unavailable: nothing is played and nothing breaks");
   await page.close();
 }
 {

@@ -11,3 +11,5 @@ __pycache__/
 temporary screenshots/
 apps/web/next-env.d.ts
 apps/web/tsconfig.tsbuildinfo
+content/audio-samples/
+content/audio-source/

@@ -15,11 +15,14 @@ import {
 } from "@phosphor-icons/react";
 import type { Dictionary, LocaleListItem } from "@arna/i18n";
 import { WaveCanvas } from "./WaveCanvas";
+import { audioLines } from "@/lib/demo-audio";
+import { bindSession, playLine, preloadVoice, stopVoice, unlockVoice } from "@/lib/demo-voice";
 import { withBase } from "@/lib/site";
 
 /**
  * Scripted browser demo (TZ 5.2). No speech recognition, no translation, no backend:
- * the transcript is prepared text from content/demo-script.json. It is labelled as a scripted demo at all times (D-09).
+ * the transcript is prepared text from content/demo-script.json and the voice is pre-recorded audio
+ * (public/audio/demo, made by scripts/gen-demo-audio.mjs; without a file the text simply goes on). It is labelled as a scripted demo at all times (D-09).
  * Steps: language (D-01) > voice check (D-02) > live listening (D-03/04/05) > auto-summary (D-06), restart at any time (D-07).
  */
 type Step = "lang" | "voice" | "live" | "summary";
@@ -42,33 +45,6 @@ type Props = {
 const STEPS: Step[] = ["lang", "voice", "live", "summary"];
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
-const hasSpeech = () => typeof window !== "undefined" && "speechSynthesis" in window;
-const norm = (l: string) => l.toLowerCase().replace("_", "-");
-
-function speak(text: string, lang: string) {
-  if (!hasSpeech() || !text) return;
-  const want = norm(lang);
-  const voices = window.speechSynthesis.getVoices();
-  const voice =
-    voices.find((v) => norm(v.lang) === want) ?? voices.find((v) => norm(v.lang).split("-")[0] === want.split("-")[0]);
-  if (!voice) return; // no voice for this language on this device: the demo stays silent
-  const u = new SpeechSynthesisUtterance(text);
-  u.voice = voice;
-  u.lang = voice.lang;
-  u.rate = 0.97;
-  window.speechSynthesis.speak(u);
-}
-function cancelSpeech() {
-  if (hasSpeech()) window.speechSynthesis.cancel();
-}
-/** iOS only allows speech that starts inside a tap: warm it up on the confirm button. */
-function unlockSpeech() {
-  if (!hasSpeech()) return;
-  const u = new SpeechSynthesisUtterance(" ");
-  u.volume = 0;
-  window.speechSynthesis.speak(u);
-}
-
 function graphemes(text: string): string[] {
   if (typeof Intl !== "undefined" && "Segmenter" in Intl) {
     return Array.from(new Intl.Segmenter(undefined, { granularity: "grapheme" }).segment(text), (s) => s.segment);
@@ -80,7 +56,7 @@ type Pair = { o: string[]; t: string[] };
 type Seg = { from: number; to: number; line: number; kind: "o" | "t"; n: number };
 type Progress = { line: number; o: number; t: number; done: boolean };
 
-function buildTimeline(pairs: Pair[], same: boolean, msPerChar: number) {
+function buildTimeline(pairs: Pair[], same: boolean, msPerChar: number, secs?: number[]) {
   const segs: Seg[] = [];
   let at = 350;
   pairs.forEach((p, line) => {
@@ -89,7 +65,8 @@ function buildTimeline(pairs: Pair[], same: boolean, msPerChar: number) {
       segs.push({ from: at, to: at + d, line, kind: "o", n: p.o.length });
       at += d + 240;
     }
-    const d = clamp(p.t.length * msPerChar, 700, 2300);
+    // with a voice file the translated line is typed over the length of its audio, so text and voice finish together
+    const d = secs?.[line] ? clamp(secs[line] * 1000, 700, 15000) : clamp(p.t.length * msPerChar, 700, 2300);
     segs.push({ from: at, to: at + d, line, kind: "t", n: p.t.length });
     at += d + 520;
   });
@@ -145,6 +122,7 @@ export function PhoneDemo({ dict: pageDict, locales, scripts, source, appMode = 
 
   const pick = (code: string) => {
     setTarget(code);
+    preloadVoice(code);
     onTargetChange?.(code);
     if (appMode) return; // app mode waits for the start button
     if (advance.current) clearTimeout(advance.current);
@@ -160,7 +138,7 @@ export function PhoneDemo({ dict: pageDict, locales, scripts, source, appMode = 
   }, [externalPick?.n]);
 
   const goLive = () => {
-    unlockSpeech();
+    unlockVoice(); // a tap: lets the audio element play the lines later
     setDim(false);
     setStep("live");
   };
@@ -241,6 +219,7 @@ export function PhoneDemo({ dict: pageDict, locales, scripts, source, appMode = 
                     subsOn={subsOn}
                     dim={dim}
                     onAudio={() => setAudioOn((v) => !v)}
+                    setAudio={setAudioOn}
                     onSubs={() => setSubsOn((v) => !v)}
                     onDim={setDim}
                     onDone={goSummary}
@@ -390,6 +369,7 @@ function LiveStep({
   subsOn,
   dim,
   onAudio,
+  setAudio,
   onSubs,
   onDim,
   onDone,
@@ -403,29 +383,58 @@ function LiveStep({
   subsOn: boolean;
   dim: boolean;
   onAudio: () => void;
+  setAudio: (v: boolean) => void;
   onSubs: () => void;
   onDim: (v: boolean) => void;
   onDone: () => void;
 }) {
   const same = tMeta.code === sMeta.code; // the speaker already speaks the listener's language
   const pairs = useMemo<Pair[]>(() => tLines.map((t, i) => ({ o: graphemes(sLines[i] ?? ""), t: graphemes(t) })), [tLines, sLines]);
-  const tl = useMemo(() => buildTimeline(pairs, same, tMeta.font.startsWith("cjk") ? 72 : 30), [pairs, same, tMeta.font]);
+  const secs = useMemo(() => audioLines(tMeta.code)?.map((l) => l.seconds), [tMeta.code]);
+  const tl = useMemo(() => buildTimeline(pairs, same, tMeta.font.startsWith("cjk") ? 72 : 30, secs), [pairs, same, tMeta.font, secs]);
   const [prog, setProg] = useState<Progress>({ line: 0, o: 0, t: 0, done: false });
   const scroller = useRef<HTMLDivElement>(null);
   const spoken = useRef(new Set<number>());
   const audioRef = useRef(audioOn);
   audioRef.current = audioOn;
+  const code = tMeta.code;
 
+  // Play voice line i (0-based). The text timer starts each line; while the tab is hidden or the screen is locked the timers
+  // stop, so the voice then chains itself: when a line ends it starts the next one.
+  const playFrom = useCallback(
+    (i: number) => {
+      void playLine(code, i + 1, () => {
+        const next = i + 1;
+        if (document.hidden && audioRef.current && next < tLines.length && !spoken.current.has(next)) {
+          spoken.current.add(next);
+          playFrom(next);
+        }
+      });
+    },
+    [code, tLines.length],
+  );
+
+  // lock-screen / headset controls (Media Session); leaving the live screen stops the voice
   useEffect(() => {
-    if (!audioOn) cancelSpeech();
+    const unbind = bindSession(
+      { title: dict.live.session, artist: "ARNA", artwork: withBase("/brand/emblem-512.png") },
+      { onPlay: () => setAudio(true), onPause: () => setAudio(false) },
+    );
+    return () => {
+      stopVoice();
+      unbind();
+    };
+  }, [dict.live.session, setAudio]);
+  // subtitles only: the voice is off
+  useEffect(() => {
+    if (!audioOn) stopVoice();
   }, [audioOn]);
-  useEffect(() => () => cancelSpeech(), []);
   useEffect(() => {
     if (prog.t > 0 && !spoken.current.has(prog.line)) {
       spoken.current.add(prog.line);
-      if (audioRef.current) speak(tLines[prog.line] ?? "", tMeta.htmlLang);
+      if (audioRef.current) playFrom(prog.line);
     }
-  }, [prog, tLines, tMeta.htmlLang]);
+  }, [prog, playFrom]);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

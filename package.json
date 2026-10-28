@@ -21,7 +21,8 @@
     "qa": "node scripts/qa-layout.mjs",
     "qa:demo": "node scripts/qa-demo.mjs",
     "qa:a11y": "node scripts/qa-a11y.mjs",
-    "check:case": "node scripts/check-case.mjs"
+    "check:case": "node scripts/check-case.mjs",
+    "demo:audio": "node scripts/gen-demo-audio.mjs"
   },
   "devDependencies": {
     "axe-core": "^4.13.0",
