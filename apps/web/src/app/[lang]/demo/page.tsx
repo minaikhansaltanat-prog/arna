@@ -6,7 +6,7 @@ import { MotionProvider } from "@/components/MotionProvider";
 import { PhoneDemo } from "@/components/PhoneDemo";
 import { QrCode } from "@/components/QrCode";
 import { WaveCanvas } from "@/components/WaveCanvas";
-import { demoScripts, demoSource } from "@/lib/demo-script";
+import { demoDicts, demoScripts, demoSource } from "@/lib/demo-script";
 import { absUrl, withBase } from "@/lib/site";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
@@ -30,7 +30,6 @@ export default async function DemoPage({ params }: { params: Promise<{ lang: str
   if (!isLocale(lang)) notFound();
   const dict = getDictionary(lang);
   const d = dict.demo;
-  const dicts = Object.fromEntries(localeList.map((l) => [l.code, getDictionary(l.code).demo]));
 
   return (
     <MotionProvider>
@@ -66,7 +65,7 @@ export default async function DemoPage({ params }: { params: Promise<{ lang: str
 
         <div className="relative">
           <div aria-hidden className="demo-halo" />
-          <PhoneDemo appMode dict={d} dicts={dicts} locales={localeList} scripts={demoScripts} source={demoSource} />
+          <PhoneDemo appMode dict={d} dicts={demoDicts} locales={localeList} scripts={demoScripts} source={demoSource} />
         </div>
         </div>
       </main>

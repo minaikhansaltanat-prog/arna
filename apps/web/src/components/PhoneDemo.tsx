@@ -32,9 +32,9 @@ type Props = {
   locales: LocaleListItem[];
   scripts: Record<string, Script>;
   source: string;
-  /** Standalone "app" page: choose a language, press start; after that the whole UI speaks the chosen language. */
+  /** Standalone "app" page: choose a language, then press the start button (the site section moves on by itself). */
   appMode?: boolean;
-  /** demo strings of every language (app mode only) */
+  /** demo strings of every language: from the moment a language is picked the whole phone speaks it */
   dicts?: Record<string, Dictionary["demo"]>;
   /** the language strands next to the phone choose a language from outside (each click has its own `n`) */
   externalPick?: { code: string; n: number } | null;
@@ -103,9 +103,8 @@ export function PhoneDemo({ dict: pageDict, locales, scripts, source, appMode = 
 
   const tMeta = locales.find((l) => l.code === target) ?? null;
   const sMeta = locales.find((l) => l.code === source) ?? locales[0];
-  // app mode: once the demo starts, every label switches to the language the visitor picked
-  const localized = appMode && !!tMeta && step !== "lang";
-  const dict = (localized && dicts?.[tMeta.code]) || pageDict;
+  // the moment a language is picked every label in the phone switches to it; a restart goes back to the page language
+  const dict = (tMeta && dicts?.[tMeta.code]) || pageDict;
 
   const reset = useCallback(() => {
     if (advance.current) clearTimeout(advance.current);
@@ -153,7 +152,7 @@ export function PhoneDemo({ dict: pageDict, locales, scripts, source, appMode = 
     <div
       className={`phone dark-scope${appMode ? " phone--app" : ""}`}
       data-step={step}
-      {...(localized && tMeta ? { lang: tMeta.htmlLang, dir: tMeta.dir, "data-font": tMeta.font } : {})}
+      {...(tMeta ? { lang: tMeta.htmlLang, dir: tMeta.dir, "data-font": tMeta.font } : {})}
     >
       <div className="phone__bezel">
         <div className="phone__screen">
@@ -203,7 +202,6 @@ export function PhoneDemo({ dict: pageDict, locales, scripts, source, appMode = 
                     picked={target}
                     onPick={pick}
                     appMode={appMode}
-                    startLabel={(target && dicts?.[target]?.start) || pageDict.start}
                     onStart={() => setStep("voice")}
                   />
                 )}
@@ -244,7 +242,6 @@ function LangStep({
   picked,
   onPick,
   appMode,
-  startLabel,
   onStart,
 }: {
   dict: Dictionary["demo"];
@@ -252,7 +249,6 @@ function LangStep({
   picked: string | null;
   onPick: (code: string) => void;
   appMode: boolean;
-  startLabel: string;
   onStart: () => void;
 }) {
   const pickedMeta = locales.find((l) => l.code === picked) ?? null;
@@ -260,7 +256,7 @@ function LangStep({
     <div className="flex h-full flex-col">
       <h3 className="phone-title">{dict.lang.title}</h3>
       <p className="mt-1.5 text-[0.9rem] leading-snug text-muted">{dict.lang.hint}</p>
-      <ul className="no-scrollbar mt-4 grid min-h-0 flex-1 list-none auto-rows-min grid-cols-2 content-start gap-2 overflow-y-auto overscroll-contain p-0">
+      <ul className="phone-langs no-scrollbar mt-4 grid min-h-0 flex-1 list-none auto-rows-min grid-cols-2 content-start gap-2 overflow-y-auto overscroll-contain p-0">
         {locales.map((l) => (
           <li key={l.code}>
             <button type="button" className="phone-lang" aria-pressed={picked === l.code} onClick={() => onPick(l.code)} lang={l.htmlLang}>
@@ -286,7 +282,7 @@ function LangStep({
             )}
           </div>
           <button type="button" className="btn btn-primary mt-2 w-full shrink-0" disabled={!picked} onClick={onStart}>
-            {startLabel}
+            {dict.start}
             <ArrowRight size={20} weight="bold" aria-hidden className="shrink-0 rtl:-scale-x-100" />
           </button>
         </>
@@ -471,7 +467,7 @@ function LiveStep({
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center justify-between gap-3">
-        <p className="min-w-0 truncate text-[0.88rem] font-semibold">{dict.live.session}</p>
+        <p className="min-w-0 text-[0.88rem] font-semibold leading-snug">{dict.live.session}</p>
         <span className="live-pill" data-ended={prog.done}>
           {!prog.done && <i aria-hidden />}
           {prog.done ? dict.summary.ended : dict.live.liveLabel}

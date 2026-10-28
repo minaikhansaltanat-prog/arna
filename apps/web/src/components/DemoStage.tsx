@@ -15,6 +15,7 @@ type Script = { lines: string[]; summary: string[] };
  */
 export function DemoStage({
   dict,
+  dicts,
   locales,
   scripts,
   source,
@@ -23,6 +24,7 @@ export function DemoStage({
   notice,
 }: {
   dict: Dictionary["demo"];
+  dicts: Record<string, Dictionary["demo"]>;
   locales: LocaleListItem[];
   scripts: Record<string, Script>;
   source: string;
@@ -53,7 +55,7 @@ export function DemoStage({
       <div className="demo-note">{notice}</div>
       <div className="demo-phone">
         <div aria-hidden className="demo-halo" />
-        <PhoneDemo dict={dict} locales={locales} scripts={scripts} source={source} externalPick={ext} onTargetChange={setPicked} />
+        <PhoneDemo dict={dict} dicts={dicts} locales={locales} scripts={scripts} source={source} externalPick={ext} onTargetChange={setPicked} />
       </div>
     </div>
   );

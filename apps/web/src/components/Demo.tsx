@@ -1,6 +1,6 @@
 import { Info } from "@phosphor-icons/react/dist/ssr";
 import type { Dictionary, LocaleListItem } from "@arna/i18n";
-import { demoScripts, demoSource } from "@/lib/demo-script";
+import { demoDicts, demoScripts, demoSource } from "@/lib/demo-script";
 import { SECTIONS } from "@/lib/site";
 import { DemoStage } from "./DemoStage";
 import type { Slogan } from "./HeroCaption";
@@ -13,6 +13,7 @@ export function Demo({ dict, locales, slogans }: { dict: Dictionary["demo"]; loc
       <div aria-hidden className="demo-backdrop" />
       <DemoStage
         dict={dict}
+        dicts={demoDicts}
         locales={locales}
         scripts={demoScripts}
         source={demoSource}

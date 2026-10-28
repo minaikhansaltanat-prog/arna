@@ -74,6 +74,9 @@ both themes. Tokens that depend on theme colours (`--strand`) are declared insid
   HTML. The hero's module line opens a module through the `arna:module` event.
 - Language strands: ten hairlines from the ARNA mark, one button per language (`aria-pressed`), shared choice with the
   phone (`externalPick` / `onTargetChange` on `PhoneDemo`). Rows are at least 44px.
+- Scripted phone: the moment a language is picked, every label in it (all four steps, the buttons, the subtitles) switches to
+  that language and the phone takes its `lang`, `dir` and `data-font` (Arabic reads right to left). The language grid keeps the
+  page's direction, so the buttons do not jump sideways. A restart returns to the page language. Labels wrap, none is truncated.
 - Audience timeline: a hairline with nodes, four rows. Pricing: flat cards, the recommended one has a gold border.
 - Interactive = pill, containers = 24 to 28px, inputs = 16px. Touch targets 44px or more; inputs are 16px text.
 
