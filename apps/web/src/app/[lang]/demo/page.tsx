@@ -37,7 +37,7 @@ export default async function DemoPage({ params }: { params: Promise<{ lang: str
       <main className="demo-app relative isolate">
         <div aria-hidden className="hero-atmosphere absolute inset-0 -z-10" />
         <div aria-hidden className="demo-app__wave">
-          <WaveCanvas className="size-full" amp={1.1} weight={0.06} speed={0.8} seed={1} />
+          <WaveCanvas className="size-full" amp={0.9} weight={1.6} speed={0.8} seed={1} />
         </div>
         <h1 className="sr-only">{d.title}</h1>
 

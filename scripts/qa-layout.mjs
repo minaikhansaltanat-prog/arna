@@ -1,6 +1,10 @@
 // Automated layout QA (TZ section 8, scenarios 1, 2, 6 + the mobile requirements).
 // Usage: node scripts/qa-layout.mjs [baseUrl=http://localhost:3000] [--quick]
 // For every language and several screen sizes it checks:
+//   - the first screen: the hero fills the screen edge to edge, the wave runs from edge to edge and is visible,
+//     the main action is on screen and the module line does not sit under the floating WhatsApp button
+//   - wide screens: every section band is full width, the content column grows to 1400-1600px from 1920px up,
+//     and no paragraph line is longer than 75 characters
 //   - no horizontal overflow, and a sideways swipe / scrollTo cannot move the page
 //   - the header is fixed and stays at top:0 after scrolling
 //   - phones: burger on the far end, language button directly next to it, menu opens, burger becomes X, menu closes
@@ -19,8 +23,8 @@ const arg = (n) => process.argv.find((a) => a.startsWith(`--${n}=`))?.split("=")
 const SIZE_ARG = arg("sizes");
 const LOCALES = (arg("locales") || "ru,kk,en,zh,uz,ky,ko,ja,hi,ar").split(",");
 const SIZES = SIZE_ARG ? SIZE_ARG.split(",").map((x) => x.split("x").map(Number)) : quick
-  ? [[360, 740], [390, 844], [1024, 768], [1280, 800], [1440, 900]]
-  : [[320, 640], [360, 740], [390, 844], [414, 896], [768, 1024], [1024, 768], [1280, 800], [1366, 768], [1440, 900]];
+  ? [[360, 740], [390, 844], [1024, 768], [1280, 800], [1440, 900], [1920, 1080], [2560, 1440]]
+  : [[320, 640], [360, 740], [390, 844], [414, 896], [768, 1024], [1024, 768], [1280, 800], [1366, 768], [1440, 900], [1920, 1080], [2560, 1440]];
 const dict = (l) => JSON.parse(readFileSync(join(root, "packages", "i18n", `${l}.json`), "utf8"));
 
 const failures = [];
@@ -44,6 +48,37 @@ for (const lang of LOCALES) {
     await page.setViewport({ width: w, height: h, deviceScaleFactor: 1, isMobile: w <= 768, hasTouch: w <= 768 });
     await page.goto(`${base}/${lang}/`, { waitUntil: "networkidle0", timeout: 60000 });
     await sleep(500);
+
+    // ---- first screen (scroll 0) and wide-screen rules
+    const fs = await page.evaluate(() => {
+      const r = (el) => (el ? el.getBoundingClientRect() : null);
+      return {
+        iw: innerWidth,
+        ih: innerHeight,
+        hero: r(document.querySelector(".hero")),
+        wave: r(document.querySelector(".hero-wave canvas")),
+        wrapW: r(document.querySelector("main .wrap")).width,
+        axis: [...document.querySelectorAll(".hero-axis a")].map(r),
+        fab: r(document.querySelector(".wa-fab__btn")),
+        cta: r(document.querySelector(".hero-cta .btn-primary")),
+        bands: [...document.querySelectorAll("main .section")].map((s) => Math.round(r(s).width)),
+      };
+    });
+    checks++;
+    if (!fs.hero || fs.hero.width < fs.iw - 1) fail(ctx, `hero is ${Math.round(fs.hero?.width)}px wide on a ${fs.iw}px screen`);
+    if (fs.hero && fs.hero.height < fs.ih - 2) fail(ctx, `hero is ${Math.round(fs.hero.height)}px tall, shorter than the ${fs.ih}px screen`);
+    if (!fs.wave || fs.wave.left > 1 || fs.wave.right < fs.iw - 1) fail(ctx, `hero wave does not run edge to edge (${Math.round(fs.wave?.left)}..${Math.round(fs.wave?.right)} of ${fs.iw})`);
+    if (fs.wave && (fs.wave.height < 100 || fs.wave.top < 0 || fs.wave.bottom > fs.ih + 1)) fail(ctx, `hero wave is not fully on the first screen (top ${Math.round(fs.wave.top)}, bottom ${Math.round(fs.wave.bottom)}, screen ${fs.ih})`);
+    if (fs.cta && fs.cta.bottom > fs.ih) fail(ctx, "the main action is below the first screen");
+    if (fs.bands.some((bw) => bw < fs.iw - 1)) fail(ctx, `a section band is narrower than the screen: ${fs.bands.join(",")}`);
+    if (w >= 1920 && (fs.wrapW < 1400 || fs.wrapW > 1601)) fail(ctx, `content column is ${Math.round(fs.wrapW)}px on a ${w}px screen (expected 1400-1600)`);
+    else if (w >= 1440 && fs.wrapW < 1290) fail(ctx, `content column is only ${Math.round(fs.wrapW)}px on a ${w}px screen`);
+    else if (w >= 1280 && fs.wrapW < 1230) fail(ctx, `content column is only ${Math.round(fs.wrapW)}px on a ${w}px screen`);
+    for (const a of fs.axis) {
+      const inView = a.bottom <= fs.ih + 1;
+      const hit = fs.fab && a.left < fs.fab.right && a.right > fs.fab.left && a.top < fs.fab.bottom && a.bottom > fs.fab.top;
+      if (inView && hit) fail(ctx, "the module line sits under the floating WhatsApp button");
+    }
 
     // walk the page so every lazy block is laid out
     await page.evaluate(async () => {
@@ -96,6 +131,33 @@ for (const lang of LOCALES) {
         brokenImgs: [...document.images].filter((i) => i.complete && i.naturalWidth === 0).map((i) => i.src),
       };
     });
+
+    // line length: no paragraph line may hold more than 75 characters
+    const longest = await page.evaluate(() => {
+      let worst = { n: 0, text: "" };
+      for (const el of document.querySelectorAll("main p")) {
+        if (el.closest(".phone, [aria-hidden='true']")) continue;
+        if (el.textContent.trim().length < 60) continue;
+        const lines = new Map();
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        const seg = new Intl.Segmenter(undefined, { granularity: "grapheme" });
+        for (let t = walker.nextNode(); t; t = walker.nextNode()) {
+          for (const g of seg.segment(t.data)) {
+            const rg = document.createRange();
+            rg.setStart(t, g.index);
+            rg.setEnd(t, g.index + g.segment.length);
+            const rc = rg.getClientRects()[0];
+            if (!rc || rc.width === 0) continue;
+            const key = Math.round(rc.top / 4);
+            lines.set(key, (lines.get(key) || 0) + 1);
+          }
+        }
+        const n = Math.max(0, ...lines.values());
+        if (n > worst.n) worst = { n, text: el.textContent.trim().slice(0, 50) };
+      }
+      return worst;
+    });
+    if (longest.n > 75) fail(ctx, `a text line has ${longest.n} characters (max 75): "${longest.text}"`);
 
     checks++;
     if (m.scrollW > m.innerW) fail(ctx, `document scrollWidth ${m.scrollW} > viewport ${m.innerW}`);

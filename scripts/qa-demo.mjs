@@ -1,11 +1,12 @@
 // Functional QA of the scripted demo, the pilot form, the WhatsApp button, theme and language detection.
 // Usage: node scripts/qa-demo.mjs [baseUrl=http://localhost:3000]
-import { readFileSync } from "node:fs";
+import { mkdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import puppeteer from "puppeteer";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+mkdirSync(join(root, "..", "temporary screenshots"), { recursive: true }); // the run saves its screenshots next to the repo
 const base = (process.argv.find((a) => a.startsWith("http")) || "http://localhost:3000").replace(/\/$/, "");
 const dict = (l) => JSON.parse(readFileSync(join(root, "packages", "i18n", `${l}.json`), "utf8"));
 const script = JSON.parse(readFileSync(join(root, "content", "demo-script.json"), "utf8")).scripts;

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, PhoneCall, WhatsappLogo } from "@phosphor-icons/react";
 import type { Dictionary, LocaleListItem } from "@arna/i18n";
-import { PHONE_DISPLAY, PHONE_TEL, SECTIONS, waLink, withBase } from "@/lib/site";
+import { LIVE_URL, PHONE_DISPLAY, PHONE_TEL, SECTIONS, waLink, withBase } from "@/lib/site";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -17,7 +17,7 @@ type Props = {
   waMessage: string;
 };
 
-const LINKS = ["how", "demo", "features", "cases", "pricing"] as const;
+const LINKS = ["how", "modules", "demo", "cases", "pricing"] as const;
 
 /**
  * Fixed header. Desktop: logo, links, language, theme, CTA.
@@ -76,8 +76,7 @@ export function Header({ lang, locales, nav, a11y, call, whatsapp, waMessage }: 
       <header className="site-header" data-scrolled={scrolled} data-menu-open={open}>
         <div className="wrap flex h-full items-center justify-between gap-3">
           <a href={withBase(`/${lang}/`)} className="brand-link" aria-label={a11y.home} onClick={close}>
-            <img src={withBase("/brand/emblem-96.png")} width={38} height={38} alt="" className="size-[38px] shrink-0" />
-            <span className="brand-word">ARNA</span>
+            <img src={withBase("/brand/wordmark-sm.webp")} width={300} height={74} alt="" className="brand-mark" fetchPriority="high" />
           </a>
 
           <nav aria-label={a11y.mainNav} className="hidden items-center gap-1 xl:flex">
@@ -91,8 +90,8 @@ export function Header({ lang, locales, nav, a11y, call, whatsapp, waMessage }: 
           <div className="flex items-center gap-1 sm:gap-1.5">
             <ThemeToggle toDark={a11y.themeToDark} toLight={a11y.themeToLight} className="hidden xl:inline-grid" />
             <LanguageSwitcher current={lang} locales={locales} label={a11y.langSwitch} />
-            <a href={`#${SECTIONS.pilot}`} className="btn btn-primary btn-sm ms-1 hidden whitespace-nowrap xl:inline-flex">
-              {nav.pilot}
+            <a href={LIVE_URL} className="btn btn-primary btn-sm ms-1 hidden whitespace-nowrap xl:inline-flex">
+              {nav.live}
             </a>
             <button
               ref={burgerRef}
@@ -126,8 +125,11 @@ export function Header({ lang, locales, nav, a11y, call, whatsapp, waMessage }: 
             </ul>
           </nav>
 
-          <div className="menu-item mt-8" style={{ ["--i" as string]: LINKS.length }}>
-            <a href={`#${SECTIONS.pilot}`} className="btn btn-primary w-full" onClick={close}>
+          <div className="menu-item mt-8 grid gap-3" style={{ ["--i" as string]: LINKS.length }}>
+            <a href={LIVE_URL} className="btn btn-primary w-full">
+              {nav.live}
+            </a>
+            <a href={`#${SECTIONS.pilot}`} className="btn btn-ghost w-full" onClick={close}>
               {nav.pilot}
             </a>
           </div>

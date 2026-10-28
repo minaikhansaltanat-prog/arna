@@ -1,6 +1,7 @@
 # ARNA: лендинг және браузерлік демо (1-кезең)
 
 Нақты уақыттағы дауыстық аударма платформасының жарнамалық беті және сценарийлі демо.
+Дизайн бағыты «Бір сызық»: жіңішке алтын дыбыс толқыны hero-дан бастап бүкіл бетті байланыстырады (`docs/design-system.md`).
 Next.js 16 (статикалық экспорт), TypeScript, Tailwind CSS 4, Motion. Backend пен дерекқор жоқ.
 
 - Он тіл: `ru kk en zh uz ky ko ja hi ar` (араб тілінде толық RTL).
@@ -27,7 +28,7 @@ Node 20.9+ қажет. Қаріптер мен суреттер репозито
 apps/web/                 Next.js қосымшасы (лендинг + демо)
   src/app/[lang]/         әр тіл үшін бет: /ru/ /kk/ /en/ ...
   src/app/(redirect)/     "/" : сақталған немесе браузер тіліне бағыттайды
-  src/components/         Header, Hero, PhoneDemo, Features, Cases, Pricing, PilotForm, ...
+  src/components/         Header, Hero, WaveCanvas, ModuleTabs, LangStrands, PhoneDemo, Cases, Pricing, PilotForm, ...
   public/brand/           логотип (фоны тазаланған), favicon
   public/images/          суреттер (docs/photo-credits.md)
   public/fonts/           өзіміз хосттайтын қаріптер (тілге қарай бөлінген)
@@ -79,6 +80,8 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.kz
 Pages сайты `/arna/` ішкі жолында тұрады, сондықтан жинау кезінде `NEXT_PUBLIC_BASE_PATH=/arna` беріледі (workflow өздігінен береді).
 Форма коннекторын қосу үшін: **Settings > Secrets and variables > Actions > Variables** ішінде `NEXT_PUBLIC_LEAD_ENDPOINT`.
 
+Жеткізу (өз домені): `NEXT_PUBLIC_SITE_URL=https://arnavoice.com NEXT_PUBLIC_ROOT_VIEW=site npm run build`, нәтижесі `apps/web/out`.
+
 Жергілікті тексеру (Pages-пен бірдей): PowerShell-де
 `$env:NEXT_PUBLIC_BASE_PATH='/arna'; npm run build; $env:BASE_PATH='/arna'; node ../serve.mjs` және `http://localhost:3000/arna/`.
 
@@ -115,7 +118,7 @@ curl -fsSL https://raw.githubusercontent.com/minaikhansaltanat-prog/arna/main/de
 | `npm run i18n:registry` | `packages/i18n/*.json` тізілімін жаңартады (dev/build алдында өздігінен жүреді) |
 | `npm run i18n:check` | аударма толықтығын және ережелерді тексереді |
 | `npm run fonts` | тілге қарай қаріп файлдарын қайта құрады |
-| `npm run qa` | Puppeteer: 10 тіл x 9 экран өлшемі: көлденең скролл, header, ☰/✕, RTL, қателер |
+| `npm run qa` | Puppeteer: 10 тіл x 11 экран өлшемі (320 px-тен 2560 px-ке дейін): көлденең скролл, бірінші экран (hero толық экран, толқын шеттен шетке, негізгі батырма), кең экран (түсті блоктар толық ені, мазмұн ені 1400-1600 px, жол ұзындығы ≤ 75 таңба), header, ☰/✕, RTL, қателер |
 | `npm run qa:demo` | демо ағыны (D-01...D-07), форма, WhatsApp түймесі, тақырып, тіл анықтау |
 | `npm run check:case` | импорттардың әріп регистрін тексереді (Linux CI үшін) |
 | `npm run qa:a11y` | axe-core: WCAG 2 A/AA (контраст, ARIA), екі тақырып, десктоп және мобиль |
@@ -124,6 +127,9 @@ curl -fsSL https://raw.githubusercontent.com/minaikhansaltanat-prog/arna/main/de
 `npm run qa*` үшін алдымен `npm run build` және статикалық серверді (мысалы `npx serve apps/web/out -l 3000`) іске қосыңыз.
 
 ## Растау қажет жерлер
+
+- Бес модульдің (Live, Желі, Видео, Оқу, Сөйлесу) сипаттамасы жалпы мәтін: ТЗ-ның толық нұсқасымен салыстырып, мәртебесін
+  (қолжетімді / жақында) растаңыз. Қазір тек Live сервиске (`https://app.arnavoice.com/live`) сілтейді.
 
 - Аударма: барлық тіл мұқият дайындалған, бірақ ТЗ 9-бөліміне сай әр тілде ана тілді тексеруші қарап шыққаны жөн
   (әсіресе қазақша грамматика, демо транскрипті, араб RTL).

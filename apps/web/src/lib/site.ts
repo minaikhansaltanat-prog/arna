@@ -36,5 +36,8 @@ export const ROOT_VIEW = process.env.NEXT_PUBLIC_ROOT_VIEW === "demo" ? "demo" :
 /** localStorage keys */
 export const STORAGE = { lang: "arna-lang", theme: "arna-theme", lead: "arna-last-lead" } as const;
 
+/** The live product (a separate service); the marketing site links to it from the header, hero and modules. */
+export const LIVE_URL = "https://app.arnavoice.com/live";
+
 /** Section anchors, in page order. */
-export const SECTIONS = { how: "how", demo: "demo", features: "features", cases: "cases", pricing: "pricing", pilot: "pilot" } as const;
+export const SECTIONS = { how: "how", modules: "modules", demo: "demo", cases: "cases", pricing: "pricing", pilot: "pilot" } as const;

@@ -4,8 +4,9 @@
 //    Both cover Kazakh ә ғ қ ң ө ұ ү һ і and Uzbek oʻ gʻ (verified by glyph map, see docs/fonts.md).
 //  * Chinese / Japanese / Korean / Hindi / Arabic: Noto families, each cut down to exactly the characters
 //    the site uses in that language (a few KB instead of several MB). Re-run this script after editing copy.
-//  * "ARNA Names": tiny per-script subsets so the language switcher and the greeting chips show native
-//    names correctly on every page without loading a whole CJK / Indic / Arabic font.
+//  * "ARNA Names": tiny per-script subsets so the language switcher, the language strands and the hero's slogan
+//    caption (the slogan in every language) show native text correctly on every page without loading a whole
+//    CJK / Indic / Arabic font. They are one static weight (600), a few KB each, instead of a variable 500..800.
 //
 // Output: apps/web/public/fonts/*.woff2, apps/web/src/app/fonts.generated.css, apps/web/src/lib/fonts.manifest.json
 // Needs network access to fonts.googleapis.com (run it when copy or fonts change; results are committed).
@@ -79,6 +80,7 @@ for (const f of readdirSync(i18nDir).filter((x) => /^[a-z]{2,3}\.json$/.test(x))
   const ds = demo.scripts[code];
   locales[code] = {
     meta: d._meta,
+    slogan: d.hero.title.join(" "), // shown in every language by the hero caption and under the language strands
     text: [...strings(d), ...(ds ? [...ds.lines, ...ds.summary] : [])].join(""),
   };
 }
@@ -162,7 +164,9 @@ for (const [code, { meta, text }] of Object.entries(locales)) {
     continue;
   }
   const cps = [...new Set([...text].map((c) => c.codePointAt(0)))].filter((cp) => cp > 32);
-  for (const slug of ["onest", "commissioner"]) {
+  // only the display face (the slogan) is preloaded; the body face loads on demand with font-display: swap,
+  // so the first paint is not queued behind it on a slow phone connection
+  for (const slug of ["onest"]) {
     for (const s of famSubsets[slug]) {
       const n = cps.filter((cp) => rangeHas(s.range, cp)).length;
       if (n > 0 && s.subset !== "latin-ext") manifest.preload[code].push(s.url);
@@ -171,12 +175,12 @@ for (const [code, { meta, text }] of Object.entries(locales)) {
 }
 
 // ---------------------------------------------------------------- 3. native names / greetings (all pages)
-for (const [code, { meta }] of Object.entries(locales)) {
+for (const [code, { meta, slogan }] of Object.entries(locales)) {
   const defs = SCRIPT_FONTS[meta.font];
   if (!defs) continue;
-  const chars = uniqueChars(meta.nativeName + meta.welcome);
+  const chars = uniqueChars(meta.nativeName + meta.welcome + slogan);
   const def = defs.find((d) => d.role === "main");
-  const b = await textSubset(def.family, "500..800", chars);
+  const b = await textSubset(def.family, "600", chars);
   const family = `ARNA Names ${code}`;
   const { url, bytes } = await save(`names-${code}`, b.url);
   css.push(face(family, b.weight, url, b.range));

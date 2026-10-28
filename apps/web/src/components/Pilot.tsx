@@ -1,25 +1,23 @@
 import { PhoneCall, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import type { Dictionary } from "@arna/i18n";
-import { PHONE_DISPLAY, PHONE_TEL, SECTIONS, waLink, withBase } from "@/lib/site";
+import { PHONE_DISPLAY, PHONE_TEL, SECTIONS, waLink } from "@/lib/site";
 import { PilotForm } from "./PilotForm";
 import { Reveal } from "./Reveal";
+import { SectionNode } from "./SectionNode";
+import { WaveRule } from "./WaveRule";
 
-/** L-06 / 5.4: the pilot sign-up. Copy and contacts on one side, the form (floating layer) on the other. */
+/** The pilot sign-up: a full-width petrol block, the wave along its top edge, copy and contacts beside the form. */
 export function Pilot({ dict, lang, langName, waMessage }: { dict: Dictionary["pilot"]; lang: string; langName: string; waMessage: string }) {
   return (
-    <section id={SECTIONS.pilot} className="section section--recessed pilot-section">
-      <div className="wrap grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-16">
+    <section id={SECTIONS.pilot} className="section pilot-section dark-scope">
+      <WaveRule className="pilot-wave" peak={0.34} height={96} seed={5} />
+      <div className="wrap relative grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-16">
+        <SectionNode />
         <Reveal>
           <h2 className="section-title">{dict.title}</h2>
-          <p className="mt-5 max-w-[30rem] text-[1.0625rem] text-muted sm:text-lg">{dict.text}</p>
+          <p className="prose mt-5 text-[1.0625rem] text-muted sm:text-lg">{dict.text}</p>
 
-          <div className="photo-card dark-scope mt-9 hidden md:block">
-            <img src={withBase("/images/panel.webp")} width={1200} height={800} alt="" loading="lazy" decoding="async" className="photo-fill" style={{ objectPosition: "50% 60%" }} />
-            <div aria-hidden className="photo-tint" />
-            <div aria-hidden className="photo-fade" />
-          </div>
-
-          <div className="mt-8">
+          <div className="mt-9">
             <p className="text-[0.95rem] font-semibold">{dict.contactTitle}</p>
             <div className="mt-3 flex flex-col gap-3 sm:flex-row">
               <a href={`tel:${PHONE_TEL}`} className="btn btn-ghost">

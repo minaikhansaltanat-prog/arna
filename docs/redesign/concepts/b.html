@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="kk"><head><meta charset="utf-8"><title>B · Арна</title>
+<link rel="stylesheet" href="base.css">
+<style>
+  .B h1 { position: absolute; left: 132px; top: 112px; font-size: 84px; }
+  .B .col { position: absolute; left: 132px; top: 338px; width: 420px; }
+  .B .col .row { display: flex; gap: 12px; margin-top: 26px; }
+  .B .name { position: absolute; left: 132px; top: 640px; width: 380px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .B .name b { display: block; font: 600 38px/1 var(--fd); letter-spacing: -0.03em; color: var(--gold-text); margin-bottom: 10px; }
+  .B .name p { color: var(--muted); font-size: 16px; line-height: 1.6; }
+  .B .dia { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; pointer-events: none; }
+  .B .lbl { position: absolute; left: 1080px; transform: translateY(-50%); font: 500 16px var(--fb); height: 32px; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .B .lbl small { color: var(--muted); font: 600 11px var(--fb); letter-spacing: .12em; text-transform: uppercase; }
+  .B .lbl.on { background: var(--fg); color: var(--bg); padding: 0 14px 0 12px; border-radius: 99px; margin-left: -12px; }
+  .B .lbl.on small { color: var(--gold); }
+  .B .hint { position: absolute; left: 1068px; top: 296px; font: 500 14px var(--fb); color: var(--muted); width: 240px; }
+  .B .hint::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 8px; background: var(--gold); border-radius: 50%; }
+  .B .src { position: absolute; left: 540px; top: 618px; font: 500 14px var(--fb); color: var(--muted); }
+</style></head>
+<body class="B light">
+<header class="hdr">
+  <img class="logo" src="../../../apps/web/public/brand/wordmark.png" alt="ARNA">
+  <nav class="nav"><span>Қалай істейді</span><span>Модульдер</span><span>Демо</span><span>Кімге керек</span><span>Тарифтер</span></nav>
+  <div class="right"><span class="pill">☀</span><span class="pill">Қазақша ⌄</span><span class="btn btn-gold btn-sm">Тікелей сынап көру</span></div>
+</header>
+
+<h1>Тілдік кедергісіз әлем.<br><em>Бірге дамиық.</em></h1>
+
+<div class="col">
+  <p class="sub">ARNA спикердің сөзін тікелей он тілге аударады. Әр тыңдаушы өз телефонында өз тілінде тыңдайды.</p>
+  <div class="row"><span class="btn btn-gold">Тікелей сынап көру <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="btn btn-ghost">Пилотқа қатысу</span></div>
+</div>
+
+<div class="name"><b>арна</b><p>Ағыс жүретін жол. Біз сөз бен тыңдаушының арасына дәл осындай жол саламыз.</p></div>
+
+<svg class="dia" viewBox="0 0 1440 900" id="d"></svg>
+<div id="labels"></div>
+<div class="hint">Әр тыңдаушы өз тілін таңдайды</div>
+<div class="src">Спикер</div>
+
+<script src="wave.js"></script>
+<script>
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.getElementById("d");
+  const CY = 565, GX = 800, X0 = 842, X1 = 1046, TOP = 340, STEP = 50;
+  const langs = [["ru","Русский"],["kk","Қазақша"],["en","English"],["zh","中文"],["uz","Oʻzbekcha"],["ky","Кыргызча"],["ko","한국어"],["ja","日本語"],["hi","हिन्दी"],["ar","العربية"]];
+  const ACTIVE = 2;
+  let html = "";
+  // the speaker's own wave (emblem shape), calm, left of the gate
+  const w = arnaWave({ w: 270, cy: 0, cx: 0.66, up: 78, s: 2.5 });
+  html += `<g transform="translate(528,${CY})"><path d="${w}" fill="none" stroke="#D89B2A" stroke-width="1.8" stroke-linejoin="round"/></g>`;
+  html += `<path d="M798 ${CY} H${GX}" stroke="#D89B2A" stroke-width="1.8"/>`;
+  // ten strands: the channel splits into one line per language
+  langs.forEach(([c], i) => {
+    const y = TOP + i * STEP, on = i === ACTIVE;
+    const dd = `M${X0} ${CY} C ${X0 + 110} ${CY}, ${X1 - 110} ${y}, ${X1} ${y} L ${X1 + 12} ${y}`;
+    html += `<path d="${dd}" fill="none" stroke="${on ? "#D89B2A" : "rgba(11,46,54,.30)"}" stroke-width="${on ? 2.2 : 1}"/>`;
+    html += `<circle cx="${X1 + 14}" cy="${y}" r="${on ? 5 : 3.2}" fill="${on ? "#D89B2A" : "#F1F6F5"}" stroke="${on ? "#D89B2A" : "rgba(11,46,54,.45)"}" stroke-width="1.2"/>`;
+  });
+  // gate: the ARNA mark
+  html += `<image href="../../../apps/web/public/brand/emblem-192.png" x="${GX - 30}" y="${CY - 30}" width="60" height="60"/>`;
+  svg.innerHTML = html;
+  const L = document.getElementById("labels");
+  langs.forEach(([c, n], i) => {
+    const y = TOP + i * STEP, on = i === ACTIVE;
+    const d = document.createElement("div");
+    d.className = "lbl" + (on ? " on" : "");
+    d.style.top = y + "px";
+    d.innerHTML = `<span ${["zh","ja","ko","hi","ar"].includes(c) ? `data-names="${c}"` : ""} lang="${c}" ${c === "ar" ? 'dir="rtl"' : ""}>${n}</span><small>${c}</small>`;
+    L.appendChild(d);
+  });
+</script>
+</body></html>

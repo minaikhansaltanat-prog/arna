@@ -10,8 +10,8 @@
     "font": "latin"
   },
   "meta": {
-    "title": "ARNA: tadbirlar uchun jonli ovozli tarjima",
-    "description": "ARNA jonli nutqni oʻn tilga tarjima qiladi. Tinglovchilar oʻz telefonida tilni tanlab, audio yoki subtitr orqali kuzatadi. Pilotda qatnashing."
+    "title": "ARNA: jonli ovozli tarjima, til toʻsiqlarisiz dunyo",
+    "description": "ARNA nutqni jonli ravishda oʻn tilga tarjima qiladi. Tadbir, video, kitob va suhbatlarni oʻz tilingizda, oʻz telefoningizda kuzating. Pilotda qatnashing."
   },
   "a11y": {
     "skip": "Asosiy mazmunga oʻtish",
@@ -26,23 +26,18 @@
   },
   "nav": {
     "how": "Qanday ishlaydi",
+    "modules": "Modullar",
     "demo": "Demo",
-    "features": "Imkoniyatlar",
-    "cases": "Qoʻllanilishi",
+    "cases": "Kimlar uchun",
     "pricing": "Tariflar",
-    "pilot": "Pilotda qatnashish"
+    "pilot": "Pilotda qatnashish",
+    "live": "Jonli sinab koʻrish"
   },
   "hero": {
-    "eyebrow": "Tadbirlar uchun real vaqtdagi ovozli tarjima",
-    "title": ["Bir marta gapiring.", "Hamma tushunadi."],
-    "subtitle": "ARNA jonli nutqni oʻn tilga tarjima qiladi. Tinglovchilar oʻz telefonida audio yoki subtitr orqali kuzatadi.",
-    "ctaDemo": "Demoni sinab koʻrish",
-    "ctaPilot": "Pilotda qatnashish",
-    "stats": [
-      { "value": "10", "unit": "", "label": "til" },
-      { "value": "< 3", "unit": "soniya", "label": "maqsadli kechikish" },
-      { "value": "5", "unit": "", "label": "tadbir turi" }
-    ]
+    "title": ["Til toʻsiqlarisiz dunyo.", "Birga rivojlanamiz."],
+    "subtitle": "ARNA spikerning nutqini jonli ravishda oʻn tilga tarjima qiladi. Har bir tinglovchi oʻz telefonida oʻz tilida tinglaydi.",
+    "ctaLive": "Jonli sinab koʻrish",
+    "ctaPilot": "Pilotda qatnashish"
   },
   "how": {
     "title": "Sahnadan telefongacha toʻrt qadam",
@@ -51,6 +46,28 @@
       { "title": "Tilni tanlang", "text": "Oʻn tildan birini tanlang. Uni istalgan vaqtda almashtirish mumkin." },
       { "title": "Ovozni tasdiqlang", "text": "ARNA spikerning ovozini taniydi, shuning uchun tarjima har doim kerakli odamga bogʻlanadi." },
       { "title": "Tinglang va oʻqing", "text": "Tarjimani tinglang, subtitrni oʻqing va oxirida qisqa avtokonspekt oling." }
+    ]
+  },
+  "modules": {
+    "title": "Beshta modul, bitta platforma",
+    "items": [
+      {
+        "name": "Live",
+        "text": "Spiker bir marta gapiradi, har bir ishtirokchi esa tadbirni oʻz tilida audio yoki subtitr orqali kuzatadi. Sessiya tugagach, hamma qisqa konspekt oladi."
+      },
+      {
+        "name": "Tarmoq",
+        "text": "Ishtirokchilar bir-biri bilan tanishadi va har biri oʻz tilida suhbatlashadi. Til toʻsigʻi endi tanishuvga xalaqit bermaydi."
+      },
+      {
+        "name": "Video",
+        "text": "Videolarni oʻz tilingizda tomosha qiling: tarjima qilingan ovoz yoki subtitr bilan, ular qaysi tilda suratga olingan boʻlmasin."
+      },
+      { "name": "Oʻqish", "text": "Kitobni, maqolani yoki istalgan matnni oʻz tilingizda tinglang. ARNA uni tinglash qulay ovozda oʻqib beradi." },
+      {
+        "name": "Suhbat",
+        "text": "Boshqa tilda gaplashadigan odam bilan suhbatlashing. ARNA har bir jumlani darhol tarjima qiladi, shuning uchun suhbat uzilmaydi."
+      }
     ]
   },
   "demo": {
@@ -84,27 +101,29 @@
       "bothOff": "Spikerni kuzatish uchun audio yoki subtitrni yoqing."
     },
     "background": { "title": "Audio davom etmoqda", "hint": "Qaytarish uchun ekranga tegining." },
-    "summary": { "title": "Sessiya xulosasi", "badge": "Avtokonspekt", "restart": "Demoni qaytadan boshlash", "ended": "Sessiya yakunlandi" }
-  },
-  "features": {
-    "title": "Koʻp tilli tadbir uchun kerak boʻlgan hamma narsa",
-    "items": [
-      { "title": "Ovozni aniqlash", "text": "ARNA kim gapirayotganini taniydi va tarjimani kerakli ovoz bilan bogʻlaydi, hatto panel muhokamalari va savol-javoblarda ham." },
-      { "title": "Koʻp tilli tarjima", "text": "Dastlabki kundan oʻn til. Spiker bir marta gapiradi, har bir tinglovchi esa oʻz tilida kuzatadi." },
-      { "title": "Avtokonspekt", "text": "Sessiya tugagach, har bir tinglovchi oʻz tilida asosiy fikrlar yozilgan qisqa konspekt oladi." },
-      { "title": "Tadbir kontenti", "text": "Transkriptlar va konspektlar tadbirdan keyin ham mavjud boʻlib qoladi." },
-      { "title": "Referal dasturi", "text": "Shaxsiy havolangizni boshqa tashkilotchilar bilan ulashing va ularning birinchi tadbiri uchun bonus oling." },
-      { "title": "Fon rejimi", "text": "Ekranni qulflasangiz yoki boshqa ilovaga oʻtsangiz ham, tarjima ovozi uzilmasdan davom etadi." }
-    ]
+    "summary": { "title": "Sessiya xulosasi", "badge": "Avtokonspekt", "restart": "Demoni qaytadan boshlash", "ended": "Sessiya yakunlandi" },
+    "strands": { "hint": "Har bir tinglovchi oʻz tilini tanlaydi", "speaker": "Spiker" }
   },
   "cases": {
-    "title": "Har qanday yigʻin uchun",
+    "title": "ARNA kimlar uchun",
+    "photoAlt": "Sahnadagi spiker va zaldagi telefon ekranlarining yorugʻi",
     "items": [
-      { "title": "Universitetlar", "text": "Talabalar va mehmon professorlar turli tillarda gapiradigan ma’ruzalar va konferensiyalar." },
-      { "title": "Forumlar", "text": "Xalqaro forumlar va kongresslar: bitta sahna, har bir delegat oʻz tilida." },
-      { "title": "Toʻylar", "text": "Bir necha mamlakatdan kelgan mehmonlar ishtirok etadigan toʻy: tost va duolarni hamma tushunadi." },
-      { "title": "Kompaniyalar", "text": "Xalqaro jamoalar va hamkorlar bilan oʻtkaziladigan yigʻilishlar." },
-      { "title": "Trenerlar", "text": "Umumiy tili yoʻq guruhlar uchun treninglar va kurslar." }
+      {
+        "title": "Tadbir tashkilotchilariga",
+        "text": "Forumlar, kongresslar va ivent-agentliklar. Sahna bitta, har bir delegat esa oʻz tilida tinglaydi."
+      },
+      {
+        "title": "Maktab va universitetlarga",
+        "text": "Talabalar va mehmon spikerlar turli tillarda gaplashadigan maʼruzalar, konferensiyalar va almashinuv dasturlari."
+      },
+      {
+        "title": "Kompaniyalarga",
+        "text": "Tarjimonsiz va umumiy tilsiz oʻtadigan xalqaro jamoalar yigʻilishlari, hamkorlar bilan uchrashuvlar va treninglar."
+      },
+      {
+        "title": "Oddiy odamlarga",
+        "text": "Videolar, kitoblar va matnlar oʻz tilingizda, suhbat esa dunyoning istalgan nuqtasidagi odamlar bilan."
+      }
     ]
   },
   "pricing": {
@@ -181,8 +200,5 @@
     "langsTitle": "Tillar",
     "rights": "© 2026 ARNA. Barcha huquqlar himoyalangan."
   },
-  "whatsapp": {
-    "label": "WhatsApp’da yozish",
-    "message": "Assalomu alaykum! ARNA haqida koʻproq bilmoqchiman."
-  }
+  "whatsapp": { "label": "WhatsApp’da yozish", "message": "Assalomu alaykum! ARNA haqida koʻproq bilmoqchiman." }
 }

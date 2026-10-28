@@ -1,8 +1,9 @@
 import { PhoneCall, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import type { Dictionary, LocaleListItem } from "@arna/i18n";
-import { PHONE_DISPLAY, PHONE_TEL, SECTIONS, waLink, withBase } from "@/lib/site";
+import { LIVE_URL, PHONE_DISPLAY, PHONE_TEL, SECTIONS, waLink, withBase } from "@/lib/site";
+import { WaveRule } from "./WaveRule";
 
-const LINKS = ["how", "demo", "features", "cases", "pricing"] as const;
+const LINKS = ["how", "modules", "demo", "cases", "pricing"] as const;
 
 export function Footer({
   lang,
@@ -18,10 +19,11 @@ export function Footer({
   const f = dict.footer;
   return (
     <footer className="site-footer">
-      <div className="wrap pb-32 pt-16 lg:pb-28 lg:pt-20">
+      <WaveRule className="footer-wave" peak={0.7} height={72} seed={7} />
+      <div className="wrap pb-32 pt-12 lg:pb-28 lg:pt-14">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-[minmax(0,3.4fr)_minmax(0,2.8fr)_minmax(0,3.6fr)_minmax(0,3.6fr)] lg:gap-10">
           <div>
-            <img src={withBase("/brand/wordmark.webp")} width={1200} height={295} alt="ARNA" loading="lazy" decoding="async" className="h-auto w-[min(260px,70%)]" />
+            <img src={withBase("/brand/wordmark-md.webp")} width={520} height={128} alt="ARNA" loading="lazy" decoding="async" className="h-auto w-[min(260px,70%)]" />
             <p className="mt-5 max-w-[22rem] text-[1.05rem] text-muted">{f.tagline}</p>
           </div>
 
@@ -38,6 +40,11 @@ export function Footer({
               <li>
                 <a href={`#${SECTIONS.pilot}`} className="footer-link">
                   {dict.nav.pilot}
+                </a>
+              </li>
+              <li>
+                <a href={LIVE_URL} className="footer-link">
+                  {dict.nav.live}
                 </a>
               </li>
             </ul>

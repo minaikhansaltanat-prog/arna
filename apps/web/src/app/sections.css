@@ -1,0 +1,841 @@
+/* ==========================================================================
+   ARNA page sections: "one line" direction.
+   One thin gold wave is the signal: it crosses the hero edge to edge, hangs the sections on a thread, runs along the
+   steps and the modules, and enters the language strands from the screen edge.
+   Layout rule for wide screens: backgrounds, lines and colour blocks are full-bleed; text and cards stay in `.wrap`
+   (1240px growing to 1600px). Motion: only transform and opacity.
+   ========================================================================== */
+@layer components {
+  .prose {
+    max-width: var(--measure);
+  }
+  .brand-mark {
+    display: block;
+    width: auto;
+    height: 28px;
+  }
+  @media (min-width: 1024px) {
+    .brand-mark {
+      height: 32px;
+    }
+  }
+  .wave-canvas {
+    display: block;
+    color: var(--wave);
+  }
+  .hero-atmosphere {
+    background:
+      radial-gradient(70% 55% at 78% 8%, var(--glow), transparent 68%),
+      var(--bg);
+  }
+
+  /* ------------------------------------------------------------ section frame, the thread */
+  .section-title {
+    font-size: var(--title-fs);
+    line-height: var(--lh-display);
+  }
+  .section--recessed {
+    --sbg: var(--bg-2);
+    background: var(--bg-2);
+  }
+  .demo-section,
+  .pilot-section {
+    --sbg: var(--block-bg);
+    background: var(--block-bg);
+  }
+  .thread-host {
+    position: absolute;
+    inset-block: 0;
+    inset-inline: 0;
+    margin-inline: auto;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .thread-line,
+  .thread-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    inset-inline-start: 7px;
+  }
+  .thread-line {
+    width: 1px;
+    background: var(--line-strong);
+  }
+  .thread-fill {
+    width: 2px;
+    margin-inline-start: -0.5px;
+    background: var(--gold);
+    box-shadow: 0 0 10px color-mix(in srgb, var(--gold) 55%, transparent);
+    transform-origin: 50% 0;
+  }
+  .thread-node {
+    position: absolute;
+    z-index: 3;
+    inset-inline-start: 2px;
+    top: calc(var(--title-fs) * var(--lh-display) / 2 - 5px);
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+    border: 1.5px solid var(--gold);
+    background: var(--sbg);
+  }
+
+  /* a thin wave, full width of its box (and of the screen when placed outside `.wrap`) */
+  .wave-rule {
+    position: relative;
+    width: 100%;
+    overflow: clip;
+    color: var(--wave);
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.35), #000 10%, #000 90%, rgba(0, 0, 0, 0.35));
+    mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.35), #000 10%, #000 90%, rgba(0, 0, 0, 0.35));
+  }
+  .wave-rule svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform-origin: 50% 50%;
+    transition:
+      transform 1.3s var(--ease-spring),
+      opacity 0.9s ease;
+  }
+  .wave-rule[data-on="false"] svg {
+    transform: scaleX(0.05);
+    opacity: 0;
+  }
+
+  /* ------------------------------------------------------------ hero: the whole first screen */
+  .hero {
+    --hero-cw: 0.54; /* average glyph width in em, per script */
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-top: calc(var(--header-h) + var(--safe-top) + clamp(10px, 3svh, 56px));
+    overflow: clip;
+  }
+  [data-font="cjk-sc"] .hero,
+  [data-font="cjk-jp"] .hero {
+    --hero-cw: 1.02;
+  }
+  [data-font="cjk-kr"] .hero {
+    --hero-cw: 0.98;
+  }
+  [data-font="devanagari"] .hero {
+    --hero-cw: 0.64;
+  }
+  [data-font="arabic"] .hero {
+    --hero-cw: 0.56;
+  }
+  .hero-glow {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(58% 62% at 66% 60%, var(--glow), transparent 70%);
+  }
+  :root:not([data-theme="dark"]) .hero-glow {
+    opacity: 0.7;
+  }
+  .hero-top {
+    container-type: inline-size;
+  }
+  /* the slogan: each line on one line when the screen allows (size from the line length), bigger type wrapping on phones */
+  .hero-title {
+    /* capped by the screen height too, so the first screen still holds slogan, wave, action and module line on a short laptop */
+    font-size: clamp(2rem, calc(100cqw / (var(--hero-chars, 24) * var(--hero-cw))), min(5.25rem, 11svh));
+    line-height: var(--lh-display);
+  }
+  @media (max-width: 639px) {
+    .hero-title {
+      font-size: clamp(2rem, 9.4cqw, 3.1rem);
+    }
+  }
+  .hero-gold {
+    color: var(--accent-display);
+    padding-bottom: 0.06em;
+  }
+  .hero-wave {
+    position: relative;
+    flex: 1 1 0;
+    width: 100%;
+    min-height: clamp(120px, 17svh, 260px);
+    max-height: clamp(260px, 52svh, 560px);
+    margin-block: clamp(6px, 2svh, 28px);
+    color: var(--wave);
+  }
+  .hero-foot {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px 40px;
+    padding-bottom: 96px; /* keeps the module line clear of the floating WhatsApp button */
+  }
+  @media (min-width: 900px) {
+    .hero-foot {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      align-items: end;
+    }
+    .hero-axis {
+      grid-column: 1 / -1;
+    }
+  }
+  .hero-sub {
+    max-width: 36rem;
+    color: var(--muted);
+    font-size: clamp(1.0625rem, 0.95rem + 0.35vw, 1.25rem);
+    line-height: 1.65;
+  }
+  .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  @media (max-width: 479px) {
+    .hero-cta .btn {
+      width: 100%;
+    }
+  }
+  .hero-caption {
+    display: none;
+  }
+  @media (min-width: 900px) {
+    .hero-caption {
+      display: block;
+      justify-self: end;
+      max-width: 34rem;
+      min-height: 3.6em;
+      text-align: end;
+      font-family: var(--fd);
+      font-size: clamp(1.15rem, 0.9rem + 0.6vw, 1.6rem);
+      font-weight: 600;
+      letter-spacing: var(--track-d);
+      line-height: 1.3;
+    }
+  }
+  .hero-caption__line {
+    display: block;
+    animation: caption-in 0.8s var(--ease-spring) both;
+  }
+  .hero-caption__code {
+    display: block;
+    margin-top: 6px;
+    color: var(--accent-text);
+    font-family: var(--fb);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  /* the five modules as stations on a line that runs to both screen edges */
+  .hero-axis {
+    position: relative;
+    padding-top: 2px;
+  }
+  .hero-axis::before {
+    content: "";
+    position: absolute;
+    inset-inline: calc(-1 * var(--edge));
+    top: 7px;
+    height: 1px;
+    background: var(--line-strong);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .hero-axis ul {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hero-axis a {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    min-height: 44px;
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-weight: 560;
+    line-height: 1.3;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .hero-axis a:hover,
+  .hero-axis li[data-first="true"] a {
+    color: var(--fg);
+  }
+  .hero-axis__node {
+    width: 11px;
+    height: 11px;
+    border-radius: 9999px;
+    border: 1.5px solid var(--gold);
+    background: var(--bg);
+    box-shadow: 0 0 0 6px var(--bg);
+    transition: transform 0.45s var(--ease-spring);
+  }
+  .hero-axis li[data-first="true"] .hero-axis__node {
+    background: var(--gold);
+  }
+  .hero-axis a:hover .hero-axis__node {
+    transform: scale(1.25);
+  }
+
+  /* ------------------------------------------------------------ how it works */
+  .how-stage {
+    position: relative;
+    margin-top: clamp(40px, 6vw, 64px);
+  }
+  .how-steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+    margin-block: 0;
+    padding-block: 0;
+    list-style: none;
+  }
+  @media (min-width: 768px) {
+    .how-steps {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 32px;
+    }
+  }
+  .how-step {
+    position: relative;
+    padding-inline-start: 76px;
+  }
+  @media (min-width: 768px) {
+    .how-step {
+      padding-inline-start: 0;
+      padding-top: 84px;
+    }
+  }
+  .how-step__title {
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+  .how-step__text {
+    margin-top: 0.6rem;
+    max-width: 26rem;
+    color: var(--muted);
+  }
+  .how-rail,
+  .how-fill {
+    position: absolute;
+    pointer-events: none;
+  }
+  .how-rail {
+    background: var(--line-strong);
+  }
+  .how-fill {
+    background: var(--gold);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--gold) 50%, transparent);
+  }
+  .how-rail--v,
+  .how-fill--v {
+    inset-inline-start: 23px;
+    top: 24px;
+    bottom: 24px;
+    width: 1px;
+  }
+  .how-fill--v {
+    width: 2px;
+    margin-inline-start: -0.5px;
+    transform-origin: 50% 0;
+  }
+  .how-rail--h,
+  .how-fill--h {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .how-rail--v,
+    .how-fill--v {
+      display: none;
+    }
+    .how-rail--h,
+    .how-fill--h {
+      display: block;
+      inset-inline: 0;
+      top: 24px;
+      height: 1px;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    }
+    .how-fill--h {
+      top: 23.5px;
+      height: 2px;
+      transform-origin: 0 50%;
+    }
+    [dir="rtl"] .how-fill--h {
+      transform-origin: 100% 50%;
+    }
+  }
+  .how-node {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 9999px;
+    border: 1.5px solid var(--gold);
+    background: var(--sbg);
+    box-shadow: 0 0 0 8px var(--sbg);
+    color: var(--accent-text);
+    font-family: var(--fd);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  /* ------------------------------------------------------------ modules: five stations on one line */
+  .mod-stage {
+    position: relative;
+  }
+  .mod-rail {
+    position: absolute;
+    inset-inline: 0;
+    top: 10px;
+    height: 1px;
+    background: var(--line-strong);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .mod-tabs {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .mod-tab {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    min-height: 44px;
+    padding: 0 0 10px;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-family: var(--fd);
+    font-size: clamp(0.95rem, 0.85rem + 0.35vw, 1.25rem);
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: start;
+  }
+  .mod-name {
+    overflow-wrap: anywhere;
+  }
+  .mod-node {
+    width: 22px;
+    height: 22px;
+    border-radius: 9999px;
+    border: 1.5px solid var(--gold);
+    background: var(--sbg);
+    box-shadow: 0 0 0 8px var(--sbg);
+    transition:
+      transform 0.45s var(--ease-spring),
+      background-color 0.25s ease;
+  }
+  .mod-tab:hover {
+    color: var(--fg);
+  }
+  .mod-tab:hover .mod-node {
+    transform: scale(1.12);
+  }
+  .mod-tab[aria-selected="true"] {
+    color: var(--fg);
+  }
+  .mod-tab[aria-selected="true"] .mod-node {
+    background: var(--gold);
+  }
+  .mod-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: 32px;
+    padding-top: clamp(32px, 4vw, 56px);
+  }
+  .mod-panel[hidden] {
+    display: none;
+  }
+  .mod-panel:not([hidden]) {
+    animation: pop 0.45s var(--ease-spring) both;
+  }
+  @media (min-width: 960px) {
+    .mod-panel {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(40px, 6vw, 96px);
+      min-height: 300px;
+    }
+  }
+  .mod-title {
+    font-size: clamp(2rem, 1.2rem + 2.6vw, 3.4rem);
+  }
+  .mod-text {
+    max-width: var(--measure);
+    margin-top: 18px;
+    color: var(--muted);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+  .mod-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 22px;
+    margin-top: 28px;
+  }
+  .mod-art {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 320px;
+    color: var(--wave);
+  }
+
+  /* ------------------------------------------------------------ demo: a full-width petrol block */
+  .demo-backdrop {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(50% 60% at 78% 50%, var(--glow), transparent 70%);
+  }
+  .demo-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "intro" "strands" "note" "phone";
+    gap: 28px;
+    align-items: start;
+  }
+  @media (min-width: 1024px) {
+    .demo-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 344px);
+      grid-template-areas: "intro phone" "strands phone" "note phone";
+      column-gap: clamp(48px, 6vw, 112px);
+    }
+  }
+  .demo-intro {
+    grid-area: intro;
+  }
+  .demo-strands {
+    grid-area: strands;
+  }
+  .demo-note {
+    grid-area: note;
+  }
+  .demo-phone {
+    grid-area: phone;
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    margin-inline: auto;
+    align-self: center;
+  }
+  .demo-halo {
+    position: absolute;
+    inset: 4% -6%;
+    z-index: 0;
+    border-radius: 9999px;
+    background: radial-gradient(closest-side, var(--glow), transparent 72%);
+    filter: blur(28px);
+    pointer-events: none;
+  }
+  .notice {
+    display: flex;
+    gap: 0.85rem;
+    max-width: calc(var(--measure) + 4.5rem);
+    padding: 1rem 1.15rem;
+    border-radius: 24px;
+    border: 1px solid var(--line-strong);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* "ten channels": the speaker's wave enters from the screen edge, splits into ten strands, one per language */
+  .strands {
+    /* resolved here, inside the petrol block, so they follow the block's own light-on-dark tokens */
+    --strand: color-mix(in srgb, var(--fg) 34%, transparent);
+    --strand-hi: color-mix(in srgb, var(--fg) 58%, transparent);
+  }
+  .strands-hint {
+    margin-bottom: 14px;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .strands-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) 44px minmax(0, 0.8fr) minmax(0, 1.25fr);
+    align-items: stretch;
+    min-height: 460px;
+  }
+  @media (min-width: 640px) {
+    .strands-grid {
+      grid-template-columns: minmax(0, 1.15fr) 52px minmax(0, 0.9fr) minmax(0, 1.2fr);
+    }
+  }
+  .strands-src {
+    position: relative;
+    margin-inline-start: calc(-1 * var(--edge));
+    min-height: 460px;
+    color: var(--wave);
+  }
+  .strands-who {
+    position: absolute;
+    inset-inline-start: var(--edge);
+    top: calc(50% + 62px);
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .strands-gate {
+    position: relative;
+    z-index: 2;
+    align-self: center;
+    justify-self: center;
+    width: 40px;
+    height: 40px;
+  }
+  @media (min-width: 640px) {
+    .strands-gate {
+      width: 48px;
+      height: 48px;
+    }
+  }
+  .strands-lines {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 460px;
+  }
+  .strand {
+    fill: none;
+    stroke: var(--strand);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+  .strand--on {
+    stroke: var(--gold);
+    stroke-width: 2.2;
+  }
+  .strands-list {
+    display: grid;
+    grid-template-rows: repeat(10, minmax(46px, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .strand-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    max-width: 100%;
+    min-height: 44px;
+    padding-block: 0;
+    padding-inline: 20px 12px;
+    border: 0;
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--fg);
+    font-family: var(--fb);
+    font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.0625rem);
+    font-weight: 560;
+    text-align: start;
+    transition: background-color 0.3s ease;
+  }
+  .strand-btn::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    margin-top: -5px;
+    border-radius: 9999px;
+    border: 1.5px solid var(--strand-hi);
+    background: var(--sbg);
+    transition:
+      background-color 0.25s ease,
+      border-color 0.25s ease;
+  }
+  .strand-btn:hover {
+    background: color-mix(in srgb, var(--fg) 8%, transparent);
+  }
+  .strand-btn[aria-pressed="true"] {
+    background: var(--fg);
+    color: var(--bg);
+  }
+  .strand-btn[aria-pressed="true"]::before {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+  .strand-code {
+    display: none;
+    margin-inline-start: 2px;
+    color: var(--muted);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  @media (min-width: 640px) {
+    .strand-code {
+      display: inline;
+    }
+  }
+  .strand-btn[aria-pressed="true"] .strand-code {
+    color: color-mix(in srgb, var(--bg) 72%, transparent);
+  }
+  .strands-greet {
+    min-height: 3.4em;
+    margin-top: 18px;
+    color: var(--accent-text);
+    font-family: var(--fd);
+    font-size: clamp(1.15rem, 1rem + 0.6vw, 1.5rem);
+    font-weight: 600;
+    letter-spacing: var(--track-d);
+    line-height: 1.3;
+  }
+
+  /* ------------------------------------------------------------ who it is for */
+  .cases-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "title" "photo" "list";
+    gap: 32px;
+  }
+  @media (min-width: 1024px) {
+    .cases-grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      grid-template-areas: "photo title" "photo list";
+      grid-template-rows: auto 1fr;
+      column-gap: clamp(48px, 6vw, 112px);
+      row-gap: 40px;
+    }
+  }
+  .cases-title {
+    grid-area: title;
+  }
+  .cases-photo {
+    grid-area: photo;
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    aspect-ratio: 16 / 10;
+    border-radius: 24px;
+  }
+  @media (min-width: 1024px) {
+    .cases-photo {
+      aspect-ratio: auto;
+      min-height: 520px;
+      margin-inline-start: calc(-1 * var(--edge));
+      border-radius: 0;
+      border-start-end-radius: 32px;
+      border-end-end-radius: 32px;
+    }
+  }
+  .cases-wave {
+    position: absolute;
+    inset-inline: 0;
+    top: 34%;
+  }
+  .audience {
+    grid-area: list;
+    margin: 0 0 0 5px;
+    padding: 0;
+    list-style: none;
+    border-inline-start: 1px solid var(--line-strong);
+    margin-inline: 5px 0;
+  }
+  .audience-item {
+    position: relative;
+    padding-block: 0 clamp(22px, 2.6vw, 36px);
+    padding-inline: clamp(24px, 3vw, 40px) 0;
+  }
+  .audience-item:last-child {
+    padding-bottom: 0;
+  }
+  .audience-item::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: -6px;
+    top: 0.6em;
+    width: 11px;
+    height: 11px;
+    border-radius: 9999px;
+    border: 1.5px solid var(--gold);
+    background: var(--sbg);
+  }
+  .audience-title {
+    font-size: clamp(1.45rem, 1.1rem + 1vw, 2.1rem);
+    line-height: 1.2;
+  }
+  .audience-text {
+    max-width: var(--measure);
+    margin-top: 0.6rem;
+    color: var(--muted);
+  }
+
+  /* ------------------------------------------------------------ pricing (flat), pilot, footer */
+  .price-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(24px, 3vw, 36px);
+    border-radius: 28px;
+    border: 1px solid var(--line-strong);
+    background: var(--surface);
+  }
+  .price-card--hot {
+    border-color: var(--gold);
+    border-width: 1.5px;
+    background: var(--surface-2);
+  }
+  .price-flag {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0.35rem 1rem;
+    border-radius: 9999px;
+    background: var(--gold);
+    color: var(--on-gold);
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .pilot-section {
+    padding-top: calc(var(--section-y) + 24px);
+  }
+  .pilot-wave {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+  }
+  .footer-wave {
+    margin-top: -1px;
+  }
+}
+
+@keyframes caption-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}

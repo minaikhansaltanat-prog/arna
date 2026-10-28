@@ -33,6 +33,10 @@ type Props = {
   appMode?: boolean;
   /** demo strings of every language (app mode only) */
   dicts?: Record<string, Dictionary["demo"]>;
+  /** the language strands next to the phone choose a language from outside (each click has its own `n`) */
+  externalPick?: { code: string; n: number } | null;
+  /** tells the strands which language the phone currently has (null after a restart) */
+  onTargetChange?: (code: string | null) => void;
 };
 
 const STEPS: Step[] = ["lang", "voice", "live", "summary"];
@@ -111,7 +115,7 @@ function progressAt(e: number, tl: ReturnType<typeof buildTimeline>, pairs: Pair
   return { line, o, t, done: e >= tl.total };
 }
 
-export function PhoneDemo({ dict: pageDict, locales, scripts, source, appMode = false, dicts }: Props) {
+export function PhoneDemo({ dict: pageDict, locales, scripts, source, appMode = false, dicts, externalPick, onTargetChange }: Props) {
   const [step, setStep] = useState<Step>("lang");
   const [target, setTarget] = useState<string | null>(null);
   const [dim, setDim] = useState(false);
@@ -134,16 +138,26 @@ export function PhoneDemo({ dict: pageDict, locales, scripts, source, appMode = 
     setAudioOn(true);
     setSubsOn(true);
     setRun((r) => r + 1);
-  }, []);
+    onTargetChange?.(null);
+  }, [onTargetChange]);
 
   useEffect(() => () => void (advance.current && clearTimeout(advance.current)), []);
 
   const pick = (code: string) => {
     setTarget(code);
+    onTargetChange?.(code);
     if (appMode) return; // app mode waits for the start button
     if (advance.current) clearTimeout(advance.current);
     advance.current = setTimeout(() => setStep("voice"), 380); // D-01: moves on by itself
   };
+
+  useEffect(() => {
+    if (!externalPick) return;
+    reset();
+    pick(externalPick.code);
+    // only a new click (n) restarts the demo
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [externalPick?.n]);
 
   const goLive = () => {
     unlockSpeech();
@@ -337,7 +351,7 @@ function VoiceStep({ dict, onConfirm }: { dict: Dictionary["demo"]; onConfirm: (
           {dict.voice.speaker}
         </div>
         <div className="relative mt-3 h-[112px]">
-          <WaveCanvas className="absolute inset-0 size-full" levelRef={level} amp={0.95} weight={0.085} speed={1.25} seed={2} />
+          <WaveCanvas className="absolute inset-0 size-full" levelRef={level} amp={0.9} weight={2} speed={1.25} seed={2} />
         </div>
         <p className="mt-3 flex min-h-[1.6rem] items-center gap-2 text-[0.95rem] font-medium" aria-live="polite">
           {found ? (

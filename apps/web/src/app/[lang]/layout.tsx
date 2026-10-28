@@ -73,7 +73,6 @@ export default async function LangLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {/* own-origin icons (metadata would turn them into absolute production URLs) */}
         <link rel="icon" type="image/png" sizes="96x96" href={withBase("/brand/emblem-96.png")} />
-        <link rel="icon" type="image/png" sizes="192x192" href={withBase("/brand/emblem-192.png")} />
         <link rel="apple-touch-icon" sizes="180x180" href={withBase("/brand/apple-touch-icon.png")} />
       </head>
       <body>{children}</body>

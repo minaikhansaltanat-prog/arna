@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="kk"><head><meta charset="utf-8"><title>A · Бір сызық</title>
+<link rel="stylesheet" href="base.css">
+<style>
+  .A h1 { position: absolute; left: 132px; top: 118px; }
+  .A .wave { position: absolute; left: 0; top: 330px; width: 1440px; height: 440px; }
+  .A .copy { position: absolute; left: 132px; top: 636px; width: 470px; }
+  .A .copy .row { display: flex; gap: 12px; margin-top: 26px; }
+  .A .axis { position: absolute; left: 132px; right: 132px; top: 826px; }
+  .A .axis ul { list-style: none; display: flex; justify-content: space-between; position: relative; }
+  .A .axis li { font: 500 15px var(--fb); color: var(--muted); position: relative; padding-top: 22px; }
+  .A .axis li::before { content: ""; position: absolute; top: 0; left: 0; width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--gold); background: var(--bg); }
+  .A .axis li.on { color: var(--fg); }
+  .A .axis li.on::before { background: var(--gold); }
+  .A .axis .hair { position: absolute; left: 0; right: 0; top: 4px; height: 1px; background: var(--line); }
+  .A .cap { position: absolute; right: 132px; top: 700px; text-align: right; font: 500 15px var(--fb); color: var(--muted); }
+  .A .cap b { display: block; font: 500 22px/1.3 var(--fd); color: var(--fg); letter-spacing: -0.01em; margin-bottom: 4px; }
+  .A .cap i { font-style: normal; color: var(--gold-text); font-size: 12px; letter-spacing: .12em; margin-right: 8px; }
+  .vignette { position: absolute; inset: 0; background: radial-gradient(60% 55% at 62% 50%, rgba(242,179,61,.07), transparent 70%); pointer-events: none; }
+</style></head>
+<body class="A">
+<div class="vignette"></div>
+<header class="hdr">
+  <img class="logo" src="../../../apps/web/public/brand/wordmark.png" alt="ARNA">
+  <nav class="nav"><span>Қалай істейді</span><span>Модульдер</span><span>Демо</span><span>Кімге керек</span><span>Тарифтер</span></nav>
+  <div class="right"><span class="pill">☾</span><span class="pill">Қазақша ⌄</span><span class="btn btn-gold btn-sm">Тікелей сынап көру</span></div>
+</header>
+
+<h1>Тілдік кедергісіз<br>әлем. <em>Бірге дамиық.</em></h1>
+
+<svg class="wave" viewBox="0 0 1440 440" id="w"></svg>
+
+<div class="copy">
+  <p class="sub">ARNA спикердің сөзін тікелей он тілге аударады. Әр тыңдаушы өз телефонында өз тілінде тыңдайды.</p>
+  <div class="row"><span class="btn btn-gold">Тікелей сынап көру <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="btn btn-ghost">Пилотқа қатысу</span></div>
+</div>
+
+<div class="cap"><b>Welcome. Let’s grow together.</b><i>EN</i>тыңдаушының телефонында, сол сәтте</div>
+
+<div class="axis"><div class="hair"></div>
+  <ul><li class="on">Live</li><li>Желі</li><li>Видео</li><li>Оқу</li><li>Сөйлесу</li></ul>
+</div>
+
+<script src="wave.js"></script>
+<script>
+  const d = arnaWave({ w: 1440, cy: 220, cx: 0.655, up: 172, s: 1, murmur: 6 });
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.getElementById("w");
+  const mk = (attrs) => { const p = document.createElementNS(NS, "path"); for (const k in attrs) p.setAttribute(k, attrs[k]); svg.appendChild(p); return p; };
+  svg.innerHTML = `<defs><filter id="b" x="-5%" y="-30%" width="110%" height="160%"><feGaussianBlur stdDeviation="6"/></filter>
+    <linearGradient id="fade" x1="0" x2="1"><stop offset="0" stop-color="#F2B33D" stop-opacity=".0"/><stop offset=".22" stop-color="#F2B33D" stop-opacity=".9"/><stop offset=".8" stop-color="#F2B33D"/><stop offset="1" stop-color="#F2B33D" stop-opacity=".9"/></linearGradient></defs>`;
+  mk({ d, fill: "none", stroke: "#F2B33D", "stroke-width": 5, opacity: .28, filter: "url(#b)" });
+  mk({ d, fill: "none", stroke: "url(#fade)", "stroke-width": 1.6, "stroke-linejoin": "round" });
+  // playhead on the line
+  const px = 905, py = y_at(d, px);
+  svg.insertAdjacentHTML("beforeend", `<circle cx="${px}" cy="${py}" r="5" fill="#F2B33D"/><circle cx="${px}" cy="${py}" r="13" fill="none" stroke="#F2B33D" stroke-opacity=".4"/>`);
+</script>
+</body></html>

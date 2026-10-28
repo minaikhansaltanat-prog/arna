@@ -10,8 +10,8 @@
     "font": "latin"
   },
   "meta": {
-    "title": "ARNA: live voice translation for events",
-    "description": "ARNA translates a live speaker into ten languages. Listeners pick their language and follow by audio or subtitles on their phone. Join the pilot."
+    "title": "ARNA: live voice translation, no language barriers",
+    "description": "ARNA translates speech live into ten languages. Follow events, videos, books and conversations in your own language, on your own phone. Join the pilot."
   },
   "a11y": {
     "skip": "Skip to content",
@@ -26,23 +26,18 @@
   },
   "nav": {
     "how": "How it works",
+    "modules": "Modules",
     "demo": "Demo",
-    "features": "Features",
-    "cases": "Use cases",
+    "cases": "Who it’s for",
     "pricing": "Pricing",
-    "pilot": "Join the pilot"
+    "pilot": "Join the pilot",
+    "live": "Try it live"
   },
   "hero": {
-    "eyebrow": "Live voice translation for events",
-    "title": ["Speak once.", "Everyone understands."],
-    "subtitle": "ARNA translates a live speaker into ten languages. Listeners follow by audio or subtitles on their own phone.",
-    "ctaDemo": "Try the demo",
-    "ctaPilot": "Join the pilot",
-    "stats": [
-      { "value": "10", "unit": "", "label": "languages" },
-      { "value": "< 3", "unit": "s", "label": "target delay" },
-      { "value": "5", "unit": "", "label": "event formats" }
-    ]
+    "title": ["A world without language barriers.", "Let’s grow together."],
+    "subtitle": "ARNA translates the speaker live into ten languages. Every listener hears it in their own language, on their own phone.",
+    "ctaLive": "Try it live",
+    "ctaPilot": "Join the pilot"
   },
   "how": {
     "title": "Four steps from the stage to your phone",
@@ -51,6 +46,28 @@
       { "title": "Choose a language", "text": "Pick one of ten languages. You can switch at any moment." },
       { "title": "Confirm the voice", "text": "ARNA recognizes the speaker's voice, so the translation always follows the right person." },
       { "title": "Listen and read", "text": "Hear the translation, read the subtitles and get a short summary at the end." }
+    ]
+  },
+  "modules": {
+    "title": "Five modules, one platform",
+    "items": [
+      {
+        "name": "Live",
+        "text": "The speaker talks once, and every attendee follows the event in their own language, by audio or subtitles. When the session ends, everyone gets a short summary."
+      },
+      {
+        "name": "Network",
+        "text": "Attendees meet and talk to each other, each in their own language. A language barrier no longer decides who gets to connect."
+      },
+      { "name": "Video", "text": "Watch videos in your own language, with a translated voice or subtitles, whatever language they were made in." },
+      {
+        "name": "Read",
+        "text": "Listen to a book, an article or any text in your own language. ARNA reads it to you in a voice that is easy to follow."
+      },
+      {
+        "name": "Talk",
+        "text": "Talk with a person who speaks another language. ARNA translates each phrase as you go, so the conversation keeps its pace."
+      }
     ]
   },
   "demo": {
@@ -84,27 +101,20 @@
       "bothOff": "Turn on audio or subtitles to follow the speaker."
     },
     "background": { "title": "Audio continues", "hint": "Tap the screen to restore." },
-    "summary": { "title": "Session summary", "badge": "Auto-summary", "restart": "Restart demo", "ended": "Session ended" }
-  },
-  "features": {
-    "title": "Everything a multilingual event needs",
-    "items": [
-      { "title": "Voice recognition", "text": "ARNA recognizes who is speaking and keeps the translation attached to the right voice, even in panels and Q&A." },
-      { "title": "Multilingual translation", "text": "Ten languages from day one. The speaker speaks once, and every listener follows in their own language." },
-      { "title": "Auto-summary", "text": "When the session ends, each listener gets a short summary with the key points in their language." },
-      { "title": "Event content", "text": "Transcripts and summaries stay available after the event." },
-      { "title": "Referral program", "text": "Share your personal link with other organizers and receive a bonus for their first event." },
-      { "title": "Background mode", "text": "Lock the screen or switch apps, and the translated audio keeps playing without interruption." }
-    ]
+    "summary": { "title": "Session summary", "badge": "Auto-summary", "restart": "Restart demo", "ended": "Session ended" },
+    "strands": { "hint": "Each listener picks their own language", "speaker": "Speaker" }
   },
   "cases": {
-    "title": "Made for every kind of gathering",
+    "title": "Who ARNA is for",
+    "photoAlt": "A speaker on stage in front of an audience lit by phone screens",
     "items": [
-      { "title": "Universities", "text": "Lectures and conferences where students and guest professors speak different languages." },
-      { "title": "Forums", "text": "International forums and congresses: one stage, every delegate in their own language." },
-      { "title": "Weddings", "text": "A toi with guests from several countries: toasts and blessings understood by everyone." },
-      { "title": "Companies", "text": "Town halls and meetings with international teams and partners." },
-      { "title": "Trainers", "text": "Workshops and courses for groups that do not share one language." }
+      { "title": "Event organizers", "text": "Forums, congresses and event agencies. One stage, and every delegate hears it in their own language." },
+      {
+        "title": "Schools and universities",
+        "text": "Lectures, conferences and exchange programs where students and guest speakers use different languages."
+      },
+      { "title": "Companies", "text": "International teams, partner meetings and trainings, without interpreters and without a shared language." },
+      { "title": "Individuals", "text": "Videos, books and texts in your own language, and conversations with people from anywhere in the world." }
     ]
   },
   "pricing": {
@@ -181,8 +191,5 @@
     "langsTitle": "Languages",
     "rights": "© 2026 ARNA. All rights reserved."
   },
-  "whatsapp": {
-    "label": "Write on WhatsApp",
-    "message": "Hello! I would like to learn more about ARNA."
-  }
+  "whatsapp": { "label": "Write on WhatsApp", "message": "Hello! I would like to learn more about ARNA." }
 }

@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./fonts.generated.css";
 @import "./ui.css";
+@import "./sections.css";
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
@@ -39,6 +40,14 @@
   --grain-invert: 1;
   --grain-opacity: 0.05;
   --section-y: clamp(72px, 11vw, 136px);
+  /* wide screens: content grows from 1240 to 1600px; backgrounds, lines and colour blocks run edge to edge */
+  --gutter: clamp(16px, 4.2vw, 32px);
+  --measure: 49ch; /* text column: about 70 characters a line (a "0" is wider than an average letter), never above 75 */
+  --content-max: clamp(1240px, 92vw, 1600px);
+  --edge: calc(max(0px, (100vw - var(--content-max)) / 2) + var(--gutter)); /* screen edge to content edge */
+  --wave: var(--accent-display);
+  --block-bg: #0e3b45; /* full-width colour blocks (demo, pilot): brand petrol on the light page */
+  --sbg: var(--bg);
   --header-h: 64px;
   --safe-top: env(safe-area-inset-top, 0px);
   --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
@@ -61,6 +70,7 @@
 /* Dark is the brand's home. Follows the system unless the visitor picked a theme. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    --block-bg: #072730;
     color-scheme: dark;
     --bg: #0e3b45;
     --bg-2: #0a2f38;
@@ -73,6 +83,7 @@
     --gold: #f2b33d;
     --accent-text: #f2b33d;
     --accent-display: #f2b33d;
+    --wave: #f2b33d;
     --focus: #f2b33d;
     --glow: rgba(242, 179, 61, 0.22);
     --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 22px 44px -24px rgba(2, 16, 20, 0.75);
@@ -82,6 +93,9 @@
     --grain-invert: 0;
     --grain-opacity: 0.06;
   }
+}
+:root[data-theme="dark"] {
+  --block-bg: #072730; /* deeper than the recessed bands, so the colour blocks stay distinct on the dark page */
 }
 :root[data-theme="dark"],
 .dark-scope {
@@ -97,6 +111,7 @@
   --gold: #f2b33d;
   --accent-text: #f2b33d;
   --accent-display: #f2b33d;
+  --wave: #f2b33d;
   --focus: #f2b33d;
   --glow: rgba(242, 179, 61, 0.22);
   --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 22px 44px -24px rgba(2, 16, 20, 0.75);
@@ -105,6 +120,7 @@
   --header-bg: rgba(14, 59, 69, 0.72);
   --grain-invert: 0;
   --grain-opacity: 0.06;
+  color: var(--fg);
 }
 
 /* ==========================================================================
@@ -208,6 +224,17 @@
    Base: mobile stability first. Nothing may make the page scroll sideways or stretch.
    ========================================================================== */
 @layer base {
+  /* big screens: the whole layout scales with the root size, so 1920 and 2560 read like 1440 (content width stays 1240-1600px) */
+  @media (min-width: 1920px) {
+    html {
+      font-size: 112.5%;
+    }
+  }
+  @media (min-width: 2400px) {
+    html {
+      font-size: 125%;
+    }
+  }
   html {
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
@@ -288,23 +315,16 @@
 @layer components {
   .wrap {
     width: 100%;
-    max-width: 1240px;
+    max-width: var(--content-max);
     margin-inline: auto;
-    padding-inline: clamp(16px, 4.2vw, 32px);
+    padding-inline: var(--gutter);
   }
   .section {
     position: relative;
+    overflow-x: clip;
     padding-block: var(--section-y);
     scroll-margin-top: var(--header-h);
-  }
-
-  .eyebrow {
-    display: inline-block;
-    font-size: var(--eyebrow-fs, 0.78rem);
-    font-weight: 650;
-    letter-spacing: var(--track-e);
-    text-transform: var(--transform-e);
-    color: var(--accent-text);
+    --title-fs: clamp(1.95rem, 4.4vw + 0.5rem, 3.4rem);
   }
 
   /* ---- buttons: pill, min 48px tall, every state defined ---- */
@@ -354,26 +374,17 @@
   }
   .btn-primary {
     color: var(--on-gold);
-    background: linear-gradient(180deg, #f8c865 0%, #efab33 52%, #dc9524 100%);
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.55) inset,
-      0 -2px 0 rgba(150, 90, 0, 0.18) inset,
-      0 10px 22px -8px rgba(216, 155, 42, 0.6),
-      0 2px 3px rgba(120, 70, 0, 0.28);
+    background: var(--gold);
   }
   .btn-primary::after {
-    background: linear-gradient(180deg, #ffd983 0%, #f6bb49 52%, #e6a02c 100%);
-    box-shadow: 0 16px 30px -10px rgba(242, 179, 61, 0.75);
+    background: rgba(255, 255, 255, 0.24);
   }
   .btn-ghost {
     color: var(--fg);
     border: 1px solid var(--line-strong);
-    background: color-mix(in srgb, var(--surface) 50%, transparent);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
   }
   .btn-ghost::after {
-    background: color-mix(in srgb, var(--fg) 8%, transparent);
+    background: color-mix(in srgb, var(--fg) 9%, transparent);
   }
   .btn-sm {
     min-height: 44px;
@@ -478,34 +489,6 @@
     transform: translate3d(0, 20px, 0);
   }
 
-  /* ---- equalizer bars ---- */
-  .eq {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    height: 100%;
-  }
-  .eq span {
-    flex: 1 1 0;
-    max-width: 5px;
-    height: 100%;
-    border-radius: 3px;
-    background: linear-gradient(180deg, var(--gold-hi), var(--gold-lo));
-    transform-origin: center;
-    animation: eq 1.15s ease-in-out infinite;
-    animation-delay: calc(var(--i) * -97ms);
-  }
-  .eq[data-paused="true"] span {
-    animation-play-state: paused;
-    transform: scaleY(0.25);
-  }
-
-  /* ---- floating language chips ---- */
-  .chip-float {
-    animation: float 7s ease-in-out infinite;
-    animation-delay: var(--fd-delay, 0s);
-  }
-
   /* ---- typing caret ---- */
   .caret::after {
     content: "";
@@ -554,45 +537,17 @@
 /* ==========================================================================
    Keyframes (transform / opacity only)
    ========================================================================== */
-@keyframes eq {
-  0%,
-  100% {
-    transform: scaleY(0.22);
-  }
-  50% {
-    transform: scaleY(1);
-  }
-}
-@keyframes float {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(0, -10px, 0);
-  }
-}
 @keyframes blink {
   to {
     visibility: hidden;
   }
 }
-@keyframes drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(2%, -3%, 0) scale(1.06);
-  }
-}
+/* the hero text is the largest contentful paint, so its entrance is a move only (no fade from 0) */
 @keyframes rise {
   from {
-    opacity: 0;
-    transform: translate3d(0, 24px, 0);
+    transform: translate3d(0, 18px, 0);
   }
   to {
-    opacity: 1;
     transform: translate3d(0, 0, 0);
   }
 }
@@ -612,9 +567,6 @@
 }
 .anim-pop {
   animation: pop 0.35s var(--ease-spring) both;
-}
-.anim-drift {
-  animation: drift 16s ease-in-out infinite;
 }
 
 /* ==========================================================================
@@ -752,12 +704,5 @@ html[data-menu="open"] .wa-fab {
   [data-reveal="pending"] {
     opacity: 1;
     transform: none;
-  }
-}
-@media (prefers-reduced-transparency: reduce) {
-  .btn-ghost {
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    background: var(--surface);
   }
 }

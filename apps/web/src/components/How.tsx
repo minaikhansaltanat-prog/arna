@@ -2,16 +2,18 @@ import type { Dictionary } from "@arna/i18n";
 import { SECTIONS } from "@/lib/site";
 import { HowSteps } from "./HowSteps";
 import { Reveal } from "./Reveal";
+import { SectionNode } from "./SectionNode";
 
 export function How({ dict }: { dict: Dictionary["how"] }) {
   return (
     <section id={SECTIONS.how} className="section">
-      <div className="wrap">
+      <div className="wrap relative">
+        <SectionNode />
         <Reveal>
-          <h2 className="section-title max-w-[20ch]">{dict.title}</h2>
+          <h2 className="section-title max-w-[22ch]">{dict.title}</h2>
         </Reveal>
-        <HowSteps steps={dict.steps} />
       </div>
+      <HowSteps steps={dict.steps} />
     </section>
   );
 }

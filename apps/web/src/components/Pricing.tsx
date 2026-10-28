@@ -2,15 +2,17 @@ import { ArrowUpRight, Check } from "@phosphor-icons/react/dist/ssr";
 import type { Dictionary } from "@arna/i18n";
 import { SECTIONS, waLink } from "@/lib/site";
 import { Reveal } from "./Reveal";
+import { SectionNode } from "./SectionNode";
 
-/** L-05: three sample plans with price and key terms, plus a link to the full pricing. */
+/** L-05: three sample plans with price and key terms, plus a link to the full pricing (prices are placeholders until confirmed). */
 export function Pricing({ dict, waMessage }: { dict: Dictionary["pricing"]; waMessage: string }) {
   return (
-    <section id={SECTIONS.pricing} className="section">
-      <div className="wrap">
+    <section id={SECTIONS.pricing} className="section section--recessed">
+      <div className="wrap relative">
+        <SectionNode />
         <Reveal>
-          <h2 className="section-title max-w-[20ch]">{dict.title}</h2>
-          <p className="mt-5 max-w-[34rem] text-[1.0625rem] text-muted">{dict.note}</p>
+          <h2 className="section-title max-w-[22ch]">{dict.title}</h2>
+          <p className="prose mt-5 text-[1.0625rem] text-muted">{dict.note}</p>
         </Reveal>
 
         <div className="mt-12 grid grid-cols-1 gap-5 lg:mt-16 lg:grid-cols-3 lg:items-stretch">

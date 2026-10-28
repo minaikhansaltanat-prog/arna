@@ -1,0 +1,33 @@
+@import url("fonts.css");
+
+:root {
+  --bg: #0e3b45; --bg2: #0a2f38; --surface: #134754; --fg: #eaf3f2; --muted: #a9c6ca;
+  --gold: #f2b33d; --gold-text: #f2b33d; --on-gold: #0b2a31;
+  --line: rgba(234, 243, 242, 0.16);
+  --fd: "Onest", "Commissioner", system-ui, sans-serif;
+  --fb: "Commissioner", "Onest", system-ui, sans-serif;
+}
+.light {
+  --bg: #f1f6f5; --bg2: #e4edec; --surface: #fafdfc; --fg: #0b2e36; --muted: #465f65;
+  --gold: #d89b2a; --gold-text: #8a5608; --on-gold: #0b2a31;
+  --line: rgba(11, 46, 54, 0.16);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1440px; height: 900px; overflow: hidden; }
+body { background: var(--bg); color: var(--fg); font: 400 17px/1.6 var(--fb); -webkit-font-smoothing: antialiased; position: relative; }
+
+.hdr { position: absolute; inset: 0 0 auto 0; height: 76px; padding: 0 132px; display: flex; align-items: center; justify-content: space-between; z-index: 20; }
+.hdr .logo { height: 40px; display: block; }
+.nav { display: flex; gap: 30px; font: 500 15px var(--fb); }
+.nav span { opacity: 0.88; }
+.right { display: flex; align-items: center; gap: 12px; }
+.pill { height: 44px; padding: 0 18px; border: 1px solid var(--line); border-radius: 99px; display: inline-flex; align-items: center; gap: 8px; font: 500 15px var(--fb); }
+.btn { height: 48px; padding: 0 24px; border-radius: 99px; display: inline-flex; align-items: center; gap: 10px; font: 600 16px var(--fb); white-space: nowrap; }
+.btn-gold { background: var(--gold); color: var(--on-gold); }
+.btn-ghost { border: 1px solid var(--line); color: var(--fg); }
+.btn-sm { height: 44px; padding: 0 20px; font-size: 15px; }
+h1 { font: 600 92px/1.02 var(--fd); letter-spacing: -0.035em; }
+h1 em { font-style: normal; color: var(--gold-text); }
+.sub { color: var(--muted); font-size: 18px; line-height: 1.65; }
+svg { display: block; overflow: visible; }
+.arrow { width: 18px; height: 18px; }

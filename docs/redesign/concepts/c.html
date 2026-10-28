@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="kk"><head><meta charset="utf-8"><title>C · Сахна</title>
+<link rel="stylesheet" href="base.css">
+<style>
+  .photo { position: absolute; inset: 0; background: #0e3b45 url("../../../apps/web/public/images/stage.webp") no-repeat 319px -40px / 1500px auto; }
+  .tint { position: absolute; inset: 0; background: rgba(14, 59, 69, 0.5); }
+  .scrim { position: absolute; inset: 0;
+    background: linear-gradient(90deg, #0e3b45 0%, rgba(14,59,69,.96) 30%, rgba(14,59,69,.0) 64%),
+                linear-gradient(0deg, rgba(10,47,56,.92) 0%, rgba(10,47,56,0) 40%),
+                linear-gradient(180deg, rgba(10,47,56,.7) 0%, rgba(10,47,56,0) 18%); }
+  .C h1 { position: absolute; left: 132px; top: 450px; font-size: 80px; }
+  .C .copy { position: absolute; left: 132px; top: 636px; width: 500px; }
+  .C .copy .row { display: flex; gap: 12px; margin-top: 24px; }
+  .C svg.wave { position: absolute; inset: 0; width: 1440px; height: 900px; }
+  .chip { position: absolute; transform: translate(14px, -50%); background: #0a2f38; color: var(--fg); border: 1px solid rgba(242,179,61,.5); border-radius: 99px; height: 32px; padding: 0 14px; display: flex; align-items: center; gap: 8px; font: 500 15px var(--fb); white-space: nowrap; }
+  .chip small { color: var(--gold); font: 700 11px var(--fb); letter-spacing: .12em; }
+  .live { position: absolute; right: 132px; bottom: 52px; display: flex; align-items: center; gap: 10px; font: 500 14px var(--fb); color: var(--muted); }
+  .live i { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px rgba(242,179,61,.25); }
+</style></head>
+<body class="C">
+<div class="photo"></div><div class="tint"></div><div class="scrim"></div>
+<header class="hdr">
+  <img class="logo" src="../../../apps/web/public/brand/wordmark.png" alt="ARNA">
+  <nav class="nav"><span>Қалай істейді</span><span>Модульдер</span><span>Демо</span><span>Кімге керек</span><span>Тарифтер</span></nav>
+  <div class="right"><span class="pill">☾</span><span class="pill">Қазақша ⌄</span><span class="btn btn-gold btn-sm">Тікелей сынап көру</span></div>
+</header>
+
+<svg class="wave" viewBox="0 0 1440 900" id="w"></svg>
+<div id="chips"></div>
+
+<h1>Тілдік кедергісіз<br>әлем. <em>Бірге дамиық.</em></h1>
+<div class="copy">
+  <p class="sub">ARNA спикердің сөзін тікелей он тілге аударады. Әр тыңдаушы өз телефонында өз тілінде тыңдайды.</p>
+  <div class="row"><span class="btn btn-gold">Тікелей сынап көру <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="btn btn-ghost">Пилотқа қатысу</span></div>
+</div>
+<div class="live"><i></i>Спикер сөйлеп тұр, залдағы әр телефон өз тілінде</div>
+
+<script src="wave.js"></script>
+<script>
+  const CY = 312, d = arnaWave({ w: 1440, cy: CY, cx: 0.736, up: 190, s: 1.1, murmur: 6 });
+  const nodes = [
+    { x: 932, y: 392, t: "Welcome", c: "EN", l: "en" },
+    { x: 1386, y: 590, t: "欢迎光临", c: "ZH", l: "zh", left: 1 },
+    { x: 1190, y: 224, t: "أهلاً بكم", c: "AR", l: "ar" },
+    { x: 1389, y: 136, t: "ようこそ", c: "JA", l: "ja", left: 1 },
+    { x: 719, y: 182, t: "स्वागत है", c: "HI", l: "hi" },
+  ];
+  let h = `<defs><filter id="b" x="-5%" y="-30%" width="110%" height="160%"><feGaussianBlur stdDeviation="6"/></filter></defs>`;
+  h += `<path d="${d}" fill="none" stroke="#F2B33D" stroke-width="6" opacity=".3" filter="url(#b)"/>`;
+  h += `<path d="${d}" fill="none" stroke="#F2B33D" stroke-width="1.7" stroke-linejoin="round"/>`;
+  for (const n of nodes) {
+    const wy = y_at(d, n.x);
+    h += `<path d="M${n.x} ${wy} C ${n.x} ${(wy + n.y) / 2}, ${n.x} ${(wy + n.y) / 2}, ${n.x} ${n.y}" stroke="#F2B33D" stroke-opacity=".55" stroke-width="1" stroke-dasharray="2 4" fill="none"/>`;
+    h += `<circle cx="${n.x}" cy="${wy}" r="3" fill="#F2B33D"/>`;
+    h += `<circle cx="${n.x}" cy="${n.y}" r="9" fill="rgba(10,47,56,.6)" stroke="#F2B33D" stroke-width="1.5"/><circle cx="${n.x}" cy="${n.y}" r="3.5" fill="#F2B33D"/>`;
+  }
+  document.getElementById("w").innerHTML = h;
+  document.getElementById("chips").innerHTML = nodes.map(n =>
+    `<span class="chip" style="left:${n.x + 8}px;top:${n.y}px${n.left ? ";transform:translate(calc(-100% - 22px),-50%)" : ""}"><span data-names="${n.l}" lang="${n.l}" ${n.l === "ar" ? 'dir="rtl"' : ""}>${n.t}</span><small>${n.c}</small></span>`).join("");
+</script>
+</body></html>
