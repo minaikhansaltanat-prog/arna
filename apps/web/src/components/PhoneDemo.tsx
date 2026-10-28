@@ -501,7 +501,7 @@ function LiveStep({
             prog.done || i <= prog.line ? (
               <div key={i} className="pair">
                 {!same && (
-                  <p className={`orig${typingO && i === prog.line ? " caret" : ""}`} lang={sMeta.htmlLang} dir={sMeta.dir} data-font={sMeta.font}>
+                  <p className={`orig${typingO && i === prog.line ? " caret" : ""}`} lang={sMeta.htmlLang} translate="no" dir={sMeta.dir} data-font={sMeta.font}>
                     {i === 0 && <span className="pair__tag">{dict.live.original} · {dict.live.sourceLang}</span>}
                     {shown(i, p.o, prog.o)}
                   </p>
@@ -509,6 +509,7 @@ function LiveStep({
                 <p
                   className={`trans${!typingO && !prog.done && i === prog.line ? " caret" : ""}`}
                   lang={tMeta.htmlLang}
+                  translate="no"
                   dir={tMeta.dir}
                   data-font={tMeta.font}
                 >
@@ -568,7 +569,7 @@ function SummaryStep({
 }) {
   return (
     <div className="flex h-full flex-col">
-      <div className="summary-card" lang={tMeta.htmlLang} dir={tMeta.dir} data-font={tMeta.font}>
+      <div className="summary-card" lang={tMeta.htmlLang} translate="no" dir={tMeta.dir} data-font={tMeta.font}>
         <span className="summary-badge">
           <Sparkle size={14} weight="fill" aria-hidden />
           {dict.summary.badge}

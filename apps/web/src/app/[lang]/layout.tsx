@@ -68,8 +68,10 @@ export default async function LangLayout({
   }
 
   return (
-    <html lang={meta.htmlLang} dir={meta.dir} data-font={meta.font} suppressHydrationWarning>
+    <html lang={meta.htmlLang} dir={meta.dir} translate="no" data-font={meta.font} suppressHydrationWarning>
       <head>
+        {/* the page already comes in ten languages; Chrome's auto-translate would rewrite the typed demo text */}
+        <meta name="google" content="notranslate" />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {/* own-origin icons (metadata would turn them into absolute production URLs) */}
         <link rel="icon" type="image/png" sizes="96x96" href={withBase("/brand/emblem-96.png")} />

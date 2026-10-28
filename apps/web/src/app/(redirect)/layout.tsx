@@ -17,8 +17,9 @@ export const metadata: Metadata = {
 
 export default function RedirectLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" data-font="cyrillic" data-theme="dark">
+    <html lang="ru" translate="no" data-font="cyrillic" data-theme="dark">
       <head>
+        <meta name="google" content="notranslate" />
         <link rel="icon" type="image/png" sizes="192x192" href={withBase("/brand/emblem-192.png")} />
         <link rel="apple-touch-icon" sizes="180x180" href={withBase("/brand/apple-touch-icon.png")} />
       </head>
