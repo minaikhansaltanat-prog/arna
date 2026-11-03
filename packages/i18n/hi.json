@@ -183,7 +183,8 @@
     "contactTitle": "संपर्क",
     "phone": "फ़ोन",
     "langsTitle": "भाषाएँ",
-    "rights": "© 2026 ARNA। सर्वाधिकार सुरक्षित।"
+    "rights": "© 2026 ARNA। सर्वाधिकार सुरक्षित।",
+    "privacy": "गोपनीयता नीति"
   },
   "whatsapp": { "label": "WhatsApp पर लिखें", "message": "नमस्ते! मैं ARNA के बारे में और जानना चाहता/चाहती हूँ।" }
 }

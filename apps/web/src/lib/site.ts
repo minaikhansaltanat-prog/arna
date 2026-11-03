@@ -36,8 +36,14 @@ export const ROOT_VIEW = process.env.NEXT_PUBLIC_ROOT_VIEW === "demo" ? "demo" :
 /** localStorage keys */
 export const STORAGE = { lang: "arna-lang", theme: "arna-theme", lead: "arna-last-lead" } as const;
 
-/** The live product (a separate service); the marketing site links to it from the header, hero and modules. */
-export const LIVE_URL = "https://app.arnavoice.com/live";
+/** The product service (a separate app). The Live button, the privacy link and the partner-link click all point there. */
+export const APP_URL = (process.env.NEXT_PUBLIC_APP_URL || "https://app.arnavoice.com").replace(/\/$/, "");
+
+/** The live product; the marketing site links to it from the header, hero and modules. */
+export const LIVE_URL = `${APP_URL}/live`;
+
+/** Privacy page of the service (partner-link cookies, IP hash, payments); linked from the footer. */
+export const PRIVACY_URL = `${APP_URL}/privacy/`;
 
 /** Section anchors, in page order. */
 export const SECTIONS = { how: "how", modules: "modules", demo: "demo", cases: "cases", pricing: "pricing", pilot: "pilot" } as const;

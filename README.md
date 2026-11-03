@@ -76,6 +76,28 @@ npm run demo:audio -- all --model eleven_v4 --voice <voice_id>             # б�
 
 Қазақ, қырғыз, өзбек тілдерін `eleven_v4` және `eleven_v3` қолдайды (`multilingual_v2` және `flash/turbo v2.5` қолдамайды).
 
+## Серіктестік сілтемелер
+
+Серіктестерге мына сілтеме беріледі: `https://arnavoice.com/?ref=КОД` (КОД: 4-20 латын әрпі не саны). Скриптсіз де жұмыс істейтін
+қосалқы сілтеме: `https://app.arnavoice.com/ref/КОД`.
+
+Сайт мынаны істейді:
+
+- `/` және `/demo/` бетінен тіл бетіне бағыттағанда `?ref=КОД` пен `#` сақталады (`RedirectView.tsx`).
+- Әр беттің `<head>` ішіндегі кішкентай inline скрипт (`apps/web/src/lib/referral.ts`) `ref` мәнін оқып,
+  `POST https://app.arnavoice.com/api/referral/click` (`{code, page}`) жібереді. Код тек `A-Z`, `0-9` және 4-20 таңба болса ғана
+  жіберіледі, бір сессияда бір рет (`sessionStorage`, `arna-ref-sent`), қате сайтты бұзбайды. `page` өрісінде тек жол жіберіледі
+  (`NEXT_PUBLIC_BASE_PATH` кесіледі).
+- `arna_ref` (90 күн) және `arna_did` cookie-лерін тек қызметтің өзі (`app.arnavoice.com`) қояды, сайт cookie қоймайды. Аналитика,
+  пиксель, сыртқы кітапхана жоқ. Тіркелген адам серіктеске автоматты бекітіледі, сондықтан Live сілтемесіне `?ref=` қосудың қажеті жоқ.
+- Footer-дегі «Құпиялылық» сілтемесі `https://app.arnavoice.com/privacy/` бетіне апарады (мәтін `footer.privacy`, 10 тілде).
+- Қызмет мекенжайы `NEXT_PUBLIC_APP_URL` (әдепкі `https://app.arnavoice.com`): API, Live және Құпиялылық сілтемелері соған құралады.
+
+Тексеру: `https://arnavoice.com/?ref=<код>` ашып, браузердің Network қойындысында `referral/click` сұрауын (200, `Set-Cookie: arna_ref`)
+көріңіз. Бір сессияда қайталанбайды; қайта тексеру үшін консольде `sessionStorage.removeItem("arna-ref-sent")`. Сервер CORS-ты тек
+`arnavoice.com` және `app.arnavoice.com` үшін береді, сондықтан localhost-та нақты сұрау өтпейді. Жергілікті тексеру: `npm run qa:referral`
+(Puppeteer сұранысты ұстап, жалған жауап береді, нақты API-ге ештеңе жіберілмейді).
+
 ## Форма: лид жинау
 
 `apps/web/.env.local` (немесе Vercel Environment Variables):
@@ -130,7 +152,10 @@ curl -fsSL https://raw.githubusercontent.com/minaikhansaltanat-prog/arna/main/de
 3. Қаласаңыз Environment Variables қосыңыз (жоғарыда). **Deploy**.
 4. Өз доменіңізді **Settings > Domains** ішінде жалғаңыз, `NEXT_PUBLIC_SITE_URL` мәнін соған қойыңыз.
 
-Жеке деректер жиналмайды, ps.kz бұл кезеңде қажет емес (ТЗ 2.2).
+Сайттың өзі cookie қоймайды және деректерді өз серверінде жинамайды (дерекқор жоқ). Серіктестік сілтемемен (`?ref=`) келгенде ғана
+`app.arnavoice.com` қызметіне басу туралы хабар кетеді, ал `arna_ref`, `arna_did` cookie-лерін және IP хэшін сол қызмет жазады: толық
+мәтін `https://app.arnavoice.com/privacy/` бетінде, footer-де «Құпиялылық» сілтемесі бар (жоғарыдағы «Серіктестік сілтемелер»).
+ps.kz бұл кезеңде қажет емес (ТЗ 2.2).
 
 ## Құрал-саймандар
 
@@ -142,6 +167,7 @@ curl -fsSL https://raw.githubusercontent.com/minaikhansaltanat-prog/arna/main/de
 | `npm run qa` | Puppeteer: 10 тіл x 11 экран өлшемі (320 px-тен 2560 px-ке дейін): көлденең скролл, бірінші экран (hero толық экран, толқын шеттен шетке, негізгі батырма), кең экран (түсті блоктар толық ені, мазмұн ені 1400-1600 px, жол ұзындығы ≤ 75 таңба), header, ☰/✕, RTL, қателер |
 | `npm run qa:demo` | демо ағыны (D-01...D-07), форма, WhatsApp түймесі, тақырып, тіл анықтау |
 | `npm run demo:audio -- <команда>` | демо дауысын ElevenLabs арқылы бір рет жазады (`models`, `voices`, `sample`, `all`) немесе дайын файлдарды қосады (`import`), төменде «Демо дауысы» |
+| `npm run qa:referral` | серіктестік трекер: `?ref` бағыттаудан өтеді, сұрау бір рет кетеді, жарамсыз код ештеңе жібермейді, API жауап бермесе сайт бұзылмайды (сұраныс ұсталып, жалған жауап беріледі) |
 | `npm run check:case` | импорттардың әріп регистрін тексереді (Linux CI үшін) |
 | `npm run qa:a11y` | axe-core: WCAG 2 A/AA (контраст, ARIA), екі тақырып, десктоп және мобиль |
 | `python scripts/process-logo.py <Logo> <out>` | логотиптің "шахматты" фонын тазалап, мөлдір PNG/WebP жасайды |

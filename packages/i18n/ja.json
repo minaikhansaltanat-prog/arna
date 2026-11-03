@@ -147,7 +147,8 @@
     "contactTitle": "お問い合わせ",
     "phone": "電話",
     "langsTitle": "言語",
-    "rights": "© 2026 ARNA. 無断転載を禁じます。"
+    "rights": "© 2026 ARNA. 無断転載を禁じます。",
+    "privacy": "プライバシーポリシー"
   },
   "whatsapp": { "label": "WhatsAppで問い合わせる", "message": "こんにちは。ARNAについて詳しく知りたいです。" }
 }

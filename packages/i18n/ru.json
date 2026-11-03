@@ -183,7 +183,8 @@
     "contactTitle": "Контакты",
     "phone": "Телефон",
     "langsTitle": "Языки",
-    "rights": "© 2026 ARNA. Все права защищены."
+    "rights": "© 2026 ARNA. Все права защищены.",
+    "privacy": "Конфиденциальность"
   },
   "whatsapp": { "label": "Написать в WhatsApp", "message": "Здравствуйте! Хочу узнать больше об ARNA." }
 }

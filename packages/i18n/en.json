@@ -189,7 +189,8 @@
     "contactTitle": "Contacts",
     "phone": "Phone",
     "langsTitle": "Languages",
-    "rights": "© 2026 ARNA. All rights reserved."
+    "rights": "© 2026 ARNA. All rights reserved.",
+    "privacy": "Privacy"
   },
   "whatsapp": { "label": "Write on WhatsApp", "message": "Hello! I would like to learn more about ARNA." }
 }

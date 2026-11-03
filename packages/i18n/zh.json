@@ -145,6 +145,6 @@
     "message": "您好！我想加入 ARNA 试点。\n姓名：{name}\n联系方式：{contact}\n活动类型：{type}\n网站语言：{lang}",
     "privacy": "您的信息仅用于回复您的申请。"
   },
-  "footer": { "tagline": "语言之间的频道", "navTitle": "导航", "contactTitle": "联系方式", "phone": "电话", "langsTitle": "语言", "rights": "© 2026 ARNA。保留所有权利。" },
+  "footer": { "tagline": "语言之间的频道", "navTitle": "导航", "contactTitle": "联系方式", "phone": "电话", "langsTitle": "语言", "rights": "© 2026 ARNA。保留所有权利。", "privacy": "隐私政策" },
   "whatsapp": { "label": "通过 WhatsApp 联系", "message": "您好！我想进一步了解 ARNA。" }
 }

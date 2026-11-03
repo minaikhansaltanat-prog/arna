@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import ReactDOM from "react-dom";
 import { getDictionary, getMeta, isLocale, locales } from "@arna/i18n";
 import { preloadFontsFor } from "@/lib/fonts";
+import { referralScript } from "@/lib/referral";
 import { SITE_URL, STORAGE, absUrl, withBase } from "@/lib/site";
 import "../globals.css";
 
@@ -73,6 +74,7 @@ export default async function LangLayout({
         {/* the page already comes in ten languages; Chrome's auto-translate would rewrite the typed demo text */}
         <meta name="google" content="notranslate" />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: referralScript }} />
         {/* own-origin icons (metadata would turn them into absolute production URLs) */}
         <link rel="icon" type="image/png" sizes="96x96" href={withBase("/brand/emblem-96.png")} />
         <link rel="apple-touch-icon" sizes="180x180" href={withBase("/brand/apple-touch-icon.png")} />

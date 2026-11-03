@@ -1,6 +1,6 @@
 import { PhoneCall, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import type { Dictionary, LocaleListItem } from "@arna/i18n";
-import { LIVE_URL, PHONE_DISPLAY, PHONE_TEL, SECTIONS, waLink, withBase } from "@/lib/site";
+import { LIVE_URL, PHONE_DISPLAY, PHONE_TEL, PRIVACY_URL, SECTIONS, waLink, withBase } from "@/lib/site";
 import { WaveRule } from "./WaveRule";
 
 const LINKS = ["how", "modules", "demo", "cases", "pricing"] as const;
@@ -86,7 +86,12 @@ export function Footer({
           </div>
         </div>
 
-        <p className="mt-14 border-t border-line pt-6 text-[0.9rem] text-muted">{f.rights}</p>
+        <div className="mt-14 flex flex-wrap items-center justify-between gap-x-8 border-t border-line pt-6 text-[0.9rem] text-muted">
+          <p>{f.rights}</p>
+          <a href={PRIVACY_URL} className="footer-link">
+            {f.privacy}
+          </a>
+        </div>
       </div>
     </footer>
   );

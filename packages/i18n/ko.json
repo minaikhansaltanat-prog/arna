@@ -141,6 +141,6 @@
     "message": "안녕하세요! ARNA 파일럿에 참여하고 싶습니다.\n이름: {name}\n연락처: {contact}\n행사 유형: {type}\n사이트 언어: {lang}",
     "privacy": "입력하신 정보는 신청에 답변하는 용도로만 사용됩니다."
   },
-  "footer": { "tagline": "언어와 언어 사이의 채널", "navTitle": "메뉴", "contactTitle": "연락처", "phone": "전화", "langsTitle": "언어", "rights": "© 2026 ARNA. 모든 권리 보유." },
+  "footer": { "tagline": "언어와 언어 사이의 채널", "navTitle": "메뉴", "contactTitle": "연락처", "phone": "전화", "langsTitle": "언어", "rights": "© 2026 ARNA. 모든 권리 보유.", "privacy": "개인정보 처리방침" },
   "whatsapp": { "label": "WhatsApp으로 문의하기", "message": "안녕하세요! ARNA에 대해 더 알고 싶습니다." }
 }

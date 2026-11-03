@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { getDictionary, defaultLocale } from "@arna/i18n";
+import { referralScript } from "@/lib/referral";
 import { SITE_URL, absUrl, withBase } from "@/lib/site";
 import "../globals.css";
 
@@ -20,6 +21,7 @@ export default function RedirectLayout({ children }: { children: React.ReactNode
     <html lang="ru" translate="no" data-font="cyrillic" data-theme="dark">
       <head>
         <meta name="google" content="notranslate" />
+        <script dangerouslySetInnerHTML={{ __html: referralScript }} />
         <link rel="icon" type="image/png" sizes="192x192" href={withBase("/brand/emblem-192.png")} />
         <link rel="apple-touch-icon" sizes="180x180" href={withBase("/brand/apple-touch-icon.png")} />
       </head>
