@@ -83,7 +83,7 @@ npm run demo:audio -- all --model eleven_v4 --voice <voice_id>             # б�
 иконкаларын, `apps/web/public/og.png` суретін жазады. Барлық жол мен өлшем бір модульде: `apps/web/src/lib/brand.ts` (дизайнер SVG берсе,
 ауысатын жер осы және скрипт). Логотиптің қасына «ARNA» жазуын қоспаңыз.
 
-Ұран (`packages/i18n/slogan.json`, әр сайт тілінде): логотиптің астында `<p>` ретінде (`BrandLockup`: hero, footer), хедерде, телефонда мен
+Ұран (`packages/i18n/slogan.json`, әр сайт тілінде): логотиптің астында `<p>` ретінде (`BrandLockup`: hero, footer), хедерде, телефонда және
 демо бетінде тек логотип. Ұранның өзін ауыстыру: `slogan.json` өзгертіп, `npm run i18n:check` және `npm run qa:brand` жүргізіңіз.
 Жаңа тіл қоссаңыз, `slogan.json` ішіне сол тілдің ұранын қосыңыз, әйтпесе `i18n:check` тоқтатады.
 

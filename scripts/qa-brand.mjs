@@ -49,8 +49,9 @@ const hex = (s) => {
 };
 
 const browser = await puppeteer.launch({ headless: true, args: ["--no-sandbox"] });
-async function open(path, { w, h, theme = "dark", mobile = w < 800 }) {
+async function open(path, { w, h, theme = "dark", mobile = w < 800, reduced = false }) {
   const page = await browser.newPage();
+  if (reduced) await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: "reduce" }]); // pictures: motion settled, no smooth scrolling
   await page.setViewport({ width: w, height: h, deviceScaleFactor: 1, isMobile: mobile, hasTouch: mobile });
   await page.evaluateOnNewDocument((t) => {
     try { localStorage.setItem("arna-theme", t); } catch {}
@@ -67,7 +68,7 @@ async function open(path, { w, h, theme = "dark", mobile = w < 800 }) {
 console.log("Slogan texts");
 ok(LANGS.every((l) => typeof slogans[l] === "string" && slogans[l].trim()), "every site language has a slogan in slogan.json");
 for (const [l, s] of Object.entries(DELIVERED)) ok(slogans[l] === s, `${l}: "${s}" is unchanged`);
-ok(LANGS.every((l) => !/[—–]/.test(slogans[l])), "no long dash in any slogan");
+ok(LANGS.every((l) => !new RegExp("[" + String.fromCharCode(0x2014, 0x2013) + "]").test(slogans[l])), "no long dash in any slogan");
 
 for (const lang of LANGS) {
   console.log(`\n${lang}`);
@@ -193,13 +194,13 @@ if (shots) {
   for (const lang of ["ar", "zh", "kk"]) {
     for (const [w, h] of [[360, 740], [1440, 900]]) {
       for (const theme of ["dark", "light"]) {
-        const { page } = await open(`/${lang}/`, { w, h, theme });
+        const { page } = await open(`/${lang}/`, { w, h, theme, reduced: true });
         await page.screenshot({ path: join(shots, `hero-${lang}-${w}-${theme}.png`) });
-        await (await page.$("footer")).evaluate((el) => el.scrollIntoView({ block: "end" }));
-        await sleep(600);
+        await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
+        await sleep(1000);
         await page.screenshot({ path: join(shots, `footer-${lang}-${w}-${theme}.png`) });
         await page.close();
-        const nf = await open(`/${lang}/missing/`, { w, h, theme });
+        const nf = await open(`/${lang}/missing/`, { w, h, theme, reduced: true });
         await nf.page.screenshot({ path: join(shots, `404-${lang}-${w}-${theme}.png`) });
         await nf.page.close();
       }
