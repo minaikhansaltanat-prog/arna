@@ -15,6 +15,7 @@ export function BrandLockupView({
   slogan,
   dir,
   script,
+  alternatives = [],
   className = "",
 }: {
   variant: "hero" | "footer" | "compact";
@@ -23,6 +24,8 @@ export function BrandLockupView({
   dir: "ltr" | "rtl";
   /** the `font` of the language (cyrillic, latin, cjk-sc, arabic, ...): decides the tracking and the width estimate */
   script: string;
+  /** the slogan in other languages, rendered hidden: a script may show one of them (the 404 page does) without touching any text */
+  alternatives?: { code: string; lang: string; slogan: string; dir: "ltr" | "rtl"; script: string }[];
   className?: string;
 }) {
   if (variant === "compact") {
@@ -34,6 +37,11 @@ export function BrandLockupView({
       <p className="lockup__slogan" dir={dir} data-script={script}>
         {slogan}
       </p>
+      {alternatives.map((a) => (
+        <p key={a.code} className="lockup__slogan" hidden lang={a.lang} dir={a.dir} data-script={a.script} data-lang={a.code}>
+          {a.slogan}
+        </p>
+      ))}
     </div>
   );
 }

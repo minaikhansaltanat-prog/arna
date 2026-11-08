@@ -117,14 +117,19 @@
     align-items: center;
     width: var(--logo-w);
   }
+  /* the logo is never so small that the slogan, at its 13px minimum, would be wider than 70% of it (long English slogan on a phone) */
   .lockup[data-variant="hero"] {
-    --logo-w: clamp(168px, min(46vw, 34svh), 420px);
+    --logo-w: max(clamp(168px, min(46vw, 34svh), 420px), calc(var(--slogan-em) * 18.6px));
   }
   .lockup[data-variant="footer"] {
-    --logo-w: 220px;
+    --logo-w: max(220px, calc(var(--slogan-em) * 18.6px));
   }
   .hero-lockup {
     margin-bottom: clamp(16px, 3.4svh, 36px);
+  }
+  .lockup > picture {
+    display: block; /* a block, so the logo takes the full width of the lockup instead of the width its sizes attribute suggests */
+    width: 100%;
   }
   .lockup__logo {
     display: block;

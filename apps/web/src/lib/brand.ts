@@ -51,18 +51,21 @@ export function socialText(lang: string, slogan: string, title: string, descript
 }
 
 /**
- * Approximate width of a slogan in em (weight 500, tracking 0.06em where it is used). The lockup uses it to size the slogan
- * so that it spans about 55 to 70% of the logo width in every language.
+ * Width of a slogan in em (weight 500, tracking 0.06em where it is used), estimated from the script of each letter. The numbers
+ * were measured in the browser with the site's own faces; the estimate is within about 5% of the real width. The lockup uses it to
+ * size the slogan so that it spans 55 to 70% of the logo width in every language.
  */
 export function sloganEm(text: string, font: string): number {
   const track = font === "latin" || font === "cyrillic" ? 0.06 : 0;
   let em = 0;
   for (const ch of [...text]) {
-    if (ch === " ") em += 0.27 + track;
-    else if (/[ᄀ-ᇿ぀-ヿ㐀-鿿가-힯]/.test(ch)) em += 1; // CJK, kana, hangul: one em each
-    else if (/[؀-ۿ]/.test(ch)) em += 0.5; // Arabic: joined letters, narrow
-    else if (/[ऀ-ॿ]/.test(ch)) em += 0.55; // Devanagari
-    else em += 0.57 + track; // Latin and Cyrillic
+    if (ch === " ") em += 0.25 + track;
+    else if (/[ᄀ-ᇿ가-힯]/.test(ch)) em += 0.93; // hangul
+    else if (/[぀-ヿ㐀-鿿]/.test(ch)) em += 1; // kana and Chinese characters: one em each
+    else if (/[؀-ۿ]/.test(ch)) em += 0.43; // Arabic: joined letters, narrow
+    else if (/[ऀ-ॿ]/.test(ch)) em += 0.44; // Devanagari (letters and vowel signs)
+    else if (/[Ѐ-ԯ]/.test(ch)) em += 0.575 + track; // Cyrillic
+    else em += 0.515 + track; // Latin
   }
   return Math.round(em * 10) / 10;
 }

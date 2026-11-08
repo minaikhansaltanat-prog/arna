@@ -15,7 +15,8 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // Monorepo: let the bundler see packages/i18n and content/ one level above apps/web
   turbopack: { root: path.join(__dirname, "..", "..") },
-  experimental: { optimizePackageImports: ["@phosphor-icons/react"] },
+  // globalNotFound: the app has two root layouts, so the 404 page (logo and slogan) is one full HTML document of its own
+  experimental: { optimizePackageImports: ["@phosphor-icons/react"], globalNotFound: true },
 };
 
 export default nextConfig;
