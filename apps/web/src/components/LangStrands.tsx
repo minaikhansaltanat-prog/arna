@@ -1,7 +1,7 @@
 "use client";
 
 import type { LocaleListItem } from "@arna/i18n";
-import { withBase } from "@/lib/site";
+import { ICONS } from "@/lib/brand";
 import type { Slogan } from "./HeroCaption";
 import { WaveCanvas } from "./WaveCanvas";
 
@@ -48,7 +48,7 @@ export function LangStrands({ locales, slogans, hint, speaker, picked, onPick }:
           <span className="strands-who">{speaker}</span>
         </div>
 
-        <img src={withBase("/brand/emblem-96.png")} width={48} height={48} alt="" className="strands-gate" />
+        <img src={ICONS.favicon96} width={48} height={48} alt="" className="strands-gate" />
 
         <svg className="strands-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden focusable="false">
           {locales.map((l, i) => i !== active && <path key={l.code} d={line(i)} className="strand" />)}

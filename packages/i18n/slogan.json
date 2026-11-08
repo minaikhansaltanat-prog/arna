@@ -1,0 +1,14 @@
+{
+  "_comment": "The brand slogan under the logo: one line per language, always plain text (never inside the picture), so it is translated, indexed and read by screen readers. The ten site languages are listed first. tr is delivered but the site has no Turkish yet. hi was not in the delivered list: it is a draft translation (see docs/brand-slogan.md).",
+  "kk": "Шекарасыз әлем",
+  "ru": "Мир без границ",
+  "en": "A world without borders",
+  "uz": "Chegarasiz dunyo",
+  "ky": "Чек арасыз дүйнө",
+  "zh": "没有边界的世界",
+  "ja": "国境のない世界",
+  "ko": "국경 없는 세상",
+  "ar": "عالم بلا حدود",
+  "hi": "बिना सीमाओं की दुनिया",
+  "tr": "Sınırsız dünya"
+}

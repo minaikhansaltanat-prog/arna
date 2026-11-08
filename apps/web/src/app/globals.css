@@ -20,6 +20,7 @@
   --surface-2: #fdfefe;
   --fg: #0b2e36;
   --muted: #465f65;
+  --slogan-ink: #4a3f35; /* the slogan under the logo: dark grey-brown, 8.7:1 on the light page */
   --line: rgba(11, 46, 54, 0.12);
   --line-strong: rgba(11, 46, 54, 0.24);
   --gold: #e7a82f;
@@ -78,6 +79,7 @@
     --surface-2: #19596a;
     --fg: #eaf3f2;
     --muted: #a9c6ca;
+    --slogan-ink: #c9d5d8; /* light grey on the dark page, 8:1 */
     --line: rgba(234, 243, 242, 0.13);
     --line-strong: rgba(234, 243, 242, 0.26);
     --gold: #f2b33d;
@@ -106,6 +108,7 @@
   --surface-2: #19596a;
   --fg: #eaf3f2;
   --muted: #a9c6ca;
+  --slogan-ink: #c9d5d8;
   --line: rgba(234, 243, 242, 0.13);
   --line-strong: rgba(234, 243, 242, 0.26);
   --gold: #f2b33d;

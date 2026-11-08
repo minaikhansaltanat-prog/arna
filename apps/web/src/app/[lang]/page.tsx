@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getDictionary, getMeta, isLocale, localeList } from "@arna/i18n";
+import { getDictionary, getMeta, getSlogan, isLocale, localeList } from "@arna/i18n";
 import { Cases } from "@/components/Cases";
 import { Demo } from "@/components/Demo";
 import { Footer } from "@/components/Footer";
@@ -13,7 +13,8 @@ import { Pilot } from "@/components/Pilot";
 import { Pricing } from "@/components/Pricing";
 import { Thread } from "@/components/Thread";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
-import { LIVE_URL, PHONE_TEL, absUrl } from "@/lib/site";
+import { ICONS } from "@/lib/brand";
+import { LIVE_URL, PHONE_TEL, SITE_URL, absUrl } from "@/lib/site";
 
 /** The slogan caption under the hero wave cycles through the other languages in this order. */
 const SLOGAN_ORDER = ["en", "kk", "ru", "zh", "ar", "hi", "ko", "ja", "uz", "ky"];
@@ -42,9 +43,9 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         "@id": org,
         name: "ARNA",
         url: absUrl("/"),
-        logo: absUrl("/brand/emblem-512.png"),
+        logo: `${SITE_URL}${ICONS.icon512}`,
         telephone: PHONE_TEL,
-        slogan: slogans.en.text,
+        slogan: getSlogan("en"),
       },
       {
         "@type": "WebSite",
@@ -83,7 +84,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         waMessage={dict.whatsapp.message}
       />
       <main id="main">
-        <Hero dict={dict} slogans={rotating} />
+        <Hero dict={dict} slogans={rotating} lang={lang} />
         <div className="relative">
           <Thread />
           <How dict={dict.how} />

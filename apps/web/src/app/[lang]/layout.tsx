@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import ReactDOM from "react-dom";
-import { getDictionary, getMeta, isLocale, locales } from "@arna/i18n";
+import { getDictionary, getMeta, getSlogan, isLocale, locales } from "@arna/i18n";
+import { ICONS, OG_IMAGE, socialText } from "@/lib/brand";
 import { preloadFontsFor } from "@/lib/fonts";
 import { referralScript } from "@/lib/referral";
-import { SITE_URL, STORAGE, absUrl, withBase } from "@/lib/site";
+import { SITE_URL, absUrl, withBase } from "@/lib/site";
+import { themeScript } from "@/lib/theme";
 import "../globals.css";
 
 export const dynamicParams = false;
@@ -28,6 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   if (!isLocale(lang)) return {};
   const d = getDictionary(lang);
   const languages = Object.fromEntries(locales.map((l) => [getMeta(l).htmlLang, absUrl(`/${l}/`)]));
+  const social = socialText(lang, getSlogan(lang), d.meta.title, d.meta.description);
   return {
     metadataBase: new URL(SITE_URL),
     title: d.meta.title,
@@ -37,20 +40,17 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     openGraph: {
       type: "website",
       siteName: "ARNA",
-      title: d.meta.title,
-      description: d.meta.description,
+      title: social.title,
+      description: social.description,
       url: absUrl(`/${lang}/`),
       locale: getMeta(lang).ogLocale,
       alternateLocale: locales.filter((l) => l !== lang).map((l) => getMeta(l).ogLocale),
-      images: [{ url: absUrl("/og.png"), width: 1200, height: 630, alt: "ARNA" }],
+      images: [{ url: absUrl(OG_IMAGE.path), width: OG_IMAGE.width, height: OG_IMAGE.height, alt: social.title }],
     },
-    twitter: { card: "summary_large_image", title: d.meta.title, description: d.meta.description, images: [absUrl("/og.png")] },
+    twitter: { card: "summary_large_image", title: social.title, description: social.description, images: [absUrl(OG_IMAGE.path)] },
     formatDetection: { telephone: false },
   };
 }
-
-/** Runs before paint: picks the saved theme, else the system theme. Prevents a light/dark flash. */
-const themeScript = `(function(){try{var t=localStorage.getItem(${JSON.stringify(STORAGE.theme)});if(t!=="light"&&t!=="dark"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","dark")}})();`;
 
 export default async function LangLayout({
   children,
@@ -76,8 +76,9 @@ export default async function LangLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script dangerouslySetInnerHTML={{ __html: referralScript }} />
         {/* own-origin icons (metadata would turn them into absolute production URLs) */}
-        <link rel="icon" type="image/png" sizes="96x96" href={withBase("/brand/emblem-96.png")} />
-        <link rel="apple-touch-icon" sizes="180x180" href={withBase("/brand/apple-touch-icon.png")} />
+        <link rel="icon" type="image/png" sizes="32x32" href={ICONS.favicon32} />
+        <link rel="icon" type="image/png" sizes="96x96" href={ICONS.favicon96} />
+        <link rel="apple-touch-icon" sizes="180x180" href={ICONS.appleTouch} />
       </head>
       <body>{children}</body>
     </html>

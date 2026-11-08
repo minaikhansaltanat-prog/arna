@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { ICONS } from "@/lib/brand";
 import { withBase } from "@/lib/site";
 
 export const dynamic = "force-static";
@@ -16,8 +17,9 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: "#082a32",
     theme_color: "#0e3b45",
     icons: [
-      { src: withBase("/brand/emblem-192.png"), sizes: "192x192", type: "image/png" },
-      { src: withBase("/brand/emblem-512.png"), sizes: "512x512", type: "image/png" },
+      { src: ICONS.icon192, sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: ICONS.icon512, sizes: "512x512", type: "image/png", purpose: "any" },
+      { src: ICONS.maskable512, sizes: "512x512", type: "image/png", purpose: "maskable" },
     ],
   };
 }

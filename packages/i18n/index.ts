@@ -1,4 +1,5 @@
 import { dictionaries, localeCodes } from "./registry.generated";
+import slogans from "./slogan.json";
 import type en from "./en.json";
 
 export type Locale = (typeof localeCodes)[number];
@@ -16,6 +17,11 @@ export function isLocale(value: string): value is Locale {
 
 export function getDictionary(locale: Locale): Dictionary {
   return dictionaries[locale] as Dictionary;
+}
+
+/** The brand slogan that sits under the logo, in the language of the page (packages/i18n/slogan.json). */
+export function getSlogan(locale: Locale): string {
+  return (slogans as Record<string, string>)[locale];
 }
 
 export function getMeta(locale: Locale): LocaleMeta {

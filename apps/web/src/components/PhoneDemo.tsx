@@ -14,10 +14,11 @@ import {
   SpeakerHigh,
 } from "@phosphor-icons/react";
 import type { Dictionary, LocaleListItem } from "@arna/i18n";
+import { BrandLogo } from "./BrandLogo";
 import { WaveCanvas } from "./WaveCanvas";
+import { ICONS } from "@/lib/brand";
 import { audioLines } from "@/lib/demo-audio";
 import { bindSession, playLine, preloadVoice, stopVoice, unlockVoice } from "@/lib/demo-voice";
-import { withBase } from "@/lib/site";
 
 /**
  * Scripted browser demo (TZ 5.2). No speech recognition, no translation, no backend:
@@ -159,10 +160,7 @@ export function PhoneDemo({ dict: pageDict, locales, scripts, source, appMode = 
           <span className="phone__island" aria-hidden />
 
           <div className="phone-head">
-            <span className="flex items-center gap-2">
-              <img src={withBase("/brand/emblem-96.png")} width={24} height={24} alt="" className="size-6" />
-              <span className="font-display text-[0.95rem] font-[var(--w-display)] tracking-[0.06em]">ARNA</span>
-            </span>
+            <BrandLogo sizes="96px" alt="ARNA" className="phone-logo" />
             {step !== "lang" && (
               <button type="button" className="phone-icon-btn" onClick={reset} aria-label={dict.summary.restart} title={dict.summary.restart}>
                 <ArrowClockwise size={18} weight="bold" aria-hidden />
@@ -413,7 +411,7 @@ function LiveStep({
   // lock-screen / headset controls (Media Session); leaving the live screen stops the voice
   useEffect(() => {
     const unbind = bindSession(
-      { title: dict.live.session, artist: "ARNA", artwork: withBase("/brand/emblem-512.png") },
+      { title: dict.live.session, artist: "ARNA", artwork: ICONS.icon512 },
       { onPlay: () => setAudio(true), onPause: () => setAudio(false) },
     );
     return () => {

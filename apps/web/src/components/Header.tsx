@@ -6,6 +6,7 @@ import type { Dictionary, LocaleListItem } from "@arna/i18n";
 import { LIVE_URL, PHONE_DISPLAY, PHONE_TEL, SECTIONS, waLink, withBase } from "@/lib/site";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { ThemeToggle } from "./ThemeToggle";
+import { BrandLogo } from "./BrandLogo";
 
 type Props = {
   lang: string;
@@ -76,7 +77,7 @@ export function Header({ lang, locales, nav, a11y, call, whatsapp, waMessage }: 
       <header className="site-header" data-scrolled={scrolled} data-menu-open={open}>
         <div className="wrap flex h-full items-center justify-between gap-3">
           <a href={withBase(`/${lang}/`)} className="brand-link" aria-label={a11y.home} onClick={close}>
-            <img src={withBase("/brand/wordmark-sm.webp")} width={300} height={74} alt="" className="brand-mark" fetchPriority="high" />
+            <BrandLogo sizes="140px" alt="" priority className="brand-mark" />
           </a>
 
           <nav aria-label={a11y.mainNav} className="hidden items-center gap-1 xl:flex">

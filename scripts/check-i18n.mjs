@@ -64,6 +64,22 @@ for (const f of files) {
 }
 for (const c of Object.keys(demo.scripts)) if (!codes.includes(c)) err("demo-script.json", `script "${c}" has no dictionary`);
 
+// brand slogan (slogan.json): one line for every site language, plain text, in the script of its language
+const slogans = JSON.parse(readFileSync(join(dir, "slogan.json"), "utf8"));
+const SLOGAN_SCRIPT = {
+  ru: /[Ѐ-ӿ]/, kk: /[Ѐ-ӿ]/, ky: /[Ѐ-ӿ]/, uz: /^[A-Za-zʻʼ’' ]+$/, en: /^[A-Za-z ]+$/, tr: /^[A-Za-zıİşŞğĞüÜöÖçÇ ]+$/,
+  zh: /[一-鿿]/, ja: /[぀-ヿ一-鿿]/, ko: /[가-힣]/, hi: /[ऀ-ॿ]/, ar: /[؀-ۿ]/,
+};
+for (const c of codes) {
+  const s = slogans[c];
+  if (typeof s !== "string" || !s.trim()) err("slogan.json", `no slogan for ${c}`);
+  else {
+    if (s !== s.trim() || s.length > 40) err("slogan.json", `${c}: slogan must be trimmed and at most 40 characters`);
+    if (DASH.test(s)) err("slogan.json", `${c}: slogan contains a long dash`);
+    if (SLOGAN_SCRIPT[c] && !SLOGAN_SCRIPT[c].test(s)) err("slogan.json", `${c}: slogan "${s}" is not in the script of its language`);
+  }
+}
+
 // script sanity: Kazakh must contain its special letters somewhere, Uzbek must use Latin
 const kk = readFileSync(join(dir, "kk.json"), "utf8");
 for (const ch of "әғқңөұүі") if (!kk.includes(ch)) err("kk.json", `never uses "${ch}" (check spelling)`);

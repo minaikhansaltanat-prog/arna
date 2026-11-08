@@ -73,12 +73,81 @@
     color: var(--fg);
     text-decoration: none;
   }
-  .brand-word {
+  /* ------------------------------------------------------------ brand lockup: the logo and, under it, the slogan */
+  /* the 404 and error pages: nothing but the brand */
+  .brand-screen {
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: clamp(20px, 5svh, 48px);
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 32px 24px;
+    background: var(--bg);
+    color: var(--fg);
+    text-align: center;
+  }
+  .brand-screen__home {
+    display: block;
+    border-radius: 16px;
+  }
+  .brand-screen__code {
+    color: var(--accent-display);
     font-family: var(--fd);
-    font-size: 1.22rem;
+    font-size: clamp(3.25rem, 12vw, 6rem);
     font-weight: 800;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.04em;
     line-height: 1;
+  }
+  .demo-logo {
+    display: block;
+    width: auto;
+    height: 34px;
+  }
+  .phone-logo {
+    display: block;
+    width: auto;
+    height: 18px;
+  }
+  .lockup {
+    --logo-w: 220px; /* width of the logo, set by the variant: every other size follows from it */
+    --slogan-em: 9; /* width of the slogan text in em, set by the component */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: var(--logo-w);
+  }
+  .lockup[data-variant="hero"] {
+    --logo-w: clamp(168px, min(46vw, 34svh), 420px);
+  }
+  .lockup[data-variant="footer"] {
+    --logo-w: 220px;
+  }
+  .hero-lockup {
+    margin-bottom: clamp(16px, 3.4svh, 36px);
+  }
+  .lockup__logo {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .lockup__slogan {
+    margin: calc(var(--logo-w) * 0.045) 0 0; /* the gap under the logo is about 4.5% of its width */
+    color: var(--slogan-ink);
+    font-family: var(--fb);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    line-height: 1.3;
+    text-align: center;
+    white-space: nowrap;
+    /* about 5.5% of the logo width, but wide enough to span 55% and narrow enough to stay under 70% of it; never under 13px */
+    font-size: max(13px, calc(var(--logo-w) * clamp(0.56 / var(--slogan-em), 0.055, 0.68 / var(--slogan-em))));
+  }
+  /* joined or stacked scripts: no tracking, it would break Arabic joins and Indic conjuncts */
+  .lockup__slogan[data-script="arabic"],
+  .lockup__slogan[data-script^="cjk"],
+  .lockup__slogan[data-script="devanagari"] {
+    letter-spacing: 0;
   }
   .nav-link {
     position: relative;

@@ -5,7 +5,22 @@ hero edge to edge, hangs the sections on a thread, runs along the steps and the 
 strands from the screen edge. Everything else stays quiet. Slogan: "A world without language barriers. Let's grow together."
 (`hero.title` in every dictionary).
 
-The logo files in `public/brand/` are never changed; the design is built around them.
+## Logo and brand slogan
+
+The logo is the golden 3D sound wave that reads "ARNA" (`content/brand/arna-logo-source.png`). Its colours and proportions are never
+changed or redrawn. `npm run brand` cleans it (the background was cut out of a picture, so the edge pixels are rebuilt from the solid
+core: no white rim on a dark page) and writes everything into `public/brand/`: the logo at 480 and 960 px (WebP and PNG), the favicon,
+apple-touch, PWA and maskable icons (the logo centred on a dark rounded square, 11% free space, 20% for maskable) and `public/og.png`.
+All file names and sizes are read from one module, `src/lib/brand.ts`. Never put the word "ARNA" next to the logo: it already reads ARNA.
+
+The slogan ("Мир без границ" and its nine translations, `packages/i18n/slogan.json`) sits centred under the logo as a plain paragraph
+(never a heading, never inside the picture): `BrandLockup` in the hero (large), the footer (small); the header, the phone and the demo page
+show only the logo.
+- Size follows the logo width `--logo-w`: the slogan is about 5.5% of it (13px at least), 4.5% below the logo, and spans 55 to 70% of the
+  logo width (the size is pushed up or down within that range from the length of the text, `--slogan-em`).
+- Type: the site's body face, weight 500, tracking 0.06em; Arabic, Chinese, Japanese, Korean and Hindi have no tracking. No extra font is
+  loaded for them: the system font covers the few glyphs that the site subsets lack.
+- Colour: `--slogan-ink`, dark grey-brown on the light page and light grey on the dark page, 4.5:1 or more on both.
 
 ## Colour (only two brand colours plus white)
 
@@ -33,8 +48,8 @@ both themes. Tokens that depend on theme colours (`--strand`) are declared insid
   characters the site uses (`npm run fonts` after editing copy). The slogan appears in every language (hero caption,
   language strands), so each script's "ARNA Names" subset also contains every language's slogan.
 - Loading: only Onest (the slogan) is preloaded; Commissioner loads on demand (`font-display: swap`), so the first paint is
-  not queued behind it. The "ARNA Names" subsets are one static weight (600), a few KB each. The header logo is
-  `brand/wordmark-sm.webp` (a resized copy of the wordmark, the original file is untouched).
+  not queued behind it. The "ARNA Names" subsets are one static weight (600), a few KB each. The logo pictures are never lazy and carry
+  their width and height (no layout shift); the hero preloads the file the browser will pick.
 - The hero entrance moves text with `transform` only (a fade from opacity 0 delays the largest contentful paint).
 - The hero slogan sizes itself from its own length: `font-size = container width / (characters x script glyph width)`,
   capped at 5.25rem and at 11% of the screen height (`--hero-chars`, `--hero-cw`). Each line stays on one line when the

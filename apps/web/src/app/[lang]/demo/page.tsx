@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Info } from "@phosphor-icons/react/dist/ssr";
 import { getDictionary, isLocale, localeList } from "@arna/i18n";
+import { BrandLockup } from "@/components/BrandLockup";
 import { MotionProvider } from "@/components/MotionProvider";
 import { PhoneDemo } from "@/components/PhoneDemo";
 import { QrCode } from "@/components/QrCode";
@@ -43,8 +44,7 @@ export default async function DemoPage({ params }: { params: Promise<{ lang: str
         <div className="demo-app__inner">
         <div className="demo-app__side">
           <a href={withBase(`/${lang}/`)} className="brand-link" aria-label={dict.a11y.home}>
-            <img src={withBase("/brand/emblem-96.png")} width={44} height={44} alt="" className="size-11" />
-            <span className="brand-word">ARNA</span>
+            <BrandLockup lang={lang} variant="compact" className="demo-logo" />
           </a>
           <h2 aria-hidden className="section-title mt-10">
             {d.title}

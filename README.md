@@ -29,7 +29,7 @@ apps/web/                 Next.js қосымшасы (лендинг + демо)
   src/app/[lang]/         әр тіл үшін бет: /ru/ /kk/ /en/ ...
   src/app/(redirect)/     "/" : сақталған немесе браузер тіліне бағыттайды
   src/components/         Header, Hero, WaveCanvas, ModuleTabs, LangStrands, PhoneDemo, Cases, Pricing, PilotForm, ...
-  public/brand/           логотип (фоны тазаланған), favicon
+  public/brand/           жаңа логотип пен иконкалар (`npm run brand` жасайды), қараңыз «Логотип және ұран»
   public/images/          суреттер (docs/photo-credits.md)
   public/fonts/           өзіміз хосттайтын қаріптер (тілге қарай бөлінген)
 packages/i18n/            ru.json kk.json en.json ... ar.json (әр тіл бөлек файл)
@@ -75,6 +75,17 @@ npm run demo:audio -- all --model eleven_v4 --voice <voice_id>             # б�
 ```
 
 Қазақ, қырғыз, өзбек тілдерін `eleven_v4` және `eleven_v3` қолдайды (`multilingual_v2` және `flash/turbo v2.5` қолдамайды).
+
+## Логотип және ұран
+
+Логотип: `content/brand/arna-logo-source.png` (алтын 3D дыбыс толқыны, ол «ARNA» деп оқылады). `npm run brand` оны тазалайды (ақ жиек,
+шашыраңқы нүктелер), қияды және `apps/web/public/brand/` ішіне 480/960 px (WebP және PNG), favicon, apple-touch, PWA және maskable
+иконкаларын, `apps/web/public/og.png` суретін жазады. Барлық жол мен өлшем бір модульде: `apps/web/src/lib/brand.ts` (дизайнер SVG берсе,
+ауысатын жер осы және скрипт). Логотиптің қасына «ARNA» жазуын қоспаңыз.
+
+Ұран (`packages/i18n/slogan.json`, әр сайт тілінде): логотиптің астында `<p>` ретінде (`BrandLockup`: hero, footer), хедерде, телефонда мен
+демо бетінде тек логотип. Ұранның өзін ауыстыру: `slogan.json` өзгертіп, `npm run i18n:check` жүргізіңіз.
+Жаңа тіл қоссаңыз, `slogan.json` ішіне сол тілдің ұранын қосыңыз, әйтпесе `i18n:check` тоқтатады.
 
 ## Серіктестік сілтемелер
 
@@ -170,7 +181,7 @@ ps.kz бұл кезеңде қажет емес (ТЗ 2.2).
 | `npm run qa:referral` | серіктестік трекер: `?ref` бағыттаудан өтеді, сұрау бір рет кетеді, жарамсыз код ештеңе жібермейді, API жауап бермесе сайт бұзылмайды (сұраныс ұсталып, жалған жауап беріледі) |
 | `npm run check:case` | импорттардың әріп регистрін тексереді (Linux CI үшін) |
 | `npm run qa:a11y` | axe-core: WCAG 2 A/AA (контраст, ARIA), екі тақырып, десктоп және мобиль |
-| `python scripts/process-logo.py <Logo> <out>` | логотиптің "шахматты" фонын тазалап, мөлдір PNG/WebP жасайды |
+| `npm run brand` | `content/brand/arna-logo-source.png` файлынан логотипті тазалап, барлық өлшем, иконка мен OG-суретті жасайды |
 
 `npm run qa*` үшін алдымен `npm run build` және статикалық серверді (мысалы `npx serve apps/web/out -l 3000`) іске қосыңыз.
 
