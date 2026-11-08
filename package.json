@@ -18,6 +18,7 @@
     "i18n:registry": "node scripts/gen-i18n-registry.mjs",
     "i18n:check": "node scripts/check-i18n.mjs",
     "fonts": "node scripts/build-fonts.mjs",
+    "brand": "node scripts/build-brand.mjs",
     "qa": "node scripts/qa-layout.mjs",
     "qa:demo": "node scripts/qa-demo.mjs",
     "qa:referral": "node scripts/qa-referral.mjs",

@@ -1,0 +1,55 @@
+{
+  "source": {
+    "width": 1573,
+    "height": 1000
+  },
+  "logo": {
+    "width": 1510,
+    "height": 345,
+    "sizes": {
+      "480": {
+        "width": 480,
+        "height": 110,
+        "webpBytes": 24960,
+        "pngBytes": 55804
+      },
+      "960": {
+        "width": 960,
+        "height": 219,
+        "webpBytes": 56818,
+        "pngBytes": 165609
+      }
+    }
+  },
+  "icons": {
+    "favicon-32.png": {
+      "size": 32,
+      "bytes": 729
+    },
+    "favicon-96.png": {
+      "size": 96,
+      "bytes": 3205
+    },
+    "apple-touch-icon.png": {
+      "size": 180,
+      "bytes": 7561
+    },
+    "icon-192.png": {
+      "size": 192,
+      "bytes": 9521
+    },
+    "icon-512.png": {
+      "size": 512,
+      "bytes": 47867
+    },
+    "icon-maskable-512.png": {
+      "size": 512,
+      "bytes": 30443
+    }
+  },
+  "og": {
+    "width": 1200,
+    "height": 630,
+    "bytes": 65661
+  }
+}
